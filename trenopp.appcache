@@ -1,0 +1,135 @@
+CACHE MANIFEST
+# Versjon 0.55
+
+ index.html
+ css/appstil.min.css
+ css/jquery-mobile-theme.min.css
+ css/jquery.mobile.icons.min.css
+ css/jquery.mobile.structure-1.4.5.min.css
+ js/appscript.min.js
+ js/Chart.min.js
+ js/jquery.mobile-1.4.5.min.js
+ js/jquery-1.11.1.min.js
+ favicon.ico
+ images/logoliten.png
+ images/logopng.png
+ images/soslogosvg.svg
+ browserconfig.xml
+CACHE:
+# Logo
+ images/logo/apple-touch-icon.png
+ images/logo/favicon-32x32.png
+ images/logo/favicon-194x194.png
+ images/logo/android-chrome-192x192.png
+ images/logo/favicon-16x16.png
+ images/logo/safari-pinned-tab.svg
+ images/logo/mstile-144x144.png
+
+# Illustrasjon 
+ images/illustrasjon/ferdig.jpg
+ images/illustrasjon/framdrift.jpg
+ images/illustrasjon/oving_bilde.jpg
+ images/illustrasjon/oving_lyd.jpg
+ images/illustrasjon/planlegg.jpg
+ images/illustrasjon/start.jpg
+ images/illustrasjon/vent.jpg
+ 
+# Oving
+ css/images/animbakgrunn.png
+ images/oving/lydoving_pause.jpg
+ images/oving/sosoving_pause.jpg
+ images/oving/sosoving_alle.jpg
+ images/oving/sosoving_folk.jpg
+ images/oving/sosoving_maskin.jpg
+ images/oving/sosoving_natur.jpg
+ images/oving/sosoving_slutt.jpg
+
+#intro
+ images/intro/intro_fokus1.jpg
+ images/intro/intro_fokus2.jpg
+ images/intro/intro_gruppe.jpg
+ images/intro/intro_kal.jpg
+ images/intro/intro_lytte.jpg
+ images/intro/intro_pause.jpg
+ images/intro/intro_ute.jpg
+ images/intro/intro8.jpg  
+ images/intro/intro9.jpg 
+ images/intro/intro10.jpg 
+ images/intro/intro11.jpg
+ images/intro/intro12.jpg 
+ images/intro/intro13.jpg 
+ images/intro/intro14.jpg 
+ images/intro/intro15.jpg 
+ images/intro/intro16.jpg
+ images/intro/intro17.jpg 
+ images/intro/intro18.jpg 
+ images/intro/intro19.jpg 
+ 
+# Jquery mobile ikoner
+ css/images/ajax-loader.gif
+ css/images/icons-png/carat-l-black.png
+ css/images/icons-png/carat-l-white.png
+ css/images/icons-png/carat-r-black.png
+ css/images/icons-png/carat-r-white.png
+ css/images/icons-png/edit-black.png
+ css/images/icons-png/edit-white.png
+ css/images/icons-png/clock-black.png
+ css/images/icons-png/clock-white.png
+ css/images/icons-png/check-black.png
+ css/images/icons-png/check-white.png
+ css/images/icons-png/delete-black.png
+ css/images/icons-png/delete-white.png
+ css/images/icons-png/home-black.png
+ css/images/icons-png/home-white.png
+ css/images/icons-png/info-black.png
+ css/images/icons-png/info-white.png
+ css/images/icons-png/plus-black.png
+ css/images/icons-png/plus-white.png
+ css/images/icons-png/minus-black.png
+ css/images/icons-png/minus-white.png
+# Skjermbilder for introduksjonssiden
+ images/skjermbilder/evaldialog.png
+ images/skjermbilder/evalgraf.png
+ images/skjermbilder/evalside.png
+ images/skjermbilder/nav-liten.png
+ images/skjermbilder/nav-meny.png
+ images/skjermbilder/nav-stor.png
+ images/skjermbilder/nyovelse1.png
+ images/skjermbilder/ovingdel1.png
+ images/skjermbilder/ovingdel2.png
+ images/skjermbilder/ovingdel3.png
+ images/skjermbilder/plan-startd.png
+ images/skjermbilder/plan-avpaa.png
+ images/skjermbilder/plan-klsted.png
+ images/skjermbilder/plan-kalender.png
+ images/skjermbilder/planlegg1.png
+ images/skjermbilder/planlegg3.png
+# Skrifttyper
+ css/fonts/DroidSans.ttf
+ css/fonts/Roboto-Regular.ttf
+ css/fonts/OpenSans-Regular.ttf
+ css/fonts/SCRIPTBL.ttf
+# Font Awesome ikoner
+ font-awesome-4.4.0/fonts/FontAwesome.otf
+ font-awesome-4.4.0/fonts/fontawesome-webfont.eot
+ font-awesome-4.4.0/fonts/fontawesome-webfont.svg
+ font-awesome-4.4.0/fonts/fontawesome-webfont.ttf?v=4.4.0
+ font-awesome-4.4.0/fonts/fontawesome-webfont.woff?v=4.4.0
+ font-awesome-4.4.0/fonts/fontawesome-webfont.woff2?v=4.4.0
+ font-awesome-4.4.0/css/font-awesome.min.css
+ font-awesome-4.4.0/less/animated.less
+ font-awesome-4.4.0/less/bordered-pulled.less
+ font-awesome-4.4.0/less/core.less
+ font-awesome-4.4.0/less/fixed-width.less
+ font-awesome-4.4.0/less/font-awesome.less
+ font-awesome-4.4.0/less/icons.less
+ font-awesome-4.4.0/less/larger.less
+ font-awesome-4.4.0/less/list.less
+ font-awesome-4.4.0/less/mixins.less
+ font-awesome-4.4.0/less/path.less
+ font-awesome-4.4.0/less/rotated-flipped.less
+ font-awesome-4.4.0/less/stacked.less
+ font-awesome-4.4.0/less/variables.less
+ 
+ NETWORK:
+ *

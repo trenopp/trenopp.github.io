@@ -1,0 +1,16 @@
+﻿{
+  "lang": "no",
+  "name": "eMeistring Oppmerksomhetsøving",
+  "short_name": "eMeistring Trenopp",
+  "description": "Oppmerksomhetsøvelser for personer med sosial angst som deltar i eMeistring.",
+  "developer": "eMeistring",
+  "version": "0.1",
+  "launch_path": "index.html",
+    "icons": {
+	"192":"/images/logo/android-chrome-192x192.png",
+  },
+  "url": "http://trenopp.github.io/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "appcache_path": "trenopp.appcache"
+}

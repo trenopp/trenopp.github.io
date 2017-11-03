@@ -1,0 +1,1201 @@
+<!doctype html>
+<html manifest="trenopp.appcache" lang="nb">
+	<head>
+		<title>eMeistring Oppmerksomhetstrening</title>
+		<meta charset="utf-8">
+		<link rel="manifest" href="manifest.json">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- tilkobla CSS filer-->
+		<link rel="stylesheet" href="css/appstil.css" />
+		<link rel="stylesheet" href="css/jquery-mobile-theme.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+		<link rel="stylesheet" href="font-awesome-4.4.0/css/font-awesome.min.css">
+		<link href="css/atc-style-button-icon.css" rel="stylesheet" type="text/css">
+		<link href="css/atc-style-menu-wb.css" rel="stylesheet" type="text/css">
+		<!-- tilkobla javascript filer-->
+		<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+		<script src="js/Chart.min.js" type="text/javascript"></script>
+		<script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+		<script src="js/appscript.js" type="text/javascript"></script>
+		<!-- tilkobla Ikoner-->
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/logo/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/logo/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="194x194" href="/images/logo/favicon-194x194.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="/images/logo/android-chrome-192x192.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/logo/favicon-16x16.png">
+		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="mask-icon" href="/images/logo/safari-pinned-tab.svg" color="#0c2d82">
+		<meta name="apple-mobile-web-app-title" content="eMeistring TrenOpp">
+		<meta name="application-name" content="eMeistring TrenOpp">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="/images/logo/mstile-144x144.png">
+		<meta name="msapplication-config" content="browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+		</head>
+<body>
+	
+<!-- popup for å starte øvinger starter her -->
+<!-- popup starte øving -->
+<div data-role="popup" id="starteoving" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:500px;">
+    <div data-role="header" data-theme="b">
+		<h1>Starte øving?</h1>
+    </div>
+    <div role="main" class="ui-content">
+		<p id="valgtlydtekst">Du har valgt øving med lyd.</p>
+        <h3 class="ui-title">Vil du beholde dette valget og fortsette til neste steg?</h3>
+		<div id="startovingpop">
+		<a  href="#ovingpopup" onClick="lagovingspopup(1)" class="ui-btn ui-corner-all ui-shadow ui-btn-a">Ja</a>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Nei</a>
+		</div>
+    </div>
+</div>
+<!-- popup for å starte øvinger slutter her -->
+<!-- /popup starte øving -->
+<!-- popup for å fortsette øvinger starter her -->
+<!-- popup fortsette øving -->
+<div data-role="popup" id="fortsettoving" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+    <div data-role="header" data-theme="b">
+		<h1 id="popfortoverskr">Valg</h1>		
+    </div>
+    <div role="main" class="ui-content">
+		Du har valgt:
+		<div id="valgoppmfor">Oppmerksomheten min er likt fordelt mellom mine egne tanker og det som foregår rundt meg</div>
+        <h3 id="valglagre" class="ui-title">Vil du lagre valget og fortsette nå?</h3>
+		<div id="valgforovingpop" style="display:none;">
+		<a  href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini" onclick="ovingnesteknapp(1)">Ja</a>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini" data-rel="back">Nei</a>
+		</div>
+		<div id="valgetterovingpop" style="display:none;">
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini" onclick="lagreOving(1)">Ja</a>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini" data-rel="back">Nei</a>
+		</div>
+    </div>
+</div>
+<!-- popup for å fortsette øvinger slutter her -->	
+<!-- popup for å avbryte øvinger starter her -->
+<!-- popup avbryte øving -->
+<div data-role="popup" id="avbryteoving" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+    <div data-role="header" data-theme="b">
+		<h1>Avbryt øving?</h1>
+    </div>
+    <div role="main" class="ui-content">
+		<p>Hvis du avbryter øvingen nå vil det du har gjort så langt vil ikke bli lagret.</p>
+		<p>Du kan starte øvingen igjen senere ved å trykke 'Tilgjengelige øvinger' på menyen, eller trykke på øvings-valget på oversiktssiden.</p>
+        <h3 class="ui-title">Er du sikker på at du vil avbryte øvingen? </h3>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a" onclick="avbrytov()">Ja</a>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Nei</a>
+    </div>
+</div>
+<!-- popup for å avbryte øvinger slutter her -->
+<!-- /popup avbryte øving -->
+
+<!-- popup for kontakt starter her -->
+<!-- popup kontakt -->
+<div data-role="popup" id="kontakt" data-overlay-theme="b" data-theme="b" data-dismissible="true" style="max-width:400px;">
+    <div data-role="header" data-theme="b">
+		<h1>Kontakt eMeistring</h1>
+    </div>
+    <div role="main" class="ui-content">
+	     <h3 class="ui-title">Har du spørsmål eller kommentarer?</h3>
+		<form name="sendmelding" onsubmit="return validerskjema()">
+			<label for="avsendermendling">Send oss en melding:</label>
+			<textarea name="avsendermelding" rows="20" id="avsendermelding" required></textarea>
+			<label for="avsendernavn">Ditt navn:</label>
+			<input type="text" name="avsendernavn" id="avsendernavn" required>
+			<label for="avsenderepost">Din epostadresse:</label>
+			<input type="email" name="avsenderepost" id="avsendernavn" required>
+			<input type="submit" data-theme="a" type="button" value="<i class='fa fa-envelope'></i> Send">
+		</form>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Lukk</a>
+    </div>
+</div>
+<!-- popup for kontakt slutter her -->
+<!-- /popup kontakt -->
+
+<!-- popup for hjelp starter her -->
+<!-- popup hjelp -->
+<div data-role="popup" id="oss" data-overlay-theme="b" data-theme="b" data-dismissible="true">
+    <div data-role="header" data-theme="b">
+		<h2>Har du spørsmål?</h2>
+    </div>
+    <div data-role="content" class="ui-body-a">
+        <!-- innhold intro -->
+         <h2 class="sideundertittel"><em class="fa fa-info-circle"></em> Ofte stilte spørsmål</h2>
+            <form class="ui-filterable" data-theme="e">
+                <label for="sokbarliste" class="ui-hidden-accessible">Filtreringsfelt</label>
+                <input id="sokbarliste" name="sokbarliste" data-type="search" placeholder="Søk" data-theme="e">
+            </form>
+            <div data-role="collapsibleset" id="intro-liste" data-theme="c" data-content-theme="c" data-filter="true" data-inset="true" data-input="#sokbarliste">
+                <div data-role="collapsible">
+                     <h3>Hva er eMeistring Oppmerksomhetstrening?</h3>
+
+                    <div id="intro-velkommen">
+                        <p>eMeistring Oppmerksomhetstrening er laget for deg med sosial angst og som mottar behandling ved eMeistring.</p>
+                        <p>Med denne app’en har du oppmerksomhetensøvelsen tilgjengelig på din mobil, nettbrett eller PC.</p>I tillegg får du:
+                        <ul class="fa-ul">
+                            <li style="padding:0.3em;"><i class="fa-li fa fa-info-circle" style="color:#0C2D82;font-size:1.3em;"></i>Introduksjon til oppmerksomhetsøvelsen</li>
+                            <li style="padding:0.3em;"><i class="fa-li fa fa-clock-o" style="color:#0C2D82;font-size:1.3em;"></i>Planlegging av oppmerksomhetsøvelsen</li>
+                            <li style="padding:0.3em;"><i class="fa-li fa fa-check" style="color:#0C2D82;font-size:1.3em;"></i>Evaluering av oppmerksomhetsøvelsen</li>
+                        </ul>
+                        <p>Husk at oppmerksomhetstrening er en av de viktigste øvelsene du gjør i din sosial angst behandling. Med denne app’en kan du planlegge, gjennomføre og evaluere dine oppmerksomhetsøvelser.</p>
+                        <p>Du kan se introduksjonen om igjen her: <a href="#introanim">Introduksjon</a>
+
+                            <p>Dersom du har spørsmål til eMeistring send oss en epost til: <a href="mailto:eMeistring@helse-bergen.no?subject=eMeistring Oppmerksomhetstrening"><i class="fa fa-envelope"></i> eMeistring@helse-bergen.no <i class="fa fa-envelope"></i></a>
+                            </p>
+                    </div>
+                </div>
+                <div data-role="collapsible">
+                     <h3>Hvorfor øve oppmersomhet?</h3>
+
+                    <div id="intro-ovelse">
+                        <p>Når en person med sosial angst kommer i en sosialt truende situasjon er den automatiske reaksjonen å skifte fokus fra verden rundt til seg selv: Hvordan ser jeg ut? Hva tenker de om meg hvis jeg rødmer? eller stotrer? eller de ser at jeg skjelver? Nesten hele oppmerksomhet handler da om å undersøke og kontrollere eller dempe mulige symptomer for igjen å unngå fryktet negativ evaluering.</p>
+                        <p>På kort sikt er dette en god strategi: for å løse en oppgave raskt og effektiv brukes all oppmerksomhet på «problemet» -som i dette tilfelle er konsekvenser av potensiell rødming, skjelving og lignende. På lang sikt er ikke dette en effektiv eller hjelpsom strategi. Det er fordi vi ved å ha oppmerksomheten innover mister informasjon om hva som faktisk skjer der ute. Da får vi ikke informasjon om det virkelig er sånn at de som rødmer blir sett ned på, de som skjelver oppleves som svake og usikre eller om de som ikke finner ordene oppleves som dumme. Vi får heller ikke informasjon om en er så rød som en føler seg. Eller skjelver så mye som man trodde.</p>
+                        <p>Oppsummert kan vi si at ved å skifte fra ytre til indre fokus mister vi informasjon om</p>
+                        <ul class="fa-ul">
+                            <li style="padding:0.3em;"><i class="fa-li fa fa-user" style="color:#0C2D82;font-size:1.3em;"></i>Ser jeg ut sånn som jeg føler meg?</li>
+                            <li style="padding:0.3em;"><i class="fa-li fa fa-users" style="color:#0C2D82;font-size:1.3em;"></i>Hvordan reagerer andre på symptomene?</li>
+                        </ul>
+                        <p>Oppmerksomhetsøvelsen hjelper deg til å vende blikket utover sånn at du kan få denne informasjonen.</p>
+                    </div>
+                </div>
+                <div data-role="collapsible">
+                     <h3>Hvilke nettlesere kan jeg bruke?</h3>
+
+                    <p id="intro-nettleser">Det anbefalt at du bruker en oppdatert versjon av en av de følgende nettleserne:
+                        <ul class="fa-ul">
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-chrome" style="color:#0C2D82;font-size:1.3em;"></i><a href="https://www.google.com/chrome/" target="_blank">Google Chrome <i class="fa fa-external-link"></i></a> 
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-firefox" style="color:#0C2D82;font-size:1.3em;"></i><a href="http://firefox.no/" target="_blank">Mozilla Firefox <i class="fa fa-external-link"></i></a>
+
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-opera" style="color:#0C2D82;font-size:1.3em;"></i><a href="http://www.opera.com/no" target="_blank">Opera <i class="fa fa-external-link"></i></a>
+
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-safari" style="color:#0C2D82;font-size:1.3em;"></i><a href="https://www.apple.com/no/safari/" target="_blank">Apple Safari <i class="fa fa-external-link"></i></a>
+
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-internet-explorer" style="color:#0C2D82;font-size:1.3em;"></i><a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">Microsoft Internet Explorer/Edge <i class="fa fa-external-link"></i></a>
+
+                            </li>
+                        </ul>For at appen skal kunne virke slik den skal, må den ha følgende tillatelser:
+                        <ul class="fa-ul">
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-code" style="color:#0C2D82;font-size:1.3em;"></i>La eMeistring Oppmerksomhetstrening kjøre Javascript</li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-database" style="color:#0C2D82;font-size:1.3em;"></i>La eMeistring Oppmerksomhetstrening lagre data i hurtiglager/lokalt lager</li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-archive" style="color:#0C2D82;font-size:1.3em;"></i>Lagre frakoblet nettinnhold fra eMeistring Oppmerksomhetstrening</li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-archive" style="color:#0C2D82;font-size:1.3em;"></i>Lagre og beholde informasjonskapsler(cookies) fra eMeistring Oppmerksomhetstrening</li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-history" style="color:#0C2D82;font-size:1.3em;"></i>Nettleser historikk for eMeistring Oppmerksomhetstrening bør IKKE slettes i løpet av perioden du vil bruke denne webappen, ellers er det en stor sjanse for at alt som er lagret angående øvelser som du har gjennomført vil forsvinne</li>
+                        </ul>Tillatelser kan vanligvis endres under 'instillinger' eller 'settings' i nettleseren. Dersom du ikke har endret nettleseren sine standard innstillinger, behøver du sannsynligvis ikke å endre på noe.</p>
+                </div>
+                <div data-role="collapsible">
+                     <h3>Kan jeg legge til eMeistring Oppmerksomhetstrening på skrivebordet?</h3>
+
+                    <div id="intro-skrivebord">Du kan legge til en snarvei til appen på skrivebordet/hjemmeskjermen din.
+                        <ul class="fa-ul">
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-mobile" style="color:#0C2D82;font-size:1.3em;"></i><span class="spantekst2">Smarttelefoner og nettbrett</span>
+
+                                <p>I nettlesere på smarttelefoner og nettbrett: Åpne siden i nettleseren, bokmerk siden og se etter valg som 'Legg til på startsiden', 'Legg til på forsiden' eller lignende. Det vil da lages et ikon som vises på hjemmesiden på telefonen din.</p>
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-desktop" style="color:#0C2D82;font-size:1.3em;"></i><span class="spantekst2">PC/Mac</span>
+
+                                <p>I nettlesere på PC/Mac: I noen nettlesere kan du høyreklikke på siden, eller bokmerket til siden, og velge 'Lag snarvei' eller lignende. Ellers kan du prøve å legge til eMeistring Oppmerksomhetstrening i bokmerkene dine først, og deretter klikke og dra bokmerket fra nettleseren til skrivebordet.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div data-role="collapsible">
+                     <h3>Kan jeg bruke eMeistring Oppmerksomhetstrening offline?</h3>
+
+                    <div id="intro-offline">
+                        <p>Det er mulig å bruke appen offline. Legg appen til i bokmerker og/eller på skrivebordet/hjemmeskjermen. De nødvendige filene lastes ned, og fremdriften din vil lagres lokalt så lenge du ikke sletter nettleserhistorien din.
+                            <br/>OBS: Når du bruker appen offline vil du ikke ha tilgang til lydklippet, bare den visuelle versjonen av øvelsen.</p>
+                    </div>
+                </div>
+                <div data-role="collapsible">
+                     <h3>Hvordan finner jeg frem i eMeistring Oppmerksomhetstreningen?</h3>
+
+                    <div id="intro-nav">
+                        <ul class="fa-ul">
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-mobile" style="color:#0C2D82;font-size:1.3em;"></i><span class="spantekst2">På mindre skjermer</span>
+
+                                <p>På smarttelefoner (og noen nettbrett) får du vises menyen ved å trykke på meny-knappen øverst til venstre, rett under logoen. På menyen kan du velge mellom tilgjengelige øvinger, planlagte øvinger og fullførte øvinger. Du kan også bruke pil-knappene nederst på siden til å navigere mellom sidene.</p>
+                                <p>
+                                    <img src="images/skjermbilder/nav-liten.png" style="max-width:200px" />
+                                </p>
+                                <p>
+                                    <img src="images/skjermbilder/nav-meny.png" style="max-width:200px" />
+                                </p>
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-desktop" style="color:#0C2D82;font-size:1.3em;"></i><span class="spantekst2">På større skjermer</span>
+
+                                <p>På desktop PC/Mac finner du en lignende meny på venstre side i skjermbildet.</p>
+                                <p>
+                                    <img src="images/skjermbilder/nav-stor.png" style="max-width:300px" />
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div data-role="collapsible">
+                     <h3>Hvordan planlegger jeg øvelser?</h3>
+
+                    <p id="intro-planlegg">
+                        <p>Øvelsene blir automatisk planlagt for deg første gang du bruker appen, og øvelsene blir gjort tilgjengelig en gang pr. dag i 7 dager f.o.m den dagen du starter. Hvis du vil starte med det samme, kan du hoppe over planleggingssiden for nå.</p>
+                        <p>Hvis du vil starte øvelsene senere, kan du endre oppsatt tidspunkt ved hjelp av instillingene på planleggingssiden. Du kan bare endre startdato <strong>før</strong> du har gjort ferdig første øving.</p>
+                        <p>
+                            <img src="images/skjermbilder/planlegg1.png" style="max-width:300px" />
+                        </p>
+                        <ul class="fa-ul">
+                            <p class="spantekst2" style="text-align:center;margin-top:2em;font-size:1.2em;">Planleggingssiden har følgene muligheter:</p>
+							<li style="padding-bottom:1em"><i class="fa-li fa fa-toggle-on" style="color:#0C2D82;font-size:1.3em;"></i><span class="spantekst2">Bruk samme klokkeslett og sted for alle øvingene: </span>
+
+                                <p>Her kan du velge om du vil planlegge tid og sted for øvelsene individuelt eller samlet.
+                                    <p>
+                                        <img src="images/skjermbilder/plan-avpaa.png" style="max-width:300px" />
+                                    </p>Trykk/klikk på bryteren for å bytte mellom samlet og individuell planlegging av øvelser. Dersom du velger å planlegge øvingene samlet får du opp valg for å fylle inn klokkeslett og sted i tillegg til startdato for øvelsen.</p>
+                            </li>
+							<li style="padding-bottom:1em"><i class="fa-li fa fa-calendar" style="color:#0C2D82;font-size:1.3em;"></i><span class="spantekst2">Startdato for øvingene:</span> 
+                                <p>Du kan endre startdatoen hvis du ikke har begynt å gjøre øvelser enda.
+                                    <p>
+                                        <img src="images/skjermbilder/plan-startd.png" style="max-width:300px" />
+                                    </p>Trykk/klikk på firkantene for dag, mnd og/eller år for å velge dato.</p>
+                            </li>
+
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-map-marker" style="color:#0C2D82;font-size:1.3em;"></i><span class="spantekst2">Velg klokkeslett og skriv inn sted for alle øvelser:</span>
+
+                                <p>Her kan du velge tidspunktet du ønsker å gjøre øvelser hver dag, og evt. skrive inn stedet hvor du vil gjøre øvelsene. Klokkeslett og sted kan endres når du vil.
+                                    <p>
+                                        <img src="images/skjermbilder/plan-klsted.png" style="max-width:300px" />
+                                    </p>Trykk/klikk på firkantene for time og minutt for å velge tidspunkt. Trykk/klikk i feltet for sted og skriv. Når du lagrer instillingene vil tid og sted (og evt. dato dersom du har valgt ny startdato) lagres for alle øvingene.</p>
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-map-marker" style="color:#0C2D82;font-size:1.3em;"></i><span class="spantekst2">Velg klokkeslett og skriv inn sted for individuelle øvelser:</span>
+
+                                <p>Dersom du velger å planlegge øvelsene individuelt, blir det mulig å klikke på hver øving i listen, og få opp en dialogboks som ser slik ut:
+                                    <p>
+                                        <img src="images/skjermbilder/planlegg3.png" style="max-width:300px" />
+                                    </p>Trykk/klikk på firkantene for time og minutt for å velge tidspunkt. Trykk/klikk i feltet for sted og skriv. Når du lagrer klokkeslett og sted her vil det bare bli lagret for den øvelsen du valgte å planlegge.</p>
+                            </li>
+                        </ul>
+                        <p></p>
+                    </p>
+                </div>
+                <div data-role="collapsible">
+                     <h3>Hvordan utfører jeg øvelser?</h3>
+
+                    <div id="intro-ovelse2">Når en ny øvelse blir tilgjengenlig, vil det vises en knapp for å starte øvelsen på forsiden/oppmersomhetsøvingssiden:
+                        <p>
+                            <img src="images/skjermbilder/nyovelse1.png" style="max-width:300px" />
+                        </p> Trykk på knappen for å starte øvelsen.
+                        <ul class="fa-ul">
+                            <p class="spantekst2" style="text-align:center;margin-top:2em;font-size:1.2em;">Øvelsen består av en kort introduksjon, fulgt av tre steg:</p>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-check" style="color:#07b2dc;font-size:1.3em;"></i><span class="spantekst2">Steg 1: Evaluer din oppmerksomhet før øvelsen</span>
+
+                                <p>Når du starter øvelsen, får du opp en dialogboks som ser slik ut:
+                                    <p>
+                                        <img src="images/skjermbilder/ovingdel1.png" style="max-width:300px" />
+                                    </p>I denne første delen skal du vurdere om oppmerksomheten din er mest fokusert innover mot egne tanker eller utover mot omgivelsene, før du starter øvelsen. Trykk/klikk , hold og skyv knappen mot høyre eller venstre for å velge. Bruk neste-knappen for å gå videre når du er ferdig.</p>
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-play-circle" style="color:#07b2dc;font-size:1.3em;"></i><span class="spantekst2">Steg 2: Utfør øvelsen</span>
+
+                                <p>I neste del skal du utføre selve øvelsen. Her kan du velge om du vil høre på et lydklipp, eller se bilde-instruksjoner uten lyd. Start øvingen ved å trykke/klikke på pil-knappen.
+                                    <p>
+                                        <img src="images/skjermbilder/ovingdel2.png" style="max-width:300px" />
+                                    </p>Fremdriftslinjen viser hvor mye av øvingen som er ferdig til et hvert tidspunkt. Du kan sette øvingen på pause underveis. Etter at øvingen er ferdig kan du trykke på neste-knappen for å gå videre.</p>
+                            </li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-check" style="color:#07b2dc;font-size:1.3em;"></i><span class="spantekst2">Steg 3: Evaluer din oppmerksomhet etter øvelsen</span>
+
+                                <p>I siste del skal du vurdere fokuset for oppmerksomheten din er etter øvelsen, på samme måte som du gjorde det før øvelsen.
+                                    <p>
+                                        <img src="images/skjermbilder/ovingdel3.png" style="max-width:300px" />
+                                    </p>Trykk/klikk, hold og skyv knappen mot høyre eller venstre for å velge. Bruk lagre-knappen for å avslutte og lagre når du er ferdig.</p>
+                            </li>
+                        </ul>
+						<p>                      
+                       Det er mulig å avbryte øvelsen underveis. Ved avbrudd vil ikke øvelsen lagres, og du må starte på nytt neste gang du starter øvelsen. </p></div>
+                </div>
+                <div data-role="collapsible">
+                     <h3>Hva brukes fremdriftssiden til?</h3>
+
+                    <div id="intro-eval">På fremdriftssiden kan du få et raskt overblikk over hvor langt du har kommet i 7-dagers programmet. Du kan også se en graf som viser hvordan oppmerksomheten din endrer seg over tid. 
+                        <p>
+                            <img src="images/skjermbilder/evalside.png" style="max-width:300px" />
+                        </p>Etterhvert som du gjennomfører øvinger, vil du finne øvingene du har utført i listen på evalueringssiden.
+                        <ul class="fa-ul">
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-bar-chart" style="color:#07b2dc;font-size:1.3em;"></i><span class="spantekst2">Oppmerksomhetsgraf</span>
+
+                                <p>Oppmerksomhetsgrafen oppdateres etterhvert som du gjennomfører øvinger. De grå søylene representerer oppmerksomhet før øvingen, og de blå søylene representerer oppmerksomhet etter øvingen. Lange søyler betyr at oppmerksomheten din var rettet mest utover mot omgivelsene, korte søyler betyr at oppmerksomheten din var rettet mer innover mot egne tanker</p>
+                                <p>
+                                    <img src="images/skjermbilder/evalgraf.png" style="max-width:200px" />
+                                </p>
+							</li>
+                            <li style="padding-bottom:1em"><i class="fa-li fa fa-sticky-note" style="color:#07b2dc;font-size:1.3em;"></i><span class="spantekst2">Evalueringsvisning</span>
+
+                                <p>Hvis du trykker/klikker på en individuell øvelse i listen over fullførte øvelser, vil du få opp en slik dialogboks som viser egenvurderingen din før og etter øvelsen for den dagen du valgte.</p>
+                                <p>
+                                    <img src="images/skjermbilder/evaldialog.png" style="max-width:200px" />
+                                </p>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Lukk</a>
+    </div>
+</div>
+<!-- popup for hjelp slutter her -->
+<!-- /popup hjelp -->
+
+<!-- sider starter her-->
+<!-- tittelside starter her -->
+<div id="tittelside" data-role="page" data-transition="slidefade" data-prev="fremdrift" data-next="planlegging">
+    <!-- side tittel -->
+    <div data-role="header" data-theme="f">
+        <!-- header tittel -->
+		
+		<div id="forside-header" style='display:none;' data-position="fixed">	
+		
+		<div data-role="none" class='gradient'>	
+				<ul style="list-style: none;padding:0; margin:0;">
+				<li class="menyside" style="margin-top:0.5em;width:20%;" ><a href='#' onClick='tvingOmlasting()'><img src="images/logolitenpng.png" style="margin-left:0.5em;min-width:150px;" alt="eMeistring Oppmerksomhetstrening logo"/></a></li>
+				<li class="meny-storskjerm" style="margin-top:0.2em;width:20%;"><a href='#' onClick='tvingOmlasting()'><img src="images/logopng.png" alt="eMeistring Oppmerksomhetstrening logo"/></a></li>
+			</ul>				
+		</div>
+		<div class="ui-grid-b meny-storskjerm" style='background-color:#E9F1F9; box-shadow: 5px 5px 15px #8c8c8c;'>
+		<div class="ui-block-a">
+		</div>
+				<div class="ui-block-b">
+		</div>
+				<div class="ui-block-c" data-role="navbar">
+				<ul data-theme="c" style='padding-left:0.2em;padding-right:0.2em;'>
+		<li ></li>
+		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
+		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
+		</ul>
+		</div>
+		</div>
+
+
+		<!--Meny top-->
+		<div data-role="navbar" class="menyside" style='background-color:#E9F1F9;box-shadow: 5px 5px 15px #8c8c8c;'>
+		<ul data-theme="c" style='padding-left:0.2em;padding-right:0.2em;'>
+		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
+		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
+		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
+		</ul>
+		</div>
+		</div>
+
+    </div>
+    <!-- /header tittel -->
+			<div id='sidemeny' style='display:none;'>
+				<ul data-role="listview" data-theme="b" data-count-theme="e" data-inset="false" class="meny-storskjerm side-side" style='position: fixed; padding-top:5%;margin-top:-30px; float:left;'>
+						<li><a href="#" onClick='tvingOmlasting()' class="ui-btn ui-btn-active"><i class="fa fa-list fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Oversikt<span></span></a></li>
+						<li><a href="#introside" class="ui-btn"><i class="fa fa-check fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Tilgjengelige øvinger<span class="ui-li-count tilgj-ant">1</span></a></li>
+						<li><a href="#planlegging" class="ui-btn"><i class="fa fa-clock-o fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Planlagte øvinger<span class="ui-li-count plan-ant">7</span></a></li>
+						<li><a href="#fremdrift" onClick="graf()"class="ui-btn"><i class="fa fa-bar-chart fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Fullførte øvinger<span class="ui-li-count full-ant">0</span></a></li>
+				</ul>
+			</div>
+    <div data-role="content">
+        <!-- innhold tittel -->
+		<div class='statusmelding' id="vennligstvent" style='text-align:center'> 
+		<img src="images/logopng.png" style="min-width:200px;max-width:480px" alt="eMeistring Oppmerksomhetstrening logo"/>
+		<p><i class="fa fa-spinner fa-4x fa-pulse"></i><br/>Vennligst vent mens siden lastes</p>
+		</div>
+        
+		<div id="forsidemenyer" class="innholdsomrade" style='display:none;'>
+				<div class="ui-grid-solo">
+					<div class="ui-block-a">
+							<h2 class="sideundertittel"><i class="fa fa-list"></i> Oversikt <span class="tooltipmerke"><i class="fa fa-question-circle" title="<p style='text-align:left;'>På denne siden finner du: <ul style='text-align:left;'><li> dagens øving</li><li>en oversikt over hvor langt du har kommet i programmet</li><li>informasjon om når neste øving er klar</li></ul></p><p style='text-align:left;'>En ny øving vil være tilgjengelig en gang pr.dag i 7 dager f.o.m din startdato. 
+					</p><p style='text-align:left;'>Hvis du ønsker mer informasjon om oppmerksomhetsøvelsen eller om hvordan du bruker denne web-appen, trykk på <strong>'Hjelp'-knappen</strong> på menyen over.</p>" rel="tooltip"></i></span></h2>
+					</div>
+				</div>
+
+
+<div class="ui-grid-b ui-responsive">
+<div class="ui-block-a"><div class="ui-body imgcontainer">
+				
+				<div class="oving-menyknapp" >						
+						<img class="imgbakgr" src="images/illustrasjon/vent.jpg">
+						<div class="imgteksttopp" style="color:#000000;text-decoration:none;">
+						<h2>Leter etter øvinger ...</h2><p>Vennligst vent <i class="fa fa-spinner fa-pulse"></i></p></div>
+						</div></div></div>
+<div class="ui-block-b"><div class="ui-body imgcontainer"><div class='statusmelding' id="7dagerferdig"></div>
+								<a href="#planlegging">
+								<img class="imgbakgr" src="images/illustrasjon/planlegg.jpg">
+								<div class="imgteksttopp">
+								<h2><i class="fa fa-clock-o"></i> Min øvingsplan</h2>
+								<p>
+								<span class="plan-top-desktop"></span><br/>
+								<span class='tid-midt-klokke'></span><br/>
+								<span class='tid-bunn-dato'></span><br/>
+								</p></div>
+								<p class="imgtekstbunn"><strong>Vis plan <i class='fa fa-chevron-circle-right'></i></strong></p></a></div></div>
+<div class="ui-block-c"><div class="ui-body imgcontainer">
+							<a href="#fremdrift" data-transition="pop" onClick="graf()">
+							<img class="imgbakgr" src="images/illustrasjon/framdrift.jpg">
+							<div class="imgteksttopp">
+							<h2><i class="fa fa-bar-chart"></i> Min fremdrift</h2>
+							<p>Jeg har fullført <span class="fremdrift-top-desktop"></span> </p>
+							</div>
+							<p class="imgtekstbunn"><strong>Vis fremdrift <i class='fa fa-chevron-circle-right'> </i></strong></p>
+							</a>
+							
+							</div></div>
+</div>
+
+		<!-- /grid- -->
+	</div>
+  
+	</div>
+    <!-- /innhold tittel -->
+    <div data-role="footer" data-position="fixed">
+        <!-- footer tittel -->
+        <div class="footer-nav-pc ui-grid-b" style="background-color:#E9F1F9;margin-top:0px;box-shadow: 7px 7px 35px #8c8c8c;">
+            <p id="footerside1alt" class="copyright"></p>
+        </div>
+        <div class="ui-grid-b footer-nav-mobil" style="background-color:#E9F1F9;margin-top:0px;box-shadow: 7px 7px 35px #8c8c8c;">
+            <div class="ui-block-a">
+                <div class="ui-bar"><a href="#fremdrift" style="color:#0C2D82;float:left;" data-role="none"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
+
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div class="ui-bar">
+                    <p class="copyright" id="footerside1"></p>
+                </div>
+            </div>
+            <div class="ui-block-c">
+                <div class="ui-bar"><a href="#planlegging" id="forside-neste-link" style="color:#0C2D82; float:right;" data-role="none"><i class="fa fa-chevron-circle-right fa-2x" style="padding-top:0.3em;"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /footer tittel -->
+</div>
+<!-- /side tittel -->
+<!-- tittelside slutter her -->
+
+<!-- Planleggingsside starter her -->
+<div id="planlegging" data-role="page" data-transition="slidefade" data-prev="tittelside" data-next="fremdrift">
+    <!-- side plan -->
+<div data-role="header" data-theme="f">
+        <!-- header plan -->
+		<div data-position="fixed">	
+		
+		<div data-role="none" class='gradient'>	
+				<ul style="list-style: none;padding:0; margin:0;">
+				<li class="menyside" style="margin-top:0.5em;width:20%;" ><a href='#' onClick='tvingOmlasting()'><img src="images/logolitenpng.png" style="margin-left:0.5em;min-width:150px;" alt="eMeistring Oppmerksomhetstrening logo"/></a></li>
+				<li class="meny-storskjerm" style="margin-top:0.2em;width:20%;"><a href='#' onClick='tvingOmlasting()'><img src="images/logopng.png" alt="eMeistring Oppmerksomhetstrening logo"/></a></li>
+			</ul>				
+		</div>
+		<div class="ui-grid-b meny-storskjerm" style='background-color:#E9F1F9; box-shadow: 5px 5px 15px #8c8c8c;'>
+		<div class="ui-block-a">
+		</div>
+				<div class="ui-block-b">
+		</div>
+				<div class="ui-block-c" data-role="navbar">
+				<ul data-theme="c" style='padding-left:0.2em;padding-right:0.2em;'>
+		<li ></li>
+		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
+		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
+		</ul>
+		</div>
+		</div>
+
+
+		<!--Meny top-->
+		<!--Meny top-->
+		<div data-role="navbar" class="menyside" style='background-color:#E9F1F9;box-shadow: 5px 5px 15px #8c8c8c;'>
+		<ul data-theme="c" style='padding-left:0.2em;padding-right:0.2em;'>
+		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
+		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
+		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
+		</ul>
+		</div>
+		</div>
+
+    </div>
+    <!-- /header plan -->
+					<ul data-role="listview" data-theme="b" data-count-theme="e" data-inset="false" class="meny-storskjerm side-side" style='position: fixed; padding-top:5%;margin-top:-30px; float:left;'>
+						<li><a href="#" onClick='tvingOmlasting()' class="ui-btn ui-btn-"><i class="fa fa-list fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Oversikt<span></span></a></li>
+						<li><a href="#introside" class="ui-btn"><i class="fa fa-check fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Tilgjengelige øvinger<span class="ui-li-count tilgj-ant">1</span></a></li>
+						<li><a href="#planlegging" class="ui-btn ui-btn-active"><i class="fa fa-clock-o fa-fw fa-lg" style='text-align:left;'></i> Planlagte øvinger<span class="ui-li-count plan-ant">7</span></a></li>
+						<li><a href="#fremdrift" onClick="graf()" class="ui-btn"><i class="fa fa-bar-chart fa-fw fa-lg" style='text-align:left;'></i> Fullførte øvinger<span class="ui-li-count full-ant">0</span></a></li>
+				</ul>
+    <div data-role="content" class="ui-body-a">
+	<!-- innhold plan -->
+			<div class="innholdsomrade">
+				<div class="ui-grid-solo">
+					<div class="ui-block-a">
+							<h2 class="sideundertittel"><i class="fa fa-clock-o"></i> Planlegging <span class="tooltipmerke"><i title="<p style='text-align:left;'>På denne siden kan du endre tidspunkt for en eller flere øvinger.</p>
+							<p style='text-align:left;'> Alle øvingene er automatisk planlagt for deg første gang du bruker web-appen, og du trenger derfor ikke å gjøre noe her hvis du er fornøyd med de tidspunktene som er satt opp.</p>
+							<p style='text-align:left;'>Hvis du ønsker mer informasjon om hvordan du planlegger øvinger, trykk på <strong>'Hjelp'-knappen</strong> på menyen over.</p> " rel="tooltip" class="fa fa-question-circle"></i></span></h2>	
+					</div>
+				</div>
+				<div class="ui-grid-b ui-responsive">
+					<div class="ui-block-a side-infotekst" style='padding:3%;'> 
+					</div>
+					<div class="ui-block-b side-interaktiv" data-theme="d" data-role='collapsible' data-collapsed="false" style='padding:3%;'>
+					<h4 class="deloverskrift">Instillinger</h4>
+
+
+            <form data-ajax="false" onSubmit="lagreplanalle()" data-rel="back">
+                <div class="ui-grid-solo">
+                    <div class="ui-block-a">
+                        <div class="ui-bar">
+                            <label for="velgsammetid">Bruk samme klokkeslett og sted for alle øvingene <span class="spantekst3">(valgfritt)</span>:</label>
+							<div id="bryter" onClick="planbryter()" style="float:right;">
+                                <select name="velgsammetid" id="velgsammetid" data-mini="true" data-role="flipswitch" autocomplete="on" data-theme="e">
+                                    <option value="0">Ja</option>
+                                    <option value="1">Nei</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				
+				<div data-role="popup" id="popup-omdato" data-arrow="true">
+                    <p><span class="spantekst">Obs:</span>
+
+                    </p>
+                    <p>Startdato før øvingene kan bare endres før du har gjennomført øvingen for dag en.</p>
+                </div>
+                <div class="ui-grid-solo">
+                    <div class="ui-block-a">
+                        <div class="ui-bar"><label for="plan-dag"><span class="spantekst"></span>Velg ny startdato <span class="spantekst3">(valgfritt)</span>: </label>
+						
+						<div id="feildato" style="font-size:0.8em;"></div>
+                        </div>
+                    </div>
+					<div class="ui-block-a">
+					<div class="ui-bar" style='float:right;'>
+						<fieldset data-role="controlgroup" name="datovelger" data-type="horizontal" data-mini="true" data-theme="c">                   
+							<label for="plan-dag" class="ui-hidden-accessible">Velg dag:</label>
+							<select name="plan-dag" id="plan-dag" onChange="sjekkdato('plan-dag', 'plan-mnd', 'plan-aar')" data-icon="false" autocomplete="off"></select>                           
+							<label for="plan-mnd" class="ui-hidden-accessible">Velg måned:</label>
+							<select name="plan-mnd" id="plan-mnd" onChange="sjekk_mndfelt('plan-dag', 'plan-mnd', 'plan-aar',1)" data-icon="false" autocomplete="off"></select>
+							<label for="plan-aar" class="ui-hidden-accessible">Velg år:</label>
+							<select name="plan-aar" id="plan-aar" onChange="sjekk_aarfelt('plan-dag', 'plan-mnd', 'plan-aar',1)" data-icon="false" autocomplete="off"></select>
+						</fieldset>
+						</div>
+					</div>
+                </div>
+                <!-- /grid-a -->
+                <!-- /grid-a -->
+
+                <!-- /grid-a -->
+                <div id="plan-sammetid">
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <div class="ui-bar"><label for="plan-time">Velg klokkeslett <span class="spantekst3">(valgfritt)</span>:</label>
+                                <div id="feiltid" style="font-size:0.8em;"></div>
+                            </div>
+                        </div>
+                        <div class="ui-block-a">
+                            <div class="ui-bar" style="float:right;">
+                                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" data-theme="c">
+                                    <label for="plan-time" class="ui-hidden-accessible">Velg time:</label>
+									<select name="plan-time" id="plan-time" data-icon="false" autocomplete="off"></select>
+                                    <label for="plan-minutt" class="ui-hidden-accessible">Velg time:</label>
+                                    <select name="plan-minutt" id="plan-minutt" data-icon="false" autocomplete="off"></select>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /grid-a -->
+                        <div class="ui-grid-solo">
+                            <div class="ui-block-a">
+                                <div class="ui-bar">
+                                    <label for="plan-sted">Skriv inn sted <span class="spantekst3">(valgfritt)</span>:</label>
+                                </div>
+                            </div>
+                            <div class="ui-block-a">
+                                <div class="ui-bar" style="float:right;">
+                                    <input name="plan-sted" data-theme="e" data-mini="true" class="ui-bar ui-body-e" id="plan-sted" onkeypress="{if (event.keyCode==13)lagreplanalle()}" value="" type="text" placeholder="f.eks. hjemme">
+                                </div>
+                            </div>
+                        </div>
+                    <!-- /grid-a -->
+                </div>
+                <div id="erlagret" class="spantekst" style="text-align:center;color:#999999"></div>
+                <div class="sentrert">
+                    <input type="button" data-inline="true" data-theme="a" value="Lagre instillinger" data-icon="check" onClick="lagreplanalle()">
+                </div>
+            </form>
+					</div>
+					<div class="ui-block-c side-statusfelt" data-theme="d" data-role='collapsible' data-collapsed="false" style='padding:3%;'>
+					<h4 class="deloverskrift">Planlagte øvinger</h4>
+            <ul data-role="listview" data-inset="true" data-theme="c" id="planliste"></ul>
+					</div>
+				</div>
+		<!-- /grid- -->
+	</div>
+        
+    </div>
+    <!-- /innhold plan -->
+    <div data-role="footer" data-position="fixed">
+        <!-- footer plan-->
+        <div class="footer-nav-pc ui-grid-b" style="background-color:#E9F1F9;margin-top:0px;box-shadow: 7px 7px 35px #8c8c8c;">
+            <p id="footerside2alt" class="copyright"></p>
+        </div>
+        <div class="ui-grid-b footer-nav-mobil" style="background-color:#E9F1F9;margin-top:0px;box-shadow: 7px 7px 35px #8c8c8c;">
+            <div class="ui-block-a">
+                <div class="ui-bar"><a href="#tittelside" style="color:#0C2D82;float:left;" data-role="none"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
+
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div class="ui-bar">
+                    <p class="copyright" id="footerside2"></p>
+                </div>
+            </div>
+            <div class="ui-block-c">
+                <div class="ui-bar"><a href="#fremdrift" style="color:#0C2D82;float:right;" data-role="none"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /footer plan -->
+</div>
+<!-- /side plan -->
+<!-- planleggingsside slutter her -->
+<!-- fremdriftsside starter her -->
+<div id="fremdrift" data-role="page" data-transition="slidefade" data-prev="planlegging" data-next="tittelside">
+    <!-- side intro -->
+    <div data-role="header" data-theme="f">
+        <!-- header fremdrift -->
+		<div data-position="fixed">	
+		
+		<div data-role="none" class='gradient'>	
+				<ul style="list-style: none;padding:0; margin:0;">
+				<li class="menyside" style="margin-top:0.5em;width:20%;" ><a href='#' onClick='tvingOmlasting()'><img src="images/logolitenpng.png" style="margin-left:0.5em;min-width:150px;" alt="eMeistring Oppmerksomhetstrening logo"/></a></li>
+				<li class="meny-storskjerm" style="margin-top:0.2em;width:20%;"><a href='#' onClick='tvingOmlasting()'><img src="images/logopng.png" alt="eMeistring Oppmerksomhetstrening logo"/></a></li>
+			</ul>				
+		</div>
+		<div class="ui-grid-b meny-storskjerm" style='background-color:#E9F1F9; box-shadow: 5px 5px 15px #8c8c8c;'>
+		<div class="ui-block-a">
+		</div>
+				<div class="ui-block-b">
+		</div>
+				<div class="ui-block-c" data-role="navbar">
+				<ul data-theme="c" style='padding-left:0.2em;padding-right:0.2em;'>
+		<li ></li>
+		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
+		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
+		</ul>
+		</div>
+		</div>
+
+
+		<!--Meny top-->
+		<div data-role="navbar" class="menyside" style='background-color:#E9F1F9;box-shadow: 5px 5px 15px #8c8c8c;'>
+		<ul data-theme="c" style='padding-left:0.2em;padding-right:0.2em;'>
+		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
+		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
+		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
+		</ul>
+		</div>
+		</div>
+
+    </div>
+				<ul data-role="listview" data-theme="b" data-count-theme="e" data-inset="false" class="meny-storskjerm side-side" style='position: fixed; padding-top:5%;margin-top:-30px; float:left;'>
+						<li><a href="#" onClick='tvingOmlasting()' class="ui-btn ui-btn"><i class="fa fa-list fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Oversikt<span></span></a></li>
+						<li><a href="#introside" class="ui-btn"><i class="fa fa-check fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Tilgjengelige øvinger<span class="ui-li-count tilgj-ant">1</span></a></li>
+						<li><a href="#planlegging" class="ui-btn"><i class="fa fa-clock-o fa-fw fa-lg" style='text-align:left;'></i> Planlagte øvinger<span class="ui-li-count plan-ant">7</span></a></li>
+						<li><a href="#fremdrift" onClick="graf()"class="ui-btn ui-btn-active "><i class="fa fa-bar-chart fa-fw fa-lg" style='text-align:left;'></i> Fullførte øvinger<span class="ui-li-count full-ant">0</span></a></li>
+				</ul>
+    <!-- /header fremdrift -->
+    <div data-role="content" class="ui-body-a">
+			<div class="innholdsomrade">
+				<div class="ui-grid-solo">
+					<div class="ui-block-a">
+							<h2 class="sideundertittel"><i class="fa fa-bar-chart"></i> Fremdrift <span class="tooltipmerke"><i title="<p style='text-align:left;'> På denne siden vil du finne en oversikt over fremdriften din etterhvert som du gjør øvinger. Du kan bruke denne siden til å finne ut hvordan oppmerksomheten din har endret seg over tid.</p><p style='text-align:left;'>Hvis du ønsker mer informasjon hvordan du bruker denne siden, trykk på <strong>'Hjelp'-knappen</strong> på menyen over.</p> " rel="tooltip" class="fa fa-question-circle"></i></span></h2>	
+					</div>
+				</div>
+				<div class="ui-grid-b ui-responsive">
+					<div class="ui-block-a side-infotekst" style='padding:3%;'>
+					<div class='statusmelding' id="7dagerferdig"></div>
+					<div></div>
+					</div>
+					<div class="ui-block-b side-interaktiv" id='collapsible-graf' data-theme="d" data-role='collapsible' data-collapsed="false" style='padding:3%;'>
+					<h4 class="deloverskrift">Oppmerksomhetsgraf </h4>
+            <div id="ingenfullfort"style="padding:0.2em;">
+			</div> 
+			
+			<div id="grafdiv" style="width:100%;height:100%;">
+                <canvas id="popupgraf" class="grafpopup" width="100%"></canvas>
+            </div>
+					</div>
+					<div class="ui-block-c side-statusfelt" data-theme="d" data-role='collapsible' data-collapsed="false" style='padding:3%;'>
+
+			
+			<h4 class="deloverskrift">Fullførte øvinger</h4>
+			<p id="ovingside-utforte"></p>
+			<ul data-role="listview" data-inset="true" data-theme="e" id="evalliste">
+            <li></li>
+			</ul>
+			
+					</div>
+				</div>
+		<!-- /grid- -->
+	</div>
+
+
+			
+    </div>
+    <!-- /innhold fremdrift -->
+    <div data-role="footer" data-position="fixed">
+        <!-- footer fremdrift-->
+        <div class="footer-nav-pc ui-grid-b" style="background-color:#E9F1F9;margin-top:0px;box-shadow: 7px 7px 35px #8c8c8c;">
+            <p id="footerside3alt" class="copyright"></p>
+        </div>
+        <div class="ui-grid-b footer-nav-mobil" style="background-color:#E9F1F9;margin-top:0px;box-shadow: 7px 7px 35px #8c8c8c;">
+            <div class="ui-block-a">
+                <div class="ui-bar"><a href="#planlegging" style="color:#0C2D82;float:left;" data-role="none"><i class="fa fa-chevron-circle-left fa-2x"></i></a>
+
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div class="ui-bar">
+                    <p class="copyright" id="footerside3"></p>
+                </div>
+            </div>
+            <div class="ui-block-c">
+                <div class="ui-bar"><a href="#tittelside" style="color:#0C2D82;float:right;" data-role="none"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /footer fremdrift -->
+</div>
+<!-- /side fremdrift -->
+<!-- fremdriftsside slutter her -->
+<!-- planleggingsside starter her -->
+
+
+<!-- sider slutter her-->
+<!-- dialogbokser starter her -->
+<!-- dialogboks for øvinger starter her -->
+<div data-role="page" id="ovingpopup" data-close-btn="none" data-theme="b" data-dialog="true" data-dom-cache="false">
+    <!-- dialog øving -->
+    <div data-role="header">
+	<span class="ui-block-c" data-role="navbar" data-theme="a" data-content-theme="a" style="float:left">
+        	<ul style='padding-left:0.2em;padding-right:0.2em;'><li><a href='#oss' class="ui-btn-a" data-rel='popup' data-transition='pop'><i class='fa fa-info-circle fa-2x'></i><br/>Hjelp</a></li></ul>
+	</span>
+	<span class="ui-block-c" data-role="navbar" data-theme="a" data-content-theme="a" style="float:right">
+        	<ul style='padding-left:0.2em;padding-right:0.2em;'><li><a href='#avbryteoving' class="ui-btn-a" data-rel='popup' data-transition='pop'><i class='fa fa-close fa-2x'></i><br/>Lukk</a></li></ul>
+	</span>
+	<h1 id="ovingoverskrift"></h1>
+
+    </div>
+    <div role="main">
+        <div class="ui-grid-c">
+		    <div class="ui-block-a" id="blokk0">
+                <div class="ui-bar ui-bar-b" style="height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;" id="visdel0">Intro</div>
+            </div>
+            <div class="ui-block-b" id="blokk1">
+                <div class="ui-bar ui-bar-b" style="height:25px;text-align:center;background-color:#E9F1F9;color:#333333;" id="visdel1">Før</div>
+            </div>
+            <div class="ui-block-c" id="blokk2">
+                <div class="ui-bar ui-bar-b" style="height:25px;text-align:center;background-color:#E9F1F9;color:#333333" id="visdel2">Øving</div>
+            </div>
+            <div class="ui-block-d" id="blokk3">
+                <div class="ui-bar ui-bar-b" style="height:25px;text-align:center;background-color:#E9F1F9;color:#333333" id="visdel3">Etter</div>
+            </div>
+        </div>
+		<div id="tab0" class="ui-body-a ui-content">
+            <!-- øving første tab -->
+            <h2 class="sideundertittel" >Introduksjon <span class="tooltipmerke"><i class="fa fa-question-circle" title="<p style='text-align:left'>Introduksjonen er en serie med bilder som kort forklarer hva du kan bruke denne appen til.</p><p style='text-align:left'> Introduksjonen starter når du trykker på pil-knappen under.</p><p style='text-align:left'>Du kan bruke fram og tilbake knappene for å bla mellom bildene mens introduksjonen spilles av.</p>" rel="tooltip"></i></span></h2>
+        <div class="ui-body-d ui-content">
+            <div id="intro-tekst" class="ui-grid-solo anim-bakgrunn">
+                <div class="imgcontainer" id="intro-sekvens">
+                    <img id="intro0" src='images/intro/intro_gruppe.jpg' onClick="startintro()" />
+                    <img id="intro1" style="display:none" src='images/intro/intro_gruppe.jpg' onClick='pauseintro()' />
+                    <img id="intro2" style="display:none" src='images/intro/intro_kal.jpg' onClick='pauseintro()' />
+                    <img id="intro3" style="display:none" src='images/intro/intro_fokus1.jpg' onClick='pauseintro()' />
+                    <img id="intro4" style="display:none" src='images/intro/intro_fokus1.jpg' onClick='pauseintro()' />
+                    <img id="intro5" style="display:none" src='images/intro/intro_fokus2.jpg' onClick='pauseintro()' />
+                    <img id="intro6" style="display:none" src='images/intro/intro_ute.jpg' onClick='pauseintro()' />
+                    <img id="intro7" style="display:none" src='images/intro/intro_lytte.jpg' onClick='pauseintro()' />
+                    <img id="intro8" style="display:none" src='images/intro/intro8.jpg' onClick='pauseintro()' />
+                    <img id="intro9" style="display:none" src='images/intro/intro9.jpg' onClick='pauseintro()' />
+                    <img id="intro10" style="display:none" src='images/intro/intro10.jpg' onClick='pauseintro()' />
+                    <img id="intro11" style="display:none" src='images/intro/intro11.jpg' onClick='pauseintro()' />
+                    <img id="intro12" style="display:none" src='images/intro/intro12.jpg' onClick='pauseintro()' />
+                    <img id="intro13" style="display:none" src='images/intro/intro13.jpg' onClick='pauseintro()' />
+                    <img id="intro14" style="display:none" src='images/intro/intro14.jpg' onClick='pauseintro()' />
+                    <img id="intro15" style="display:none" src='images/intro/intro15.jpg' onClick='pauseintro()' />
+                    <img id="intro16" style="display:none" src='images/intro/intro16.jpg' onClick='pauseintro()' />
+                    <img id="intro17" style="display:none" src='images/intro/intro17.jpg' onClick='pauseintro()' />
+                    <img id="intro18" style="display:none" src='images/intro/intro18.jpg' onClick='pauseintro()' />
+                    <img id="intro19" style="display:none" src='images/intro/intro19.jpg' onClick='pauseintro()' />
+                <div class="imgovingbunn">
+					<div id="intro-hjelp">eMeistring Oppmerksomhetstrening er en webapp for oppmerksomhets-øvelse, beregnet på personer med sosial angst som mottar behandling ved eMeistring.</div>
+					</div>
+				</div>	
+			
+            </div>
+				<div class="ui-grid-solo">
+					<progress id="intro-fremdrift" value="0" max="100" style="width:100%; max-width:500px;margin-top:0.5em"></progress>
+				</div>
+				<div class="ui-grid-b" style="margin-top:1em;">
+					<div class="ui-block-a" title="Gå et bilde bakover" rel="tooltip" id="introspiller-bakover" style="max-width:20%;">
+						<button id="intro-bakover" onClick="introbakover()" class="ui-btn ui-btn-a ui-mini" ><i class="fa fa-step-backward"></i>
+						</button>
+					</div>
+					<div class="ui-block-b" id="introspillav" style="min-width:60%;">
+						<button id="spillavintro" onClick="startintro()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-play"></i>
+						</button>
+					</div>
+					<div class="ui-block-c" title="Gå et bilde framover" rel="tooltip" id="introspiller-fremover" style="max-width:20%;">
+						<button id="intro-fremover" onClick="introfremover()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-step-forward"></i>
+						</button>
+					</div>
+				</div>	
+        </div>
+		<div class="ui-grid-solo">
+            <div class="ui-block-a">
+                <button onClick="ovingnesteknapp(0)" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-btn-icon-right ui-icon-carat-r ui-mini" style="display:none;" id="nesteknapp0">Hopp over intro</button>
+            </div>
+		</div>
+        </div>
+        <div id="tab1" class="ui-body-a ui-content">
+            <!-- øving første tab -->
+             <h2 class="ovingtab">Oppmerksomheten din før øvingen <span class="tooltipmerke"><i title="<p style='text-align:left;'>Her skal du vurdere fokuset for oppmerksomheten din akkurat nå, før du starter på øvingen.</p><p style='text-align:left;'>Trykk, hold og skyv knappen under mot venstre eller høyre til du finner den beskrivelsen som passer deg best. Trykk på 'neste' knappen når du er ferdig.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
+				<div style="float:right;">
+				<p>Hva er oppmerksomheten din fokusert på akkurat nå? (velg det som passer best i listen under)</p>
+				<form>
+					<fieldset data-role="controlgroup" data-theme="c">
+						<legend>Oppmerksomheten min er:</legend>
+						<input name="oppmfor" id="oppmfor-3" value="-3" type="radio" onClick="evalradiofor('-3')">
+						<label for="oppmfor-3" style="color:#ffffff;background-color:#4d4d4d;">helt fokusert på mine egne tanker</label>
+						<input name="oppmfor" id="oppmfor-2" value="-2" type="radio" onClick="evalradiofor('-2')">
+						<label for="oppmfor-2" style="color:#ffffff;background-color:#8c8c8c;">mest fokusert på mine egne tanker og bare litt på det som foregår rundt meg</label>
+						<input name="oppmfor" id="oppmfor-1" value="-1" type="radio" onClick="evalradiofor('-1')">
+						<label for="oppmfor-1" style="color:#333333;background-color:#cccccc;">litt mer fokusert på egne tanker enn på det som foregår rundt meg</label>
+						<input name="oppmfor" id="oppmfor0" value="0" type="radio" onClick="evalradiofor('0')">
+						<label for="oppmfor0" style="color:#333333;background-color:#e6e6e6;">likt fordelt mellom mine egne tanker og det som foregår rundt meg</label>
+						<input name="oppmfor" id="oppmfor1" value="1" type="radio" onClick="evalradiofor('1')">
+						<label for="oppmfor1" style="color:#333333;background-color:#c9dbf1;">litt mer fokusert på det som foregår rundt meg enn på mine egne tanker</label>
+						<input name="oppmfor" id="oppmfor2" value="2" type="radio" onClick="evalradiofor('2')">
+						<label for="oppmfor2" style="color:#333333;background-color:#bdcee3;">mest fokusert på det som foregår rundt meg og bare litt på mine egne tanker</label>
+						<input name="oppmfor" id="oppmfor3" value="3" type="radio" onClick="evalradiofor('3')">
+						<label for="oppmfor3" style="color:#ffffff;background-color:#88beff;">helt fokusert på det som foregår rundt meg</label>
+					</fieldset>
+				</form>
+				</div>
+			<div>
+			
+			</div>
+        </div>
+        <!-- /øving første tab -->
+        <div id="tab2" class="ui-body-a ui-content">
+            <!-- øving andre tab -->
+            	<h2 class="ovingtab">Øvingen <span class="tooltipmerke"><i title="<p style='text-align:left'>Her skal du utføre selve øvelsen. Velg hvilken type øving du vil ha under 'instillinger'. Obs: Instillinger er ikke tilgjengelig under avspilling av øving. </p><p style='text-align:left'>Start øvingen ved å trykke på pilknappen. Bruk 'tilbake' knappen hvis du gikk glipp av noe. 'Fremover' knappen er bare tilgjengelig etter at du har gått tilbake.</p><p style='text-align:left'> 'Neste'-knappen er tilgjengelig når du er ferdig med øvelsen.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
+            <div data-role="collapsible" id="lydbryter" data-theme="a" class="oppmgrad">
+
+            </div>
+            <div id="ovingvalg0">
+                <audio id="lydklipp1" preload="auto">
+                    <source src="sounds/track3.mp3" type="audio/mpeg; codecs=mp3"></source>
+                    <source src="sounds/track3.ogg" type="audio/ogg; codecs=vorbis"></source>
+                </audio>
+				<div id="lyd-ill" class="imgcontainer">
+				<img src='images/illustrasjon/oving_lyd.jpg' onClick='spillavLyd()'/>
+				</div>
+				<div class="ui-grid-solo"><progress id="spillerfremdrift" max="100" value="0"></progress></div>
+				<div class="ui-grid-b" style="margin-top:1em;">
+					<div class="ui-block-a" id="lydspiller-bakover" title="Spol tilbake 5 sekunder i lydklippet. Knappen er tilgjengelig etter at du har spillt av mer enn 5 sekunder av klippet." rel="tooltip" style="max-width:20%;">
+						<button id="lyd-bakover" onClick="lydbakover()" class="ui-btn ui-btn-a ui-mini" disabled><i class="fa fa-step-backward"></i>
+						</button>
+					</div>
+					<div class="ui-block-b" id="spillav" style="min-width:60%;">
+						<button id="spillavlydklipp" onClick="spillavLyd()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-play"></i>
+						</button>
+					</div>
+					<div class="ui-block-c" id="lydspiller-fremover" title="Spol fremover 5 sekunder i lydklippet. Knappen er tilgjengelig etter at du har brukt tilbake-knappen." rel="tooltip" style="max-width:20%;">
+						<button id="lyd-fremover" onClick="lydfremover()" class="ui-btn ui-btn-a ui-mini" disabled><i class="fa fa-step-forward"></i>
+						</button>
+					</div>
+				</div>
+                
+                <div style="height:60px;text-align:center;color:#666666;padding:0.2em;font-size:0.8em" id="spillerfremdrift-etter"></div>
+            </div>
+            <div id="ovingvalg1" style="display:none;">
+                <div id="oving-tekst" class="ui-grid-solo anim-bakgrunn">
+                    <div id="oving-sekvens" class="imgcontainer">
+                        <img id="sosoving0" class="imgoving" src='images/illustrasjon/oving_bilde.jpg' onClick="startoving()" />
+                        <img id="sosoving1" class="imgoving" style="display:none" src='images/illustrasjon/oving_bilde.jpg' onClick='pauseoving()' />
+                        <img id="sosoving2" class="imgoving" style="display:none" src='images/illustrasjon/oving_bilde.jpg' onClick='pauseoving()' />
+                        <img id="sosoving3" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving4" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving5" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving6" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving7" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving8" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving9" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving10" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving11" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving12" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving13" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving14" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving15" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving16" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving17" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving18" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving19" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving20" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving21" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving22" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving23" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving24" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving25" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving26" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving27" class="imgoving" style="display:none" src='images/oving/sosoving_alle.jpg' onClick='pauseoving()' />
+                        <img id="sosoving28" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving29" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving30" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving31" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving32" class="imgoving" style="display:none" src='images/oving/sosoving_natur.jpg' onClick='pauseoving()' />
+                        <img id="sosoving33" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving34" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving35" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving36" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving37" class="imgoving" style="display:none" src='images/oving/sosoving_maskin.jpg' onClick='pauseoving()' />
+                        <img id="sosoving38" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving39" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving40" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving41" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving42" class="imgoving" style="display:none" src='images/oving/sosoving_folk.jpg' onClick='pauseoving()' />
+                        <img id="sosoving43" class="imgoving" style="display:none" src='images/oving/sosoving_slutt.jpg' onClick='pauseoving()' />
+                    <div class="imgovingtxt">					
+						<div id="hjelp"></div>
+						
+					</div>
+					</div>
+                    
+                </div>
+				<div class="ui-grid-solo">
+					<progress id="ov-fremdrift" value="0" max="100"></progress>                   
+                </div>
+				<div class="ui-grid-b" style="margin-top:1em;">
+					<div class="ui-block-a" title="Gå tilbake et bilde i øvelsen" rel="tooltip" id="animspiller-bakover" style="max-width:20%;">
+						<button id="anim-bakover" onClick="animbakover()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-step-backward"></i>
+						</button>
+					</div>
+					<div class="ui-block-b" id="animspillav" style="min-width:60%;">
+						<button id="spillavanimasjon" onClick="startoving()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-play"></i>
+						</button>
+					</div>
+					<div class="ui-block-c" title="Gå fremover et bilde i øvelsen. Denne knappen er bare tilgjengelig etter at du har brukt tilbakeknappen." rel="tooltip" id="animspiller-fremover" style="max-width:20%;">
+						<button id="anim-fremover" onClick="animfremover()" class="ui-btn ui-btn-a ui-mini" disabled><i class="fa fa-step-forward"></i>
+						</button>
+					</div>
+				</div>
+
+            </div>
+        </div>
+        <!-- /øving andre tab -->
+        <div id="tab3" class="ui-body-a ui-content">
+            <!-- øving tredje tab -->
+             <h2 class="ovingtab">Oppmerksomheten din etter øvingen <span class="tooltipmerke"><i title="<p style='text-align:left;'>Her skal du vurdere fokuset for oppmerksomheten din akkurat nå, etter at du er ferdig med øvingen.</p><p style='text-align:left;'>Trykk, hold og skyv knappen under mot venstre eller høyre til du finner den beskrivelsen som passer deg best. Trykk på 'lagre' knappen når du er ferdig.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
+				<div style="float:right;">
+				<p>Hva er oppmerksomheten din fokusert på akkurat nå? (velg det som passer best i listen under)</p>
+				<form>
+					<fieldset data-role="controlgroup" data-theme="c">
+						<legend>Oppmerksomheten min er:</legend>
+						<input name="oppmetter" id="oppmetter-3" value="-3" type="radio" onClick="evalradioetter('-3')">
+						<label for="oppmetter-3" style="color:#ffffff;background-color:#4d4d4d;">helt fokusert på mine egne tanker</label>
+						<input name="oppmetter" id="oppmetter-2" value="-2" type="radio" onClick="evalradioetter('-2')">
+						<label for="oppmetter-2" style="color:#ffffff;background-color:#8c8c8c;">mest fokusert på mine egne tanker og bare litt på det som foregår rundt meg</label>
+						<input name="oppmetter" id="oppmetter-1" value="-1" type="radio" onClick="evalradioetter('-1')">
+						<label for="oppmetter-1" style="color:#333333;background-color:#cccccc;">litt mer fokusert på egne tanker enn på det som foregår rundt meg</label>
+						<input name="oppmetter" id="oppmetter0" value="0" type="radio" onClick="evalradioetter('0')">
+						<label for="oppmetter0" style="color:#333333;background-color:#e6e6e6;">likt fordelt mellom mine egne tanker og det som foregår rundt meg</label>
+						<input name="oppmetter" id="oppmetter1" value="1" type="radio" onClick="evalradioetter('1')">
+						<label for="oppmetter1" style="color:#333333;background-color:#c9dbf1;">litt mer fokusert på det som foregår rundt meg enn på mine egne tanker</label>
+						<input name="oppmetter" id="oppmetter2" value="2" type="radio" onClick="evalradioetter('2')">
+						<label for="oppmetter2" style="color:#333333;background-color:#bdcee3;">mest fokusert på det som foregår rundt meg og bare litt på mine egne tanker</label>
+						<input name="oppmetter" id="oppmetter3" value="3" type="radio" onClick="evalradioetter('3')">
+						<label for="oppmetter3" style="color:#ffffff;background-color:#88beff;">helt fokusert på det som foregår rundt meg</label>
+					</fieldset>
+				</form>
+				</div>
+        </div>
+        <!-- /øving tredje tab -->
+    </div>
+</div>
+<!-- /dialog øving -->
+<!-- dialogboks for øvinger slutter her -->
+
+<!-- dialogboks for planlegging starter her -->
+<!-- dialog planlegging -->
+<div data-role="page" id="planpopup" data-close-btn="right" data-theme="b" data-dialog="true" data-dom-cache="false">
+    <div data-role="header">
+        	<h1 id="plandagoverskrift"></h1>
+
+    </div>
+    <div role="main">
+        <div class="ui-body-a ui-content">
+
+		   <form data-ajax="false" name="plan-dag" id="plan-dag-oving" data-theme="e">
+			<div class="ui-grid-solo">
+                    <div class="ui-block-a">
+                        <div class="ui-bar"><label for="plan-time-oving">Velg klokkeslett:</label>
+                            <div id="feiltid2" style="font-size:0.8em;"></div>
+                        </div>
+                    </div>
+                    <div class="ui-block-a">
+                        <div class="ui-bar" style="float:right;">
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-theme="c" data-mini="true">
+                               <label for="plan-time-oving" class="ui-hidden-accessible">Velg time:</label>
+                                <select name="plan-time-oving" id="plan-time-oving" data-icon="false"></select>
+                                <label for="plan-minutt-oving" class="ui-hidden-accessible">Velg minutt:</label>
+                                <select name="plan-minutt-oving" id="plan-minutt-oving" data-icon="false"></select>
+                            </fieldset>
+                        </div>
+                    </div>
+                   <div class="ui-block-a">
+                      <div class="ui-bar" id="label-for-plan-sted">
+                              <label for="plan-sted-oving">Skriv inn sted:</label>
+                            </div>
+                        </div>
+                        <div class="ui-block-a">
+                            <div class="ui-bar" id="plan-dialg-tekstfelt" style="float:right;">
+                                <input name="plan-sted-oving" data-theme="e" data-mini="true" id="plan-sted-oving" value="" type="text" placeholder="f.eks. hjemme...">
+							
+                            </div>
+                        </div>
+                <div class="ui-block-a">
+                <div class="ui-bar">
+				<div id="erlagret2" class="spantekst" style="text-align:center;color:#999999"></div>
+                <div id="plan-oving-dag-knapp"><a href="#planlegging" id="plan-dag-oving-send" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-check">Lagre instillinger</a>
+                </div>
+                <div id="plan-oving-dag-lukk"><a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-e ui-btn-icon-left ui-icon-delete">Lukk dialogboks</a>
+                </div>
+				</div>
+				</div>
+				 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /dialog planlegging -->
+<!-- dialogboks for planlegging slutter her -->
+<!-- dialogboks for evaluering starter her -->
+<div data-role="page" id="evalpopup" data-close-btn="right" data-theme="b" data-dialog="true" data-dom-cache="false">
+    <!-- dialog evaluering -->
+    <div data-role="header">
+        	<h1 id="evaloverskrift"></h1>
+
+    </div>
+    <div role="main" class="ui-content ui-body-c">
+        <div class="ui-body-d ui-content">
+             <h2 class="ovingtab">Oppmerksomheten min før øvingen</h2>
+
+            <div class="ui-grid-solo">
+                <div id="evalforklaring3"></div>
+            </div>
+
+           	<h2 class="ovingtab" style="padding-top:1em">Oppmerksomheten min etter øvingen</h2>
+
+            <div class="ui-grid-solo">
+                <div id="evalforklaring4"></div>
+            </div>
+            <div style="margin-top:4em;">	<a href="#evaluering" class="ui-btn ui-btn-a ui-btn-icon-right ui-icon-delete" data-rel="back">Tilbake</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /dialog evaluering -->
+<!-- dialogboks for evaluering slutter her -->
+<!-- dialogboks 'om appen' starter her -->
+<div data-role="page" id="popup-om-appen" style="min-height:100%;" data-close-btn="right" data-theme="b" data-dialog="true" data-dom-cache="false">
+    <!-- dialog info -->
+    <div data-role="header">
+        	<h1>Om eMeistring Oppmerksomhetstrening</h1>
+    </div>
+    <div role="main">
+        <div class="ui-body-d ui-content">
+            <p>eMeistring Oppmerksomhetstrening er laget for deg med sosial angst og som mottar behandling ved eMeistring.</p>
+            <p>Med denne appen har du oppmerksomhetensøvelsen tilgjengelig på din mobil, nettbrett eller PC.</p>I tillegg får du:
+            <ul>
+                <li>Introduksjon til oppmerksomhetsøvelsen</li>
+                <li>Planlegging av oppmerksomhetsøvelsen</li>
+                <li>Evaluering av oppmerksomhetsøvelsen</li>
+            </ul>
+            <p>Husk at oppmerksomhetstrening er en av de viktigste øvelsene du gjør i din sosial angst behandling. Med denne appen kan du planlegge, gjennomføre og evaluere dine oppmerksomhetsøvelser.</p>
+            <p>Dersom du har spørsmål til eMeistring send oss en epost til: <a href="mailto:eMeistring@helse-bergen.no?subject=eMeistring Oppmerksomhetstrening" style="text-decoration:none;"><button class="ui-btn ui-btn-c"><i class="fa fa-envelope"></i>
+ eMeistring@helse-bergen.no <i class="fa fa-envelope"></i></button></a>
+
+            </p> <a href="#" class="ui-btn ui-btn-a ui-btn-icon-right ui-icon-delete" data-rel="back">Tilbake</a>
+
+        </div>
+    </div>
+</div>
+<!-- /dialog info -->
+<!-- dialogboks 'om appen' slutter her -->
+<!-- dialogbokser for tur slides starter her -->
+<!-- dialogboks for introside:velkommen starter her -->
+<div data-role="page" id="introside" data-close-btn="none" data-dialog="true" data-theme="b" data-dom-cache="false">
+    <!-- dialog tur side 1 -->
+    <div data-role="header">
+	<span class="ui-block-c" data-role="navbar" data-theme="a" data-content-theme="a" style="float:left">
+        <ul style='padding-left:0.2em;padding-right:0.2em;'><li><a href='#oss' id="lydvalg-oss" class="ui-btn-a ui-mini" data-rel='popup' data-transition='pop'><i class='fa fa-info-circle fa-2x'></i><br/>Hjelp</a></li></ul>
+	</span>
+	<span class="ui-block-c" data-role="navbar" data-theme="a" data-content-theme="a" style="float:right">
+        	<ul style='padding-left:0.2em;padding-right:0.2em;'><li><a href='#avbryteoving' id="lydvalg-avbryt" class="ui-btn-a ui-mini" data-rel='popup' data-transition='pop'><i class='fa fa-close fa-2x'></i><br/>Lukk</a></li></ul>
+	</span>
+        <h1>Velg øvingstype</h1>
+    </div>
+    <div role="main" class="ui-content ui-body-c">
+        <div class="ui-body-d ui-content">
+		<div class="ui-grid-solo">	
+		    <div class="sentrert">
+                <img src="images/logopng.png" alt="Oppmerksomhetstrening logo" style="min-width:150px;max-width:480px"/>
+            </div>
+			<form id="ov-tilgj" style="display:block">
+			<p>Velg hvilken hvilken type øving du vil gjennomføre denne gangen:</p>
+				<fieldset id="velg-lyd" data-role="controlgroup" data-type="horizontal">				
+					<legend id="online-feilmelding"></legend>
+						<input name="lydvalg" id="lydvalg0" data-theme="c" value="0" onClick="lydbryter()" type="radio" checked="checked"><label for="lydvalg0" style="text-align: center;"><img src="images/illustrasjon/oving_lyd.jpg" alt="Hodetelefoner"> Lyd <i style="padding-top:20px;" title="Øvingsinstruksjoner via lyd: du skal fokusere på lydene du hører i lydklippet. Passer best når du er i rolige omgivelser, f.eks. hjemme i stua." rel="tooltip" class="fa fa-question-circle"></i></label>
+						<input name="lydvalg" id="lydvalg1" data-theme="c" value="1" onClick="lydbryter()" type="radio"><label for="lydvalg1" style="text-align: center;"><img src="images/illustrasjon/oving_bilde.jpg" alt="Lysbilder"> Bilde <i style="padding-top:20px;" title="Øvingsinstruksjoner via bilder og tekst: du skal fokusere på lyder i omgivelsene rundt deg. Passer best når du kan høre mange lyder rundt deg, f.eks. utendørs i en by." rel="tooltip" class="fa fa-question-circle"></i></label>
+						
+				</fieldset>
+			</form>
+			<div id="ov-ikke-tilgj" style="display:none">
+				<p>Du har fullført alle øvelsene som du har planlagt så langt. Bra jobba!</p> 
+				Neste øvelse er klar <span id='dlg-ov-dato-tid'></span>.
+				<p>Lykke til videre!</p>
+				<a href="#" class="ui-btn ui-btn-a ui-btn-icon-right ui-icon-delete" data-rel="back">Tilbake</a>
+				</div>			
+			</div>
+			<div id="alle-ov-ferdig" style="display:none">
+				<p>Gratulerer! Du har fullført alle de planlagte øvelsene!</p>
+				<p>Bra jobba og lykke til videre!</p>
+				<a href="#" class="ui-btn ui-btn-a ui-btn-icon-right ui-icon-delete" data-rel="back">Tilbake</a>
+			</div>
+	   </div>
+
+    </div>
+</div>
+<!-- dialogbokser slutter her -->
+
+<!--panel-->
+<div data-role="panel" id="menypanel" data-position="left" data-display="overlay" data-theme="a" style="background-color:#E9F1F9;padding-top:10%;" data-dom-cache="false">
+    <!-- menypanel -->
+				<ul data-role="listview" data-theme="b" data-count-theme="e" data-inset="false">
+						<li><a href="#" onClick='tvingOmlasting()' class="ui-btn ui-btn"><i class="fa fa-list fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Oversikt<span></span></a></li>
+						<li><a href="#introside" class="ui-btn"><i class="fa fa-check fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Tilgjengelige øvinger<span class="ui-li-count tilgj-ant">1</span></a></li>
+						<li><a href="#planlegging" class="ui-btn"><i class="fa fa-clock-o fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Planlagte øvinger<span class="ui-li-count plan-ant">7</span></a></li>
+						<li><a href="#fremdrift" class="ui-btn"><i class="fa fa-bar-chart fa-fw fa-lg" style='text-align:left;'></i>&nbsp; Fullførte øvinger<span class="ui-li-count full-ant">0</span></a></li>
+				</ul>
+</div>
+<!-- /menypanel -->
+
+</body>
+</html>

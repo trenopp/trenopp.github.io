@@ -1,0 +1,1306 @@
+﻿@charset"utf-8";
+/* CSS Document */
+/* Skrifttyper */
+ @font-face {
+    font-family: Roboto;
+    src: url(fonts/Roboto-Regular.ttf);
+}
+@font-face {
+    font-family: Droid;
+    src: url(fonts/DroidSans.ttf);
+}
+@font-face {
+    font-family: OpenSans;
+    src: url(fonts/OpenSans-Regular.ttf);
+}
+@font-face {
+    font-family: ScriptMT;
+    src: url(fonts/SCRIPTBL.ttf);
+}
+/* eMeistring logo */
+.elogo1 {
+    font-family:"lucida calligraphy", ScriptMT, sans-serif;
+    color:#0C2D82;
+    font-size:1.7em;
+}
+.elogo2 {
+    font-family:OpenSans, sans-serif;
+    color:#0C2D82;
+    font-size:1.5em;
+}
+/*Forhåndslasting av grafikk*/
+div#preloader {
+		position: absolute;
+		left: -9999px;
+		top:  -9999px;
+		}
+div#preloader img {
+		display: block;
+		}
+/* Generelle */
+
+
+body {
+    font-family: Droid, Arial, sans-serif;
+    background-color:#E9F1F9;
+}
+h1, h2, h3, h4 {
+    font-family: Roboto, Helvetica, sans-serif;
+}
+
+.imgcontainer{
+	position: relative;
+}
+
+.imgteksttopp{
+	position:absolute;
+	top: 8px;
+    left: 25px;
+	color:#0C2D82;
+	text-decoration:none;
+
+}
+.imgtekstbunn{
+	position:absolute;
+	bottom: 8px;
+    right: 1em;
+	background-color:#ffffff;
+	color:#0C2D82;
+	text-align:right;
+	text-decoration:none;
+	width:100%;
+}
+
+.imgbakgr{
+	opacity:0.3;
+}
+
+.imgoving{
+	opacity:0.8;
+}
+.imgtekstbunn:hover{
+	color:#ffffff;
+	background-color:#0C2D82;
+}
+
+
+.imgovingbunn{
+	position:absolute;
+	bottom: 1px;
+    padding-right: 1em;
+	background: rgba(255, 255, 255, 0.6);
+	color:#0C2D82;
+	text-align:center;
+	text-decoration:none;
+	width:100%;
+}
+
+.imgovingtxt{
+	position:absolute;
+	bottom: 1px;
+    padding-right: 1em;
+	background: rgba(255, 255, 255, 0.6);
+	color:#0C2D82;
+	text-align:center;
+	text-decoration:none;
+	font-size:1em;
+	width:100%;
+}
+
+img {
+    width:100%;
+	height:auto;
+}
+object {
+    width:100%;
+    height:100%;
+}
+
+.deloverskrift{
+	padding:0.3em;
+	text-align:center;
+	width:100%;
+	color:#0C2D82;
+	background-color:#e6e6e6;
+}
+
+.gradient {
+    background: #ffffff; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(#ffffff, #E9F1F9); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#ffffff, #E9F1F9); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#ffffff, #E9F1F9); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#ffffff, #E9F1F9); /* Standard syntax */
+}
+/* Logo øverst på siden */
+.logotop {
+    max-width:128px;
+    min-width:50px;
+    display:block;
+    position:relative;
+}
+/* Copyright i footer */
+.copyright {
+    color:#666666;
+    text-align:center;
+    font-size:0.8em;
+    bottom:0;
+}
+
+/* Tilpassing av jQuery Mobile */
+.ui-content {
+    min-height:100%;
+}
+.ui-footer {
+    max-height:15%;
+}
+input.ui-slider-input {
+    display : none !important;
+}
+.ui-slider-track {
+    margin: 0 15px 0 15px !important;
+}
+
+/* Hide the number input */
+.full-width-slider input {
+    display: none;
+}
+.full-width-slider .ui-slider-track {
+    margin-left: 15px;
+}
+
+#tittelside .ui-footer {
+    border:0px solid #ffffff;
+    max-height:4em;
+}
+
+#planlegging .ui-footer {
+    border:0px solid #ffffff;
+    max-height:4em;
+}
+
+#fremdrift .ui-footer {
+    border:0px solid #ffffff;
+    max-height:4em;
+}
+#forside-startknapp {
+    display:none;
+}
+#tittelside .ui-header {
+}
+
+#tittelside .ui-footer .ui-block-a {
+    width:20%;
+    float:left;
+    overflow:visible;
+    padding:0.3em;
+    margin-bottom:0.1%;
+}
+#tittelside .ui-footer .ui-block-b {
+    width:60%;
+    text-align:center;
+    overflow:visible;
+    padding:0.2em;
+    margin-bottom:0.3%;
+}
+#tittelside .ui-footer .ui-block-c {
+    width:20%;
+    float:right;
+    overflow:visible;
+    padding:0.2em;
+    margin-bottom:0.1%;
+}
+
+#planlegging .ui-footer .ui-block-a {
+    width:20%;
+    float:left;
+    overflow:visible;
+    padding:0.3em;
+    margin-bottom:0.1%;
+}
+#planlegging .ui-footer .ui-block-b {
+    width:60%;
+    text-align:center;
+    overflow:visible;
+    padding:0.2em;
+    margin-bottom:0.1%;
+}
+#planlegging .ui-footer .ui-block-c {
+    width:20%;
+    float:right;
+    overflow:visible;
+    padding:0.2em;
+    margin-bottom:0.1%;
+}
+
+#fremdrift .ui-footer .ui-block-a {
+    width:20%;
+    float:left;
+    overflow:visible;
+    padding:0.3em;
+    margin-bottom:0.1%;
+}
+#fremdrift .ui-footer .ui-block-b {
+    width:60%;
+    text-align:center;
+    overflow:visible;
+    padding:0.2em;
+    margin-bottom:0.1%;
+}
+#fremdrift .ui-footer .ui-block-c {
+    width:20%;
+    float:right;
+    overflow:visible;
+    padding:0.2em;
+    margin-bottom:0.1%;
+}
+#tittelside .ui-header h1 {
+    padding-top:1%;
+    padding-bottom:1%;
+}
+#tittelside .ui-grid-a {
+    margin-top:2em;
+}
+
+#tittelside .ui-header h2 {
+    font-family:Roboto, sans-serif;
+    font-variant:normal;
+    font-style:normal;
+    text-align:center;
+    color:#ffffff;
+    overflow:visible;
+}
+
+#oss .ui-header h1 {
+    font-family:Roboto, sans-serif;
+    font-variant:normal;
+    font-style:normal;
+}
+#planlegging .ui-header h1 {
+    font-family:Roboto, sans-serif;
+    font-variant:normal;
+    font-style:normal;
+}
+#fremdrift .ui-header h1 {
+    font-family:Roboto, sans-serif;
+    font-variant:normal;
+    font-style:normal;
+}
+
+#turslide2 .ui-block-a {
+    width:10%;
+    padding-left:0.2em;
+    padding-right:0.2em;
+}
+#turslide2 .ui-block-c {
+    width:10%;
+    padding-left:0.2em;
+    padding-right:0.2em;
+}
+#turslide2 .ui-block-b {
+    width: 80%;
+    padding-left:1em;
+    padding-right:1em;
+}
+#turslide3 .ui-block-a {
+    width:10%;
+    padding-left:0.2em;
+    padding-right:0.2em;
+}
+#turslide3 .ui-block-c {
+    width:10%;
+    padding-left:0.2em;
+    padding-right:0.2em;
+}
+#turslide3 .ui-block-b {
+    width: 80%;
+    padding-left:1em;
+    padding-right:1em;
+}
+
+.ui-icon-carat-r::after {
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    width:28px;
+    height:28px;
+    background-size:28px 28px;
+    margin-left: -14px;
+    margin-top: -14px;
+    /*Adjust this value to position the icon*/
+}
+.ui-icon-carat-l::after {
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    width:28px;
+    height:28px;
+    background-size:28px 28px;
+    margin-left: -14px;
+    margin-top: -14px;
+    /*Adjust this value to position the icon*/
+}
+.ui-icon-bars::after {
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    width:32px;
+    height:32px;
+    background-size:20px 20px;
+    margin-left: -10px;
+    margin-top: -10px;
+    /*Adjust this value to position the icon*/
+}
+
+
+.ikonknapper {
+    background-color: transparent;
+    border: 2;
+    width:32px;
+    height:32px;
+}
+
+/* Overskrifter */
+h1.tittel {
+    text-align:center;
+    background-color:#E9F1F9;
+    width:100%;
+    color:#FFFFFF;
+    margin-top:0%;
+    margin-left:0%;
+    margin-right:0%;
+    padding-top:1%;
+    padding-bottom:1%;
+}
+h2.sideundertittel {
+    color:#0C2D82;
+    text-align:center;
+    font-family:Roboto, sans-serif;
+}
+h2.ovingtab {
+    color:#0C2D82;
+    text-align:center;
+}
+
+/* Velkomstdel */
+.velkomst {
+    display:none;
+    word-wrap: break-word;
+    color:#666666;
+}
+
+.forstegang {
+	display:none;
+    text-align:center;
+    font-size:3em;
+    color:#cccccc;
+}
+.forstegangunder {
+	display:none;
+    font-size:0.5em;
+}
+
+/* Menyknapper */
+.menyknapp-bunn1 {
+    float:right;
+    min-width:2em;
+    min-height:2.5em;
+}
+.menyknapp-bunn2 {
+    float:left;
+    min-width:2em;
+    min-height:2.5em;
+}
+.menyikon {
+    margin-top: 10%;
+}
+
+/* Pop-up boks */
+.innholdpopup {
+    width:90%;
+    margin-left:5%;
+    margin-right:5%;
+}
+/* Sentrering av innhold */
+.sentrert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Informasjonstekst */
+.infotekst {
+    font-size:0.7em;
+    color:#666666;
+}
+/* Evalueringsskalaen */
+.evalskala {
+    width:100%;
+    margin-bottom:1em;
+    margin-top:0.5em;
+}
+.evalforklaring1 {
+    width:48.6%;
+    float:left;
+    text-align:center;
+    font-size:1.3em;
+    background-color:#e89359;
+    border-right:3px solid #666666;
+    color:#ffffff;
+}
+.evalforklaring2 {
+    width:48.6%;
+    float:left;
+    text-align:center;
+    font-size:1.3em;
+    background-color:#E9F1F9;
+    border-left:3px solid #666666;
+    color:#ffffff;
+}
+.eval-int3 {
+    width:16.2%;
+    background-color:#e89359;
+    height:60px;
+    max-width:80px;
+    float:left;
+}
+.eval-int2 {
+    width:16.2%;
+    background-color:#e8ac83;
+    height:60px;
+    max-width:80px;
+    float:left;
+}
+.eval-int1 {
+    width:16.2%;
+    border-right:3px solid #666666;
+    background-color:#e8c4ac;
+    height:60px;
+    max-width:80px;
+    float:left;
+}
+.eval-ekst1 {
+    width:16.2%;
+    border-left:3px solid #666666;
+    background-color:#a9d0da;
+    height:60px;
+    max-width:80px;
+    float:left;
+}
+.eval-ekst2 {
+    width:16.2%;
+    background-color:#65c3da;
+    height:60px;
+    max-width:80px;
+    float:left;
+}
+.eval-ekst3 {
+    width:16.2%;
+    background-color:#E9F1F9;
+    height:60px;
+    max-width:80px;
+    float:left;
+}
+
+.fokusgrad {
+    width:100%;
+}
+td.fokusgrad {
+    width:14.3%;
+}
+label.fokusgrad {
+    width:14.3%;
+    text-align:center;
+}
+p.oppmgrad {
+    text-align:center;
+}
+/* Fremdriftslinje*/
+ progress[value] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #0C2D82;
+    width: 100%;
+    height: 10px;
+    margin-left:1%;
+	margin-right:1%;
+	float:left;
+	width:100%; 
+	margin-top:0.5em;
+    border: 1px solid #ffffff;
+}
+progress[value]::-webkit-progress-bar {
+    background-color: #e8e8e8;
+}
+progress[value]::-moz-progress-bar {
+    background-color: #0C2D82;
+}
+progress[value]::-webkit-progress-value {
+    background-color:#0C2D82;
+}
+
+/* Øving */
+
+#tab0{
+    display:block;
+}
+#tab1 {
+    display:none;
+}
+#tab2 {
+    display:none;
+}
+#tab3 {
+    display:none;
+}
+
+/* Bakgrunn for animasjon (intro og øving */
+.anim-bakgrunn {
+    background-color:#E9F1F9;
+    background-repeat: no-repeat;
+    background-position: left top;
+    max-width:500px;
+    width:100%;
+    height:100%;
+    padding:0.2em;
+    margin-bottom:0.5em;
+}
+
+.top-liten-tekst {
+	font-size: 1em;
+	border-bottom:1px solid #C9DBF1;
+	text-align:center;
+}
+.bunn-stor-tekst{
+	font-size: 2em;
+	text-align:center;
+}
+
+.midt-ikon{
+	font-size: 3em;
+	color:#8BAEDC;
+	border-bottom: 1px solid #C9DBF1;
+}
+/* Menyknapp 
+.menyside {
+    display:block;
+}
+.menyside:hover {
+    background-color:#666666;
+}
+.menyside:active {
+    background-color:#cccccc;
+}*/
+
+.menypop {
+    display:block;
+    background-color:#0C2D82;
+    color:#ffffff;
+    float:right;
+    border-radius:50%;
+    text-align:center;
+    vertical-align:middle;
+    padding:0.25em;
+    padding-left:0.5em;
+    padding-right:0.5em;
+    font-size:1.3em;
+}
+.menypop:hover {
+    background-color:#666666;
+}
+.menypop:active {
+    background-color:#cccccc;
+}
+
+/* Status på forside og eval side (dag nr og graf) */
+
+.grafpopup {
+    margin-top:1em;
+    width:100%;
+    height:100%;
+    background-color:#ffffff;
+    padding-top:0.5em;
+    padding-bottom:0.5em;
+}
+
+/* Span typer */
+.spantekst {
+    color:#0C2D82;
+    font-weight:bold;
+}
+.spantekst1 {
+    color:#333333;
+    font-weight:lighter;
+}
+.spantekst2 {
+    color:#0C2D82;
+    font-weight:bold;
+}
+
+.spantekst3 {
+    color:#8BAEDC;
+    font-size:0.8em;
+}
+/* For feilmeldinger */
+.spantekstfeil {
+    color:#0C2D82;
+    font-weight:normal;
+ }
+
+/* Meny pc skjerm */
+.meny-storskjerm {
+    font-family:Droid, sans-serif;
+    font-style:normal;
+}
+
+
+.tid-top-neste {
+	color:#0c2d82;
+	text-align:center;
+}	
+
+.tid-bunn-dato{
+	color:#0c2d82;
+	text-align:center;
+}
+
+
+.menyboks{
+	
+}
+
+.menyboks:hover{
+	background-color:;
+	color:;	
+}
+
+.statusmelding {
+	text-align:center;
+	color:#0c2d82;
+	font-family:Roboto;
+}
+
+.innholdsboks-forside{
+	margin-top:5%;
+	margin-right:10%;
+	margin-left:10%;
+}
+
+.innholdsboks-popup{
+	margin-top:3%;
+	margin-bottom:3%;
+	margin-left:5%;
+	margin-right:5%;
+	max-width:800px;
+}
+
+img.ri
+{
+	position: absolute;
+	max-width: 80%;
+	top: 10%;
+	left: 10%;
+}
+
+img.ri:empty
+{
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.innholdsomrade  {
+	background-color:#ffffff;
+	margin-left:20%;
+}
+
+.side-side{
+	height:100%;
+	min-width:20%;
+	background-color:#E9F1F9;
+	box-shadow: 2px 2px 30px #8c8c8c;
+}
+
+@media screen and (orientation: portrait) {
+  img.ri { max-height: 90%; }
+
+}
+
+@media screen and (orientation: landscape) {
+  img.ri { max-width: 90%; }
+
+}
+
+
+#tooltip
+{
+    text-align: center;
+    color: #111;
+    background: #e6e6e6;
+    position: absolute;
+    z-index: 100;
+    padding: 15px;
+	box-shadow: 2px 2px 20px #3f3f3f;
+}
+ 
+    #tooltip:after /* triangle decoration */
+    {
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #8c8c8c;
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: -10px;
+        margin-left: -10px;
+    }
+ 
+        #tooltip.top:after
+        {
+            border-top-color: transparent;
+            border-bottom: 10px solid #8c8c8c;
+            top: -20px;
+            bottom: auto;
+        }
+ 
+        #tooltip.left:after
+        {
+            left: 10px;
+            margin: 0;
+        }
+ 
+        #tooltip.right:after
+        {
+            right: 10px;
+            left: auto;
+            margin: 0;
+        }
+
+.tooltipmerke {
+	color:#cccccc;
+}
+		
+/*Tilpassing til større desktop skjermer */
+ @media (min-width: 1280px){
+	
+	#tittelside .ui-header h2 {
+
+    }
+    .footer-nav-pc {
+        display:block;
+    }
+    .footer-nav-mobil {
+        display:none;
+    }
+    #storforsideknapp {
+        display:none;
+    }
+    .forsidemeny-mobil {
+        display:none;
+    }
+    .copyright {
+        font-size:1.1em;
+    }
+
+    .grafcanvas {
+        margin-top:1em;
+        width:400px;
+        height:200px;
+    }
+    .meny-storskjerm {
+        display:block;
+    }
+	
+	.menyside {
+        display:none;
+    }
+	
+    .innholdsliste {
+        margin-left:15%;
+        margin-right:15%;
+    }
+	
+	#mobilmeny-forside{
+		display:none;
+	}
+	
+	#desktopmeny-forside{
+		display:block;
+	}
+
+	
+	.logo-storskjerm{
+		display:block;
+	}
+	.logo-litenskjerm{
+		display:none;
+	}
+	.side-infotekst{
+		min-width:100%;
+	}
+	.side-interaktiv{
+		min-width:50%;
+	}
+	.side-statusfelt{
+		min-width:50%;
+	}
+	.side-hovedboks{
+		min-width:80%;
+	}
+	.side-side{
+		max-width:20%;
+	}
+	.innholdsomrade  {
+	margin-left:20%;
+}
+}
+
+/*Tilpassing til større desktop skjermer */
+ @media (min-width: 1133px) and (max-width: 1279px){
+	#tittelside .ui-header h2 {
+
+    }
+    .footer-nav-pc {
+        display:block;
+    }
+    .footer-nav-mobil {
+        display:none;
+    }
+    #storforsideknapp {
+        display:none;
+    }
+    .forsidemeny-mobil {
+        display:none;
+    }
+    .copyright {
+        font-size:1.1em;
+    }
+
+    .meny-storskjerm {
+        display:block;
+    }
+	
+	.menyside {
+        display:none;
+    }
+	
+    .innholdsliste {
+        margin-left:10%;
+        margin-right:10%;
+    }
+	
+	#mobilmeny-forside{
+		display:none;
+	}
+	
+	#desktopmeny-forside{
+		display:block;
+	}
+
+
+	.logo-storskjerm{
+		display:block;
+	}
+	.logo-litenskjerm{
+		display:none;
+	}
+	.side-infotekst{
+		min-width:100%;
+	}
+	.side-interaktiv{
+		min-width:50%;
+	}
+	.side-statusfelt{
+		min-width:50%;
+	}
+	.side-hovedboks{
+		min-width:75%;
+	}
+	.side-side{
+		max-width:25%;
+	}
+		.innholdsomrade  {
+	margin-left:25%;
+}
+}
+
+/*Tilpassing til mindre desktop skjermer */
+ @media (min-width: 768px) and (max-width: 1132px) {
+	 
+	#forsidemenyer .ui-block-a,
+	#forsidemenyer .ui-block-b,
+	#forsidemenyer .ui-block-c{
+		min-width:90%;
+		float:none;
+	}
+	 
+    #tittelside .ui-header h1 {
+        padding-top:1%;
+        padding-bottom:2%;
+    }
+    #tittelside .ui-header h2 {
+   
+    }
+
+    #ovelse .ui-header h1 {
+ 
+    }
+    #oss .ui-header h1 {
+ 
+    }
+    #planlegging .ui-header h1 {
+  
+    }
+    #fremdrift .ui-header h1 {
+   
+    }
+    .footer-nav-pc {
+        display:block;
+    }
+    .footer-nav-mobil {
+        display:none;
+    }
+
+    h2.sideundertittel {
+
+    }
+    .copyright {
+        font-size:1em;
+    }
+
+    .meny-storskjerm {
+        display:block;
+    }
+	
+	.menyside {
+        display:none;
+    }
+
+    .forsidemeny-mobil {
+        display:none;
+    }
+    .innholdsliste {
+        margin-left:5%;
+        margin-right:5%;
+    }
+	
+	#mobilmeny-forside{
+		display:none;
+	}
+	
+	#desktopmeny-forside{
+		display:block;
+	}
+	
+	.logo-storskjerm{
+		display:none;
+	}
+	.logo-litenskjerm{
+		display:block;
+	}
+		
+	.side-infotekst{
+		min-width:100%;
+	}
+	.side-interaktiv{
+		min-width:50%;
+	}
+	.side-statusfelt{
+		min-width:50%;
+	}
+	.side-hovedboks{
+		min-width:75%;
+	}
+	.side-side{
+		min-width:25%;
+	}
+		.innholdsomrade  {
+	margin-left:35%;
+}
+}
+/*Tilpassing til nettbrett */
+ @media (min-width: 500px) and (max-width: 767px) {
+	
+	#forsidemenyer .ui-block-a,
+	#forsidemenyer .ui-block-b,
+	#forsidemenyer .ui-block-c{
+		min-width:100%;
+		float:none;
+	}
+	
+	#tittelside .ui-header h1 {
+        padding-top:1%;
+        padding-bottom:2%;
+    }
+    #tittelside .ui-header h2 {
+ 
+    }
+    #ovelse .ui-header h1 {
+   
+    }
+    #oss .ui-header h1 {
+   
+    }
+    #planlegging .ui-header h1 {
+   
+    }
+    #fremdrift .ui-header h1 {
+     
+    }
+    .footer-nav-pc {
+        display:none;
+    }
+    .footer-nav-mobil {
+        display:block;
+    }
+    h2.sideundertittel {
+    
+    }
+    .copyright {
+        font-size:0.8em;
+    }
+
+    .menyside {
+        display:block;
+    }
+    .meny-storskjerm {
+        display:none;
+    }
+	
+    .forsidemeny-mobil {
+        display:block;
+    }
+	
+	#mobilmeny-forside{
+		display:block;
+	}
+	
+	#desktopmeny-forside{
+		display:none;
+	}
+	
+	.logo-storskjerm{
+		display:none;
+	}
+	.logo-litenskjerm{
+		display:block;
+		padding-top:1em;
+		padding-left:3em;
+		padding-right:3em;
+	}
+	
+	.forsideknapper{
+		min-width:100%;
+	}
+	.side-infotekst{
+		min-width:100%;
+	}
+	.side-interaktiv{
+		min-width:100%;
+	}
+	.side-statusfelt{
+		min-width:100%;
+	}
+	.side-hovedboks{
+		min-width:100%;
+	}
+	.side-side{
+		min-width:100%;
+	}
+			.innholdsomrade  {
+	margin-left:0%;
+}
+	
+}
+/*Tilpassing til smarttelefon større skjerm*/
+ @media (min-width: 350px) and (max-width: 499px) {
+      h2 {
+		font-size: 5.0vmin;
+	}
+	
+	#tittelside .ui-header h1 {
+        padding-top:1%;
+        padding-bottom:1%;
+    }
+    #tittelside .ui-header h2 {
+  
+    }
+    #ovelse .ui-header h1 {
+
+    }
+    #oss .ui-header h1 {
+        text-align:center;
+    }
+    #planlegging .ui-header h1 {
+
+    }
+    #fremdrift .ui-header h1 {
+     }
+    .footer-nav-pc {
+        display:none;
+    }
+    .footer-nav-mobil {
+        display:block;
+    }
+    h2.sideundertittel {
+   
+    }
+    .copyright {
+        font-size:0.7em;
+    }
+
+    .forsidemeny-mobil {
+        display:block;
+    }
+
+    .menyside {
+        display:block;
+    }
+    .meny-storskjerm {
+        display:none;
+    }
+
+    .ovingtab {
+        font-size:1.2em;
+    }
+    .oppmgrad {
+        font-size:0.9em;
+    }
+	
+	#mobilmeny-forside{
+		display:block;
+	}
+	
+	#desktopmeny-forside{
+		display:none;
+	}
+	
+	.logo-storskjerm{
+		display:none;
+	}
+	.logo-litenskjerm{
+		display:block;
+		padding-top:1em;
+		padding-left:2em;
+		padding-right:2em;
+	}
+	.side-infotekst{
+		min-width:100%;
+	}
+	.side-interaktiv{
+		min-width:100%;
+	}
+	.side-statusfelt{
+		min-width:100%;
+	}
+	.side-hovedboks{
+		min-width:100%;
+	}
+	.side-side{
+		min-width:100%;
+	}
+			.innholdsomrade  {
+	margin-left:0%;
+}
+}
+/*Tilpassing til smarttelefon mindre skjerm*/
+ @media screen and (max-width: 349px) {
+      h2 {
+		font-size: 5.0vmin;
+	}
+	
+	#tittelside .ui-header h1 {
+          padding-top:0%;
+        padding-bottom:1%;
+    }
+    #tittelside .ui-header h2 {
+ 
+    }
+    #ovelse .ui-header h1 {
+
+    }
+    #oss .ui-header h1 {
+  
+    }
+    #planlegging .ui-header h1 {
+    
+    }
+    #fremdrift .ui-header h1 {
+   
+    }
+    .footer-nav-pc {
+        display:none;
+    }
+    .footer-nav-mobil {
+        display:block;
+    }
+    h2.sideundertittel {
+ 
+    }
+
+    .forsidemeny-mobil {
+        display:block;
+    }
+
+    .menyside {
+        display:block;
+    }
+	
+    .meny-storskjerm {
+        display:none;
+    }
+	
+    .copyright {
+        font-size:0.6em;
+    }
+    
+    .ovingtab {
+        font-size:1.1em;
+    }
+    .oppmgrad {
+        font-size:0.8em;
+    }
+	
+	#mobilmeny-forside{
+		display:block;
+	}
+	
+	#desktopmeny-forside{
+		display:none;
+	}
+	
+	.logo-storskjerm{
+		display:none;
+	}
+	.logo-litenskjerm{
+		display:block;
+		padding-top:1em;
+		padding-left:1em;
+		padding-right:1em;
+	}
+	.side-infotekst{
+		min-width:100%;
+	}
+	.side-interaktiv{
+		min-width:100%;
+	}
+	.side-statusfelt{
+		min-width:100%;
+	}
+	.side-hovedboks{
+		min-width:100%;
+	}
+	.side-side{
+		min-width:100%;
+	}
+			.innholdsomrade  {
+	margin-left:0%;
+}
+}
+
+
