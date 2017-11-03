@@ -65,63 +65,6 @@ http://www.apache.org/licenses/LICENSE-2.0
 URL for more Information: http://www.adobe.com/go/font_vendor_id?ID=GOOG&Name=Roboto&PSName=Roboto-Regular&applanguage=en_US-->
 <font-face font-family="Roboto_Regular" units-per-em="2048" ascent="1946" descent="512"/>
 
-<glyph unicode="t" horiz-adv-x="669" d="
-M 391 1344
-L 391 1082 593 1082 593 939 391 939 391 267
-Q 391 202 418 170 445 137 510 137 542 137 598 149
-L 598 0
-Q 525 -20 456 -20 332 -20 269 55 206 130 206 268
-L 206 939 9 939 9 1082 206 1082 206 1344 391 1344 Z"/>
-
-<glyph unicode="r" horiz-adv-x="693" d="
-M 663 916
-Q 621 923 572 923 390 923 325 768
-L 325 0 140 0 140 1082 320 1082 323 957
-Q 414 1102 581 1102 635 1102 663 1088
-L 663 916 Z"/>
-
-<glyph unicode="e" horiz-adv-x="1085" d="
-M 589 -20
-Q 369 -20 231 124 93 269 93 511
-L 93 545
-Q 93 706 155 832 216 959 327 1030 437 1102 566 1102 777 1102 894 963 1011 824 1011 565
-L 1011 488 278 488
-Q 282 328 372 229 461 131 599 131 697 131 765 171 833 211 884 277
-L 997 189
-Q 861 -20 589 -20 Z
-M 566 950
-Q 454 950 378 868 302 787 284 640
-L 826 640 826 654
-Q 818 795 750 872 682 950 566 950 Z"/>
-
-<glyph unicode="n" horiz-adv-x="1130" d="
-M 315 1082
-L 321 946
-Q 445 1102 645 1102 988 1102 991 715
-L 991 0 806 0 806 716
-Q 805 833 753 889 700 945 589 945 499 945 431 897 363 849 325 771
-L 325 0 140 0 140 1082 315 1082 Z"/>
-
-<glyph unicode="i" horiz-adv-x="497" d="
-M 341 0
-L 156 0 156 1082 341 1082 341 0 Z
-M 141 1369
-Q 141 1414 169 1445 196 1476 250 1476 304 1476 332 1445 360 1414 360 1369 360 1324 332 1294 304 1264 250 1264 196 1264 169 1294 141 1324 141 1369 Z"/>
-
-<glyph unicode="g" horiz-adv-x="1149" d="
-M 96 550
-Q 96 803 213 952 330 1102 523 1102 721 1102 832 962
-L 841 1082 1010 1082 1010 26
-Q 1010 -184 886 -305 761 -426 551 -426 434 -426 322 -376 210 -326 151 -239
-L 247 -128
-Q 366 -275 538 -275 673 -275 749 -199 824 -123 824 15
-L 824 108
-Q 713 -20 521 -20 331 -20 214 133 96 286 96 550 Z
-M 282 529
-Q 282 346 357 241 432 137 567 137 742 137 824 296
-L 824 790
-Q 739 945 569 945 434 945 358 840 282 735 282 529 Z"/>
-
 <glyph unicode="p" horiz-adv-x="1149" d="
 M 1054 529
 Q 1054 282 941 131 828 -20 635 -20 438 -20 325 105
@@ -142,6 +85,27 @@ Q 1471 830 1418 887 1365 945 1240 945 1137 945 1069 883 1001 822 990 718
 L 990 0 804 0 804 709
 Q 804 945 573 945 391 945 324 790
 L 324 0 139 0 139 1082 314 1082 Z"/>
+
+<glyph unicode="e" horiz-adv-x="1085" d="
+M 589 -20
+Q 369 -20 231 124 93 269 93 511
+L 93 545
+Q 93 706 155 832 216 959 327 1030 437 1102 566 1102 777 1102 894 963 1011 824 1011 565
+L 1011 488 278 488
+Q 282 328 372 229 461 131 599 131 697 131 765 171 833 211 884 277
+L 997 189
+Q 861 -20 589 -20 Z
+M 566 950
+Q 454 950 378 868 302 787 284 640
+L 826 640 826 654
+Q 818 795 750 872 682 950 566 950 Z"/>
+
+<glyph unicode="r" horiz-adv-x="693" d="
+M 663 916
+Q 621 923 572 923 390 923 325 768
+L 325 0 140 0 140 1082 320 1082 323 957
+Q 414 1102 581 1102 635 1102 663 1088
+L 663 916 Z"/>
 
 <glyph unicode="k" horiz-adv-x="1038" d="
 M 442 501
@@ -170,6 +134,42 @@ Q 448 1102 645 1102 988 1102 991 715
 L 991 0 806 0 806 716
 Q 805 833 753 889 700 945 589 945 499 945 431 897 363 849 325 771
 L 325 0 140 0 140 1536 325 1536 325 951 Z"/>
+
+<glyph unicode="t" horiz-adv-x="669" d="
+M 391 1344
+L 391 1082 593 1082 593 939 391 939 391 267
+Q 391 202 418 170 445 137 510 137 542 137 598 149
+L 598 0
+Q 525 -20 456 -20 332 -20 269 55 206 130 206 268
+L 206 939 9 939 9 1082 206 1082 206 1344 391 1344 Z"/>
+
+<glyph unicode="n" horiz-adv-x="1130" d="
+M 315 1082
+L 321 946
+Q 445 1102 645 1102 988 1102 991 715
+L 991 0 806 0 806 716
+Q 805 833 753 889 700 945 589 945 499 945 431 897 363 849 325 771
+L 325 0 140 0 140 1082 315 1082 Z"/>
+
+<glyph unicode="i" horiz-adv-x="497" d="
+M 341 0
+L 156 0 156 1082 341 1082 341 0 Z
+M 141 1369
+Q 141 1414 169 1445 196 1476 250 1476 304 1476 332 1445 360 1414 360 1369 360 1324 332 1294 304 1264 250 1264 196 1264 169 1294 141 1324 141 1369 Z"/>
+
+<glyph unicode="g" horiz-adv-x="1149" d="
+M 96 550
+Q 96 803 213 952 330 1102 523 1102 721 1102 832 962
+L 841 1082 1010 1082 1010 26
+Q 1010 -184 886 -305 761 -426 551 -426 434 -426 322 -376 210 -326 151 -239
+L 247 -128
+Q 366 -275 538 -275 673 -275 749 -199 824 -123 824 15
+L 824 108
+Q 713 -20 521 -20 331 -20 214 133 96 286 96 550 Z
+M 282 529
+Q 282 346 357 241 432 137 567 137 742 137 824 296
+L 824 790
+Q 739 945 569 945 434 945 358 840 282 735 282 529 Z"/>
 </font>
 
 <font horiz-adv-x="2048">
@@ -271,23 +271,13 @@ Q 289 630 354 571 419 512 535 512 778 512 778 748 778 995 532 995 415 995 352 93
 </font>
 </defs>
 
-<g transform="matrix( 1, 0, 0, 1, 750.55,141.8) ">
-<g transform="matrix( 1.9761199951171875, 0, 0, 2.32525634765625, -382.85,17.65) ">
-<clipPath id="Mask_Mask_1">
-<rect x="27.05" y="-2" width="118.95" height="48.4" fill="#FFFFFF" stroke="none"/>
-</clipPath>
-
-<text clip-path="url(#Mask_Mask_1)" writing-mode="lr"><tspan x="29.25" y="35.15" baseline-shift="0%" kerning="auto" font-family="Roboto_Regular" font-size="37" fill="#8C8C8C" xml:space="preserve">trening</tspan></text>
-</g>
-</g>
-
 <g transform="matrix( 1, 0, 0, 1, -44,128.25) ">
 <g transform="matrix( 1.57867431640625, 0, 0, 1.6622314453125, 430.3,18.3) ">
-<clipPath id="Mask_Mask_2">
+<clipPath id="Mask_Mask_1">
 <rect x="-126.9" y="-2" width="306" height="38.8" fill="#FFFFFF" stroke="none"/>
 </clipPath>
 
-<text clip-path="url(#Mask_Mask_2)" writing-mode="lr"><tspan x="-124.9" y="27.55" baseline-shift="0%" kerning="auto" font-family="Roboto_Regular" font-size="29" fill="#0C2D82" xml:space="preserve">ppmerksomhetstrening</tspan></text>
+<text clip-path="url(#Mask_Mask_1)" writing-mode="lr"><tspan x="-124.9" y="27.55" baseline-shift="0%" kerning="auto" font-family="Roboto_Regular" font-size="29" fill="#0C2D82" xml:space="preserve">ppmerksomhetstrening</tspan></text>
 </g>
 </g>
 
@@ -298,18 +288,18 @@ Q 289 630 354 571 419 512 535 512 778 512 778 748 778 995 532 995 415 995 352 93
 </g>
 
 <g transform="matrix( 1, 0, 0, 1, 333.15,108.1) ">
-<clipPath id="Mask_Mask_3">
+<clipPath id="Mask_Mask_2">
 <rect x="119.05" y="-2" width="26.95" height="56.6" fill="#FFFFFF" stroke="none"/>
 </clipPath>
 
-<text clip-path="url(#Mask_Mask_3)" writing-mode="lr"><tspan x="121.25" y="38.95" baseline-shift="0%" kerning="auto" font-family="Lucida_Calligraphy_Italic" font-style="italic" font-size="42" fill="#0C2D82" xml:space="preserve">e</tspan></text>
+<text clip-path="url(#Mask_Mask_2)" writing-mode="lr"><tspan x="121.25" y="38.95" baseline-shift="0%" kerning="auto" font-family="Lucida_Calligraphy_Italic" font-style="italic" font-size="42" fill="#0C2D82" xml:space="preserve">e</tspan></text>
 </g>
 
 <g transform="matrix( 1, 0, 0, 1, 517.05,101.5) ">
-<clipPath id="Mask_Mask_4">
+<clipPath id="Mask_Mask_3">
 <rect x="-41.7" y="-2" width="187.7" height="61.2" fill="#FFFFFF" stroke="none"/>
 </clipPath>
 
-<text clip-path="url(#Mask_Mask_4)" writing-mode="lr"><tspan x="-39.5" y="44.9" baseline-shift="0%" kerning="auto" font-family="Open_Sans_Regular" font-size="42" fill="#0C2D82" xml:space="preserve">Meistring</tspan></text>
+<text clip-path="url(#Mask_Mask_3)" writing-mode="lr"><tspan x="-39.5" y="44.9" baseline-shift="0%" kerning="auto" font-family="Open_Sans_Regular" font-size="42" fill="#0C2D82" xml:space="preserve">Meistring</tspan></text>
 </g>
 </svg>

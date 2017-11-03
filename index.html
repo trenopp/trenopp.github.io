@@ -405,7 +405,7 @@
 		<div id="forsidemenyer" class="innholdsomrade" style='display:none;'>
 				<div class="ui-grid-solo">
 					<div class="ui-block-a">
-							<h2 class="sideundertittel"><i class="fa fa-list"></i> Oversikt <span class="tooltipmerke"><i class="fa fa-question-circle" title="<p style='text-align:left;'>På denne siden finner du: <ul style='text-align:left;'><li> dagens øving</li><li>en oversikt over hvor langt du har kommet i programmet</li><li>informasjon om når neste øving er klar</li></ul></p><p style='text-align:left;'>En ny øving vil være tilgjengelig en gang pr.dag i 7 dager f.o.m din startdato. 
+							<h2 class="sideundertittel"><i class="fa fa-list"></i> Oversikt <span class="tooltipmerke"><i class="fa fa-question-circle" title="<p style='text-align:left;'>På denne siden finner du: <ul style='text-align:left;'><li> Informasjon om tilgang på øvinger</li><li>en oversikt over hvor langt du har kommet i programmet</li><li>informasjon om når neste øving er klar</li></ul></p><p style='text-align:left;'>En ny øving vil være tilgjengelig en gang pr.dag i 7 dager f.o.m din startdato. 
 					</p><p style='text-align:left;'>Hvis du ønsker mer informasjon om oppmerksomhetsøvelsen eller om hvordan du bruker denne web-appen, trykk på <strong>'Hjelp'-knappen</strong> på menyen over.</p>" rel="tooltip"></i></span></h2>
 					</div>
 				</div>
@@ -808,7 +808,7 @@
         </div>
 		<div id="tab0" class="ui-body-a ui-content">
             <!-- øving første tab -->
-            <h2 class="sideundertittel" >Introduksjon <span class="tooltipmerke"><i class="fa fa-question-circle" title="<p style='text-align:left'>Introduksjonen er en serie med bilder som kort forklarer hva du kan bruke denne appen til.</p><p style='text-align:left'> Introduksjonen starter når du trykker på pil-knappen under.</p><p style='text-align:left'>Du kan bruke fram og tilbake knappene for å bla mellom bildene mens introduksjonen spilles av.</p>" rel="tooltip"></i></span></h2>
+            <h2 class="sideundertittel" >Introduksjon <span class="tooltipmerke"><i class="fa fa-question-circle" title="<p style='text-align:left'>Introduksjonen er en serie med bilder som kort forklarer hva du kan bruke denne appen til.</p><p style='text-align:left'>Du kan bruke fram og tilbake knappene for å bla mellom bildene mens introduksjonen spilles av.</p>" rel="tooltip"></i></span></h2>
         <div class="ui-body-d ui-content">
             <div id="intro-tekst" class="ui-grid-solo anim-bakgrunn">
                 <div class="imgcontainer" id="intro-sekvens">
@@ -842,7 +842,7 @@
 					<progress id="intro-fremdrift" value="0" max="100" style="width:100%; max-width:500px;margin-top:0.5em"></progress>
 				</div>
 				<div class="ui-grid-b" style="margin-top:1em;">
-					<div class="ui-block-a" title="Gå et bilde bakover" rel="tooltip" id="introspiller-bakover" style="max-width:20%;">
+					<div class="ui-block-a" id="introspiller-bakover" style="max-width:20%;">
 						<button id="intro-bakover" onClick="introbakover()" class="ui-btn ui-btn-a ui-mini" ><i class="fa fa-step-backward"></i>
 						</button>
 					</div>
@@ -850,7 +850,7 @@
 						<button id="spillavintro" onClick="startintro()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-play"></i>
 						</button>
 					</div>
-					<div class="ui-block-c" title="Gå et bilde framover" rel="tooltip" id="introspiller-fremover" style="max-width:20%;">
+					<div class="ui-block-c" id="introspiller-fremover" style="max-width:20%;">
 						<button id="intro-fremover" onClick="introfremover()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-step-forward"></i>
 						</button>
 					</div>
@@ -864,7 +864,7 @@
         </div>
         <div id="tab1" class="ui-body-a ui-content">
             <!-- øving første tab -->
-             <h2 class="ovingtab">Oppmerksomheten din før øvingen <span class="tooltipmerke"><i title="<p style='text-align:left;'>Her skal du vurdere fokuset for oppmerksomheten din akkurat nå, før du starter på øvingen.</p><p style='text-align:left;'>Trykk, hold og skyv knappen under mot venstre eller høyre til du finner den beskrivelsen som passer deg best. Trykk på 'neste' knappen når du er ferdig.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
+             <h2 class="ovingtab">Oppmerksomheten din før øvingen <span class="tooltipmerke"><i title="<p style='text-align:left;'>Her skal du vurdere fokuset for oppmerksomheten din akkurat nå, før du starter på øvingen.</p><p style='text-align:left;'>Trykk på den beskrivelsen i listen som passer deg best.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
 				<div style="float:right;">
 				<p>Hva er oppmerksomheten din fokusert på akkurat nå? (velg det som passer best i listen under)</p>
 				<form>
@@ -894,7 +894,7 @@
         <!-- /øving første tab -->
         <div id="tab2" class="ui-body-a ui-content">
             <!-- øving andre tab -->
-            	<h2 class="ovingtab">Øvingen <span class="tooltipmerke"><i title="<p style='text-align:left'>Her skal du utføre selve øvelsen. Velg hvilken type øving du vil ha under 'instillinger'. Obs: Instillinger er ikke tilgjengelig under avspilling av øving. </p><p style='text-align:left'>Start øvingen ved å trykke på pilknappen. Bruk 'tilbake' knappen hvis du gikk glipp av noe. 'Fremover' knappen er bare tilgjengelig etter at du har gått tilbake.</p><p style='text-align:left'> 'Neste'-knappen er tilgjengelig når du er ferdig med øvelsen.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
+            	<h2 class="ovingtab">Øvingen <span class="tooltipmerke"><i title="<p style='text-align:left'>Her skal du utføre selve øvelsen.</p><p style='text-align:left'>Bruk 'tilbake' knappen hvis du gikk glipp av noe. 'Fremover' knappen er bare tilgjengelig etter at du har gått tilbake.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
             <div data-role="collapsible" id="lydbryter" data-theme="a" class="oppmgrad">
 
             </div>
@@ -908,7 +908,7 @@
 				</div>
 				<div class="ui-grid-solo"><progress id="spillerfremdrift" max="100" value="0"></progress></div>
 				<div class="ui-grid-b" style="margin-top:1em;">
-					<div class="ui-block-a" id="lydspiller-bakover" title="Spol tilbake 5 sekunder i lydklippet. Knappen er tilgjengelig etter at du har spillt av mer enn 5 sekunder av klippet." rel="tooltip" style="max-width:20%;">
+					<div class="ui-block-a" id="lydspiller-bakover" style="max-width:20%;">
 						<button id="lyd-bakover" onClick="lydbakover()" class="ui-btn ui-btn-a ui-mini" disabled><i class="fa fa-step-backward"></i>
 						</button>
 					</div>
@@ -916,7 +916,7 @@
 						<button id="spillavlydklipp" onClick="spillavLyd()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-play"></i>
 						</button>
 					</div>
-					<div class="ui-block-c" id="lydspiller-fremover" title="Spol fremover 5 sekunder i lydklippet. Knappen er tilgjengelig etter at du har brukt tilbake-knappen." rel="tooltip" style="max-width:20%;">
+					<div class="ui-block-c" id="lydspiller-fremover" style="max-width:20%;">
 						<button id="lyd-fremover" onClick="lydfremover()" class="ui-btn ui-btn-a ui-mini" disabled><i class="fa fa-step-forward"></i>
 						</button>
 					</div>
@@ -982,7 +982,7 @@
 					<progress id="ov-fremdrift" value="0" max="100"></progress>                   
                 </div>
 				<div class="ui-grid-b" style="margin-top:1em;">
-					<div class="ui-block-a" title="Gå tilbake et bilde i øvelsen" rel="tooltip" id="animspiller-bakover" style="max-width:20%;">
+					<div class="ui-block-a" id="animspiller-bakover" style="max-width:20%;">
 						<button id="anim-bakover" onClick="animbakover()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-step-backward"></i>
 						</button>
 					</div>
@@ -990,7 +990,7 @@
 						<button id="spillavanimasjon" onClick="startoving()" class="ui-btn ui-btn-a ui-mini"><i class="fa fa-play"></i>
 						</button>
 					</div>
-					<div class="ui-block-c" title="Gå fremover et bilde i øvelsen. Denne knappen er bare tilgjengelig etter at du har brukt tilbakeknappen." rel="tooltip" id="animspiller-fremover" style="max-width:20%;">
+					<div class="ui-block-c" id="animspiller-fremover" style="max-width:20%;">
 						<button id="anim-fremover" onClick="animfremover()" class="ui-btn ui-btn-a ui-mini" disabled><i class="fa fa-step-forward"></i>
 						</button>
 					</div>
@@ -1001,7 +1001,7 @@
         <!-- /øving andre tab -->
         <div id="tab3" class="ui-body-a ui-content">
             <!-- øving tredje tab -->
-             <h2 class="ovingtab">Oppmerksomheten din etter øvingen <span class="tooltipmerke"><i title="<p style='text-align:left;'>Her skal du vurdere fokuset for oppmerksomheten din akkurat nå, etter at du er ferdig med øvingen.</p><p style='text-align:left;'>Trykk, hold og skyv knappen under mot venstre eller høyre til du finner den beskrivelsen som passer deg best. Trykk på 'lagre' knappen når du er ferdig.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
+             <h2 class="ovingtab">Oppmerksomheten din etter øvingen <span class="tooltipmerke"><i title="<p style='text-align:left;'>Her skal du vurdere fokuset for oppmerksomheten din akkurat nå, etter at du er ferdig med øvingen.</p><p style='text-align:left;'>Trykk på den beskrivelsen i listen som passer deg best.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
 				<div style="float:right;">
 				<p>Hva er oppmerksomheten din fokusert på akkurat nå? (velg det som passer best i listen under)</p>
 				<form>

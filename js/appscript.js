@@ -1014,7 +1014,7 @@ function pauseoving() {
     $("#oving-sekvens").append("<img id='pausebilde' src='images/oving/sosoving_pause.jpg' onClick='startetterpause()' />");
 	$('#anim-fremover').prop("disabled", true);
 	$('#anim-bakover').prop("disabled", true);
-    document.getElementById("hjelp").innerHTML = "Øvingen er satt på pause.";
+    document.getElementById("hjelp").innerHTML = "Trykk for å fortsette.";
 	document.getElementById("animspillav").innerHTML="<button id='spillavanimasjon' onClick='startetterpause()' class='ui-btn ui-btn-a ui-mini'><i class='fa fa-play'></i></button>";
     pause = 1;
 	
@@ -1133,7 +1133,7 @@ function hjelpetekst() {
     } else if (bildenr === 22 || bildenr === 42) {
         tekst = "Fokuser på lyder fra andre mennesker i alle retninger rundt deg (stemmer, fottrinn..)";
     } else if (bildenr === 43) {
-        tekst = "Flott! Du er nå ferdig med dagens oppmersomhetsøving. Om noen sekunder blir du sendt videre til etter-evalueringen. Velkommen tilbake i morgen! ";
+        tekst = "Flott! Du er nå ferdig med dagens oppmersomhetsøving. Om noen sekunder blir du sendt videre til etter-evalueringen.";
        	ovingbildesekvens=setTimeout(function () {
 			stoppoving();
 			
