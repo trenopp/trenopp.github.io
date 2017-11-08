@@ -30,6 +30,7 @@ window.onload = function () {
             setTimeout(lagmndliste("plan-mnd", "plan-aar", 0), 500);
             setTimeout(lagdagliste("plan-dag", "plan-mnd", "plan-aar", 0), 600);
 			opphavsrettdato();
+
             $.mobile.changePage("#introside");
             /*$('div[data-role="page"]').bind('pageshow', function () {
                 document.title = "Oppmerksomhetstrening"
@@ -187,7 +188,7 @@ function forstegang() {
 	localStorage.setItem('valgovingverdi', JSON.stringify(valgoving));
     localStorage.setItem('valgintroverdi', JSON.stringify(valgintro));
     localStorage.setItem('forste', JSON.stringify(forste));
-	localStorage.setItem('antall', JSON.stringify(alarm));
+	localStorage.setItem('alarm', JSON.stringify(alarm));
     localStorage.setItem('antall', JSON.stringify(antall));
     localStorage.setItem('ovingsinstillinger', JSON.stringify(ovingsinstillinger));
     localStorage.setItem('startdato', JSON.stringify(startdato));
@@ -305,6 +306,12 @@ function validerskjema(){
     }
 	else {
 		document.getElementById("skjemamelding").innerHTML ="Meldingen din vil bli sendt til eMeistring.";
+		introtimeout=setTimeout(function () {
+			document.getElementById("skjemamelding").innerHTML ="";
+			document.getElementById("avsendernavn").value="";
+			document.getElementById("avsendermelding").value="";
+            document.getElementById("avsenderepost").value="";		
+		}, 4000);
 	}
 }
 
@@ -1432,6 +1439,7 @@ function lagplanliste() {
         }
     }
     if (+antall >= 1) {
+		document.getElementById("startdatodiv").style.display = "none";
         document.getElementById("plan-aar").disabled = true;
         document.getElementById("plan-mnd").disabled = true;
         document.getElementById("plan-dag").disabled = true;
@@ -1862,8 +1870,7 @@ function nesteoving(neste) {
             if (+aktivert === 1 && +antall < 7) {
 				if(tilgjknapp===0){
 				document.getElementById("ov-tilgj").style.display = 'block';
-				//document.getElementById("lydvalg-oss").style.display = 'block';
-				//document.getElementById("lydvalg-avbryt").style.display = 'block';				
+				document.getElementById("introside-meny").style.display = 'block';
 				document.getElementById("ov-ikke-tilgj").style.display = 'none';
 				if (parseInt(valgintro)===1 && parseInt(valgoving)===0){
 					document.getElementById("startovingpop").innerHTML = "<a href='#ovingpopup' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onClick='lagovingspopup(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
@@ -1948,10 +1955,8 @@ function nesteoving(neste) {
 					+ "</a>";
 				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
 				document.getElementById("ov-tilgj").style.display = 'none';
-				//document.getElementById("lydvalg-oss").style.display = 'none';
-				//document.getElementById("lydvalg-avbryt").style.display = 'none';				
+				document.getElementById("introside-meny").style.display = 'none';
 				document.getElementById("ov-ikke-tilgj").style.display = 'block';
-				
 				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
 				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
 				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
@@ -1990,8 +1995,7 @@ function nesteoving(neste) {
 							+ "</a>";
 				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
 				document.getElementById("ov-tilgj").style.display = 'none';
-				//document.getElementById("lydvalg-oss").style.display = 'none';
-				//document.getElementById("lydvalg-avbryt").style.display = 'none';				
+				document.getElementById("introside-meny").style.display = 'none';
 				document.getElementById("ov-ikke-tilgj").style.display = 'none';
 				document.getElementById("alle-ov-ferdig").style.display = 'block';
 				
@@ -2034,10 +2038,8 @@ function nesteoving(neste) {
 					+ "</a>";
 				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
 				document.getElementById("ov-tilgj").style.display = 'none';
-				//document.getElementById("lydvalg-oss").style.display = 'none';
-				//document.getElementById("lydvalg-avbryt").style.display = 'none';				
+				document.getElementById("introside-meny").style.display = 'none';			
 				document.getElementById("ov-ikke-tilgj").style.display = 'block';
-				
 				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
 				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
 				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
@@ -2098,19 +2100,6 @@ function sjekkstatus() {
         if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
-			var ant = JSON.parse(localStorage.getItem('antall'));
-			var antall =parseInt(ant)+1;
-			for (var i = antall; i < 7; i++) {
-				var nydato = DateAdd(idag, "d", i);
-				var dagen = nydato.getDate();
-				var maaned = nydato.getMonth();
-				var aaret = nydato.getFullYear();
-				
-				ovinger[i].dato=nydato;
-				ovinger[i].datodag=dagen;
-				ovinger[i].datomnd=maaned;
-				ovinger[i].datoaar=aaret;
-			}
 			ovinger[i].aktivert = 1;
             nesteoving(neste);
             lagovingliste();
@@ -2122,20 +2111,6 @@ function sjekkstatus() {
         else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
-			var ant = JSON.parse(localStorage.getItem('antall'));
-			var antall =parseInt(ant)+1;
-			for (var i = antall; i < 7; i++) {
-				var nydato = DateAdd(idag, "d", i);
-				var dagen = nydato.getDate();
-				var maaned = nydato.getMonth();
-				var aaret = nydato.getFullYear();
-				
-				ovinger[i].dato=nydato;
-				ovinger[i].datodag=dagen;
-				ovinger[i].datomnd=maaned;
-				ovinger[i].datoaar=aaret;
-			}
-			
 			ovinger[i].aktivert = 1;
             lagovingliste();
             lagplanliste();
@@ -2147,20 +2122,6 @@ function sjekkstatus() {
         else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
-			var ant = JSON.parse(localStorage.getItem('antall'));
-			var antall =parseInt(ant)+1;
-			for (var i = antall; i < 7; i++) {
-				var nydato = DateAdd(idag, "d", i);
-				var dagen = nydato.getDate();
-				var maaned = nydato.getMonth();
-				var aaret = nydato.getFullYear();
-				
-				ovinger[i].dato=nydato;
-				ovinger[i].datodag=dagen;
-				ovinger[i].datomnd=maaned;
-				ovinger[i].datoaar=aaret;
-			}
-			
 			ovinger[i].aktivert = 1;
             lagovingliste();
             lagplanliste();
@@ -2171,20 +2132,6 @@ function sjekkstatus() {
         else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
-			var ant = JSON.parse(localStorage.getItem('antall'));
-			var antall =parseInt(ant)+1;
-			for (var i = antall; i < 7; i++) {
-				var nydato = DateAdd(idag, "d", i);
-				var dagen = nydato.getDate();
-				var maaned = nydato.getMonth();
-				var aaret = nydato.getFullYear();
-				
-				ovinger[i].dato=nydato;
-				ovinger[i].datodag=dagen;
-				ovinger[i].datomnd=maaned;
-				ovinger[i].datoaar=aaret;
-			}
-			
 			ovinger[i].aktivert = 1;
             lagovingliste();
             lagplanliste();

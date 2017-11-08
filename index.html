@@ -149,7 +149,7 @@
     </div>
     <div role="main" class="ui-content">
 	     <h3 class="ui-title">Har du spørsmål eller kommentarer?</h3>
-		<form enctype="text/plain" method="post" name="sendmelding" action="mailto:eMeistring@helse-bergen.no" onsubmit="return validerskjema()">
+		<form enctype="text/plain" method="post" name="sendmelding" action="mailto:eMeistring@helse-bergen.no?subject=Melding%20fra%20Oppmerksomhetsapp" onsubmit="return validerskjema()">
 			<label for="Melding">Send oss en melding:</label>
 			<textarea name="Melding" rows="20" id="avsendermelding" required></textarea>
 			<label for="Navn">Ditt navn:</label>
@@ -158,6 +158,7 @@
 			<input type="email" name="E-post" id="avsenderepost" required>
 			<input type="submit" data-theme="a" value="<i class='fa fa-envelope'></i> Send">
 		</form>
+		<p id="skjemamelding"></p>
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Lukk</a>
     </div>
 </div>
@@ -830,7 +831,7 @@
 	<h1 style="text-align:center;max-height:50px;padding:10px;"><img class="meny-storskjerm" src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/><img class="menyside" src="images/logo/logo-oving-l.png" alt="eMeistring Oppmerksomhetstrening logo"/></h1>
 	<div data-role="navbar">
         	<ul>
-				<li><a href="#oss" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#oss" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" data-position-to="window" onClick="hjelppause()" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#kontakt" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Kontakt"><i class="fa fa-envelope fa-lg"></i></a></li>
 			<li><a href="#instillinger" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Instillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#avbryteoving" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Avslutt"><i class="fa fa-close fa-lg"></i></a></li>
@@ -1146,7 +1147,7 @@
 	<h1 style="text-align:center;max-height:50px;padding:10px;"><img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/></h1>
 	<div data-role="navbar">
         	<ul>
-			<li><a href="#oss" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#oss" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" data-position-to="window" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#kontakt" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-lg"></i></a></li>
 			<li><a href="#avbryteoving" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop"title="Avslutt"><i class="fa fa-close fa-lg"></i></a></li>
 			</ul>			
@@ -1217,9 +1218,9 @@
 <div data-role="page" id="introside" data-close-btn="none" data-dialog="true" data-theme="c" data-dom-cache="false">
     <div data-role="header">
 	<h1 style="text-align:center;max-height:50px;padding:10px;"><img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/></h1>
-	<div data-role="navbar">
+	<div data-role="navbar" id="introside-meny">
         	<ul>
-			<li><a href="#oss" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#oss" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" data-position-to="window" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#kontakt" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-lg"></i></a></li>
 			<li><a href="#avbryteoving" class="ui-btn ui-btn-c" data-rel="popup" data-transition="pop"title="Avslutt"><i class="fa fa-close fa-lg"></i></a></li>
 			</ul>			

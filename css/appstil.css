@@ -43,9 +43,6 @@ div#preloader img {
 body {
     font-family: Droid, Arial, sans-serif;
     background-color:#E9F1F9;
-	background:url('images/logopng.png');
-	background-repeat: no-repeat; 
-	background-position: center top; 
 }
 h1, h2, h3, h4 {
     font-family: Roboto, Helvetica, sans-serif;
@@ -67,15 +64,21 @@ h1, h2, h3, h4 {
 	position:absolute;
 	bottom: 8px;
     right: 1em;
+	left:1em;
 	background-color:#ffffff;
+	box-shadow: 3px 3px 4px #888888;
 	color:#0C2D82;
 	text-align:right;
+	padding-right:5px;
+	padding-top:5px;
+	padding-bottom:5px;
 	text-decoration:none;
-	width:100%;
+	
 }
 
 .imgbakgr{
 	opacity:0.3;
+	box-shadow: 1px 1px 2px #000000;
 }
 
 .imgoving{
@@ -120,9 +123,14 @@ h1, h2, h3, h4 {
 	background: rgba(255, 255, 255, 0.6);
 }
 
+.imgskygge{
+		
+}
+
 img {
     width:100%;
 	height:auto;
+	
 }
 object {
     width:100%;
@@ -297,37 +305,6 @@ input.ui-slider-input {
     font-family:Roboto, sans-serif;
     font-variant:normal;
     font-style:normal;
-}
-
-#turslide2 .ui-block-a {
-    width:10%;
-    padding-left:0.2em;
-    padding-right:0.2em;
-}
-#turslide2 .ui-block-c {
-    width:10%;
-    padding-left:0.2em;
-    padding-right:0.2em;
-}
-#turslide2 .ui-block-b {
-    width: 80%;
-    padding-left:1em;
-    padding-right:1em;
-}
-#turslide3 .ui-block-a {
-    width:10%;
-    padding-left:0.2em;
-    padding-right:0.2em;
-}
-#turslide3 .ui-block-c {
-    width:10%;
-    padding-left:0.2em;
-    padding-right:0.2em;
-}
-#turslide3 .ui-block-b {
-    width: 80%;
-    padding-left:1em;
-    padding-right:1em;
 }
 
 .ui-icon-carat-r::after {
