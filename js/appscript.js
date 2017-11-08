@@ -85,7 +85,8 @@ window.onload = function () {
 			var bruk = JSON.parse(localStorage.getItem('aapnet'));
 			var antbruk = +bruk + 1;
 			localStorage.setItem('aapnet', JSON.stringify(antbruk));
-            statustimer();
+            erbrukeronline();
+			statustimer();
             lagplanliste();
             lagovingliste();
             lagevalliste();
@@ -1648,6 +1649,7 @@ function lagreOving(knappid) {
             break;
         }
     }
+
 	document.getElementById("startdatodiv").style.display = 'none';
     localStorage.setItem('ovinger', JSON.stringify(ovinger));
     localStorage.setItem('neste', JSON.stringify(neste));
@@ -2094,7 +2096,21 @@ function sjekkstatus() {
 
         //aktiverer øvinger hvis tidspunkt er nådd i dag
         if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
-            lagmelding();
+            erbrukeronline();
+			lagmelding();
+			var ant = JSON.parse(localStorage.getItem('antall'));
+			var antall =parseInt(ant)+1;
+			for (var i = antall; i < 7; i++) {
+				var nydato = DateAdd(idag, "d", i);
+				var dagen = nydato.getDate();
+				var maaned = nydato.getMonth();
+				var aaret = nydato.getFullYear();
+				
+				ovinger[i].dato=nydato;
+				ovinger[i].datodag=dagen;
+				ovinger[i].datomnd=maaned;
+				ovinger[i].datoaar=aaret;
+			}
 			ovinger[i].aktivert = 1;
             nesteoving(neste);
             lagovingliste();
@@ -2104,11 +2120,11 @@ function sjekkstatus() {
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
         else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
-            lagmelding();
+            erbrukeronline();
+			lagmelding();
 			var ant = JSON.parse(localStorage.getItem('antall'));
 			var antall =parseInt(ant)+1;
-			var igjen = (7-antall);  
-			for (var i = 0; i < igjen; i++) {
+			for (var i = antall; i < 7; i++) {
 				var nydato = DateAdd(idag, "d", i);
 				var dagen = nydato.getDate();
 				var maaned = nydato.getMonth();
@@ -2129,11 +2145,11 @@ function sjekkstatus() {
         }
         //hvis månedsskifte før brukeren åpner appen igjen
         else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
-            lagmelding();
+            erbrukeronline();
+			lagmelding();
 			var ant = JSON.parse(localStorage.getItem('antall'));
 			var antall =parseInt(ant)+1;
-			var igjen = (7-antall);  
-			for (var i = 0; i < igjen; i++) {
+			for (var i = antall; i < 7; i++) {
 				var nydato = DateAdd(idag, "d", i);
 				var dagen = nydato.getDate();
 				var maaned = nydato.getMonth();
@@ -2153,11 +2169,11 @@ function sjekkstatus() {
         }
         //hvis årskifte før brukeren åpner appen igjen
         else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
-            lagmelding();
+            erbrukeronline();
+			lagmelding();
 			var ant = JSON.parse(localStorage.getItem('antall'));
 			var antall =parseInt(ant)+1;
-			var igjen = (7-antall);  
-			for (var i = 0; i < igjen; i++) {
+			for (var i = antall; i < 7; i++) {
 				var nydato = DateAdd(idag, "d", i);
 				var dagen = nydato.getDate();
 				var maaned = nydato.getMonth();
@@ -2274,7 +2290,8 @@ function evaltalltiltekst(tall) {
 //skjekker om brukeren er online når de starter øvingen. Hvis de ikke er online, vil ikke øvingen med lyd være tilgjengelig	
 function erbrukeronline() {
     if (navigator.onLine) {
-        document.getElementById("online-feilmelding").innerHTML = "";
+        document.getElementById("online-feilmelding").innerHTML = "Velg om du vil ha øving med lydklipp eller øving med bilder (lyd er anbefalt første gang du gjør øvingen):";
+		document.getElementById("online-feilmelding2").innerHTML ="";
         document.getElementById("spillavlydklipp").disabled = false;
         document.getElementById("lydvalg0").disabled = false;
     } else {
@@ -2282,6 +2299,7 @@ function erbrukeronline() {
         document.getElementById("online-feilmelding2").innerHTML = "<span class='spantekstfeil'><i class='fa fa-times-circle'></i> Øvingen med lyd er ikke tilgjengelig fordi du ikke er koblet til Internett. Du kan enten gjøre den visuelle versjonen av øvingen, eller gjøre øvingen med lyd senere når du er tilkoblet til Internett. </span>";
 		document.getElementById("spillavlydklipp").disabled = true;
         document.getElementById("lydvalg0").disabled = true;
+		document.getElementById("lydvalg1").checked = true;
         document.getElementById("ovingvalg1").style.display = 'block';
         document.getElementById("ovingvalg0").style.display = 'none';
     }

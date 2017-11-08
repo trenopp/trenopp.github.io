@@ -1,12 +1,12 @@
 CACHE MANIFEST
-# Versjon 0.56
+# Versjon 0.57
 
  index.html
- css/appstil.min.css
+ css/appstil.css
  css/jquery-mobile-theme.min.css
  css/jquery.mobile.icons.min.css
  css/jquery.mobile.structure-1.4.5.min.css
- js/appscript.min.js
+ js/appscript.js
  js/Chart.min.js
  js/jquery.mobile-1.4.5.min.js
  js/jquery-1.11.1.min.js
@@ -102,7 +102,6 @@ CACHE:
  images/skjermbilder/plan-startd.png
  images/skjermbilder/plan-avpaa.png
  images/skjermbilder/plan-klsted.png
- images/skjermbilder/plan-kalender.png
  images/skjermbilder/planlegg1.png
  images/skjermbilder/planlegg3.png
  

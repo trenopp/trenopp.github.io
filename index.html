@@ -824,7 +824,7 @@
 <!-- sider slutter her-->
 <!-- dialogbokser starter her -->
 <!-- dialogboks for øvinger starter her -->
-<div data-role="page" id="ovingpopup" data-close-btn="none" data-theme="c" data-dialog="true" data-ajax="false" data-dom-cache="false">
+<div data-role="page" id="ovingpopup" data-close-btn="none" data-theme="c" data-dialog="true" data-dom-cache="false">
     <!-- dialog øving -->
     <div data-role="header">
 	<h1 style="text-align:center;max-height:50px;padding:10px;"><img class="meny-storskjerm" src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/><img class="menyside" src="images/logo/logo-oving-l.png" alt="eMeistring Oppmerksomhetstrening logo"/></h1>
@@ -871,7 +871,7 @@
         <div id="tab2" class="ui-body-a ui-content">
             <!-- øving andre tab -->
             	<h2 class="ovingtab"><span id="ovingoverskrift">Oppmerksomhetstrening </span> <span class="tooltipmerke"><i title="<p style='text-align:left'>Her skal du utføre selve øvelsen.</p><p style='text-align:left'>Bruk 'tilbake' knappen hvis du gikk glipp av noe. 'Fremover' knappen er bare tilgjengelig etter at du har gått tilbake.</p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2>
-
+			<p id="online-feilmelding2"></p>	
             <div id="ovingvalg0">
                 <audio id="lydklipp1" preload="auto" >
                     <source src="sounds/track3.mp3" type="audio/mpeg; codecs=mp3"></source>
@@ -1141,7 +1141,7 @@
 <!-- dialogboks 'om appen' slutter her -->
 
 <!-- dialogboks for introduksjon starter her -->
-<div data-role="page" id="intro" data-close-btn="none" data-dialog="true" data-theme="c" data-ajax="false" data-dom-cache="false">
+<div data-role="page" id="intro" data-close-btn="none" data-dialog="true" data-theme="c" data-dom-cache="false">
     <div data-role="header">
 	<h1 style="text-align:center;max-height:50px;padding:10px;"><img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/></h1>
 	<div data-role="navbar">
@@ -1214,7 +1214,7 @@
 <!-- dialogbokser for introduksjon slutter her -->
 
 <!-- dialogboks for introside:velkommen starter her -->
-<div data-role="page" id="introside" data-close-btn="none" data-dialog="true" data-theme="c" data-ajax="false" data-dom-cache="false">
+<div data-role="page" id="introside" data-close-btn="none" data-dialog="true" data-theme="c" data-dom-cache="false">
     <div data-role="header">
 	<h1 style="text-align:center;max-height:50px;padding:10px;"><img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/></h1>
 	<div data-role="navbar">
@@ -1231,9 +1231,9 @@
 		<div class="ui-grid-solo">	
 			<form id="ov-tilgj" style="display:block">			
 			<h2 class="ovingtab">Velg øvingstype <span class="tooltipmerke"><i style="padding-top:20px;" title="<p style='text-align:left;'>Trykk på den øvingstypen du ønsker for denne øvingen. Du kan velge mellom: <ul style='text-align:left;'><li><strong>Øvingsinstruksjoner via lyd:</strong> du skal fokusere på lydene du hører i lydklippet. Passer best når du er i rolige omgivelser.</li><li><strong>Øvingsinstruksjoner via bilder og tekst:</strong> du skal fokusere på lyder i omgivelsene rundt deg. Passer best når du kan høre mange lyder rundt deg</li></p>" rel="tooltip" class="fa fa-question-circle"></i></span></h2> 
-			<p>Velg om du vil ha øving med lydklipp eller øving med bilder (lyd er anbefalt første gang du gjør øvingen):</p>
+			<p id="online-feilmelding">Velg om du vil ha øving med lydklipp eller øving med bilder (lyd er anbefalt første gang du gjør øvingen):</p>
 				<fieldset id="velg-lyd" data-role="controlgroup" data-type="horizontal">				
-					<legend id="online-feilmelding"></legend>
+					<legend ></legend>
 						<input name="lydvalg" id="lydvalg0" data-theme="c" value="0" onClick="lydbryter()" type="radio" checked><label for="lydvalg0" style="text-align: center;"><img src="images/illustrasjon/oving_lyd.jpg" alt="Hodetelefoner"> Lyd </label>
 						<input name="lydvalg" id="lydvalg1" data-theme="c" value="1" onClick="lydbryter()" type="radio"><label for="lydvalg1" style="text-align: center;"><img src="images/illustrasjon/oving_bilde.jpg" alt="Lysbilder"> Bilder </label>
 						
