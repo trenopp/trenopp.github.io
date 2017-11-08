@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Versjon 0.55
+# Versjon 0.56
 
  index.html
  css/appstil.min.css
@@ -11,8 +11,8 @@ CACHE MANIFEST
  js/jquery.mobile-1.4.5.min.js
  js/jquery-1.11.1.min.js
  favicon.ico
- images/logoliten.png
- images/logopng.png
+ images/logo/logo-oving-s.png
+ images/logo/logo-oving-l.png
  images/soslogosvg.svg
  browserconfig.xml
 CACHE:
@@ -87,6 +87,7 @@ CACHE:
  css/images/icons-png/plus-white.png
  css/images/icons-png/minus-black.png
  css/images/icons-png/minus-white.png
+ 
 # Skjermbilder for introduksjonssiden
  images/skjermbilder/evaldialog.png
  images/skjermbilder/evalgraf.png
@@ -104,11 +105,13 @@ CACHE:
  images/skjermbilder/plan-kalender.png
  images/skjermbilder/planlegg1.png
  images/skjermbilder/planlegg3.png
+ 
 # Skrifttyper
  css/fonts/DroidSans.ttf
  css/fonts/Roboto-Regular.ttf
  css/fonts/OpenSans-Regular.ttf
  css/fonts/SCRIPTBL.ttf
+ 
 # Font Awesome ikoner
  font-awesome-4.4.0/fonts/FontAwesome.otf
  font-awesome-4.4.0/fonts/fontawesome-webfont.eot

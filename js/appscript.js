@@ -1,10 +1,11 @@
-window.onload = function (e) {
+window.onload = function () {
     //sjekker om local storage er tilgjengelig i nettleseren
     if (window.localStorage !== 'undefined') {
         document.body.style.backgroundColor = '#E9F1F9';
 		document.getElementById("forsidemenyer").style.display = 'none';
         document.getElementById("forside-header").style.display = 'none';
 		document.getElementById("sidemeny").style.display = 'none';
+		var lydklipp = document.getElementById("lydklipp1");
 		//hvis øvingsobjektene ikke er lagret i local storage vil det si at det er første gang brukeren besøker siden (hvis ikke lagringen er deaktivert...)
         //og funksjoner for å lagre innhold, skjule/vise første gang osv. kjøres
         if (localStorage.getItem('ovinger') === null) {
@@ -12,14 +13,19 @@ window.onload = function (e) {
             lagplanliste();
             lagovingliste();
             lagevalliste();
-            var lydklipp = document.getElementById("lydklipp1");
+			window.addEventListener("resize", strendring);
+			strendring();            
             lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
             lydklipp.addEventListener("ended", klippSlutt, false);
+			lydklipp.addEventListener('volumechange', volumendring, true);
+			document.getElementById("startdatodiv").style.display = 'block';
             antalldager();
-            lagtimeliste("plan-time", 'n');
-            lagminuttliste("plan-minutt", 'n');
-            lagtimeliste("plan-time-oving", 'n');
-            setTimeout(lagminuttliste("plan-minutt-oving", 'n'), 100);
+            lagtimeliste("plan-time");
+            lagminuttliste("plan-minutt");
+            lagtimeliste("plan-time-oving");
+			document.getElementById("valgomoving").value=0;
+			document.getElementById("valgomintro").value=0;
+            setTimeout(lagminuttliste("plan-minutt-oving"), 100);
             setTimeout(lagaarliste("plan-aar", 0), 200);
             setTimeout(lagmndliste("plan-mnd", "plan-aar", 0), 500);
             setTimeout(lagdagliste("plan-dag", "plan-mnd", "plan-aar", 0), 600);
@@ -38,32 +44,44 @@ window.onload = function (e) {
             /*$('div[data-role="page"]').bind('pageshow', function () {
                 document.title = "Oppmerksomhetstrening"
             });*/
+			
             var ovingsinstillinger = JSON.parse(localStorage.getItem('ovingsinstillinger'));
             var neste = JSON.parse(localStorage.getItem('neste'));
             var forste = JSON.parse(localStorage.getItem('forste'));
-
-            setverdi("velgsammetid", ovingsinstillinger);
+            var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
+			var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
+			document.getElementById("valgomoving").value=valgoving;
+			document.getElementById("valgomintro").value=valgintro;
+			
+			setverdi("velgsammetid", ovingsinstillinger);
             if (parseInt(ovingsinstillinger) === 0) {
                 document.getElementById("plan-sammetid").style.display = 'block';
             } else {
                 document.getElementById("plan-sammetid").style.display = 'none';
             }
 			setforste();
-            var lydklipp = document.getElementById("lydklipp1");
-            lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
+			window.addEventListener("resize", strendring);
+			strendring();
+             lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
             lydklipp.addEventListener("ended", klippSlutt, false);
-
+			lydklipp.addEventListener('volumechange', volumendring, true);
+			
             var lyd = JSON.parse(localStorage.getItem('lydklipp'));
-            var lydid="lydvalg" + lyd
+            var lydid="lydvalg" + lyd;
 			if (parseInt(lyd) === 1) {
+				document.getElementById("visdel2a").style.display = 'none';
+				document.getElementById("visdel2b").style.display = 'block';
                 document.getElementById("ovingvalg1").style.display = 'block';
                 document.getElementById("ovingvalg0").style.display = 'none';
 				document.getElementById(lydid).checked=true;
             } else {
+				document.getElementById("visdel2a").style.display = 'block';
+				document.getElementById("visdel2b").style.display = 'none';
                 document.getElementById("ovingvalg0").style.display = 'block';
                 document.getElementById("ovingvalg1").style.display = 'none';
 				document.getElementById(lydid).checked=true;
             }
+			
 			var bruk = JSON.parse(localStorage.getItem('aapnet'));
 			var antbruk = +bruk + 1;
 			localStorage.setItem('aapnet', JSON.stringify(antbruk));
@@ -74,10 +92,10 @@ window.onload = function (e) {
             tabreset();
             antalldager();
 			graf();
-            lagtimeliste("plan-time", 'n');
-            lagminuttliste("plan-minutt", 'n');
-            lagtimeliste("plan-time-oving", 'n');
-            setTimeout(lagminuttliste("plan-minutt-oving", 'n'), 100);
+            lagtimeliste("plan-time");
+            lagminuttliste("plan-minutt");
+            lagtimeliste("plan-time-oving");
+            setTimeout(lagminuttliste("plan-minutt-oving"), 100);
             setTimeout(lagaarliste("plan-aar", 0), 200);
             setTimeout(lagmndliste("plan-mnd", "plan-aar", 0), 500);
             setTimeout(lagdagliste("plan-dag", "plan-mnd", "plan-aar", 0), 900);
@@ -124,6 +142,7 @@ function setforste() {
 //det som skal lagres i local storage blir opprettet første gang brukeren starter appen
 function forstegang() {
     "use strict";
+	var alarm =2;
     var forste = 1;
     var antall = 0;
     var ovingsinstillinger = 0;
@@ -138,6 +157,8 @@ function forstegang() {
     var aapnetapp = 0;
 	var tilgjknapp=0;
 	var ikketilgjknapp=0;
+	var valgoving=0;
+	var valgintro=0;
     var ovinger = [];
     for (var i = 0; i < 7; i++) {
         var nydato = DateAdd(idag, "d", i);
@@ -162,7 +183,10 @@ function forstegang() {
             aktivert: 0,
         };
     }
+	localStorage.setItem('valgovingverdi', JSON.stringify(valgoving));
+    localStorage.setItem('valgintroverdi', JSON.stringify(valgintro));
     localStorage.setItem('forste', JSON.stringify(forste));
+	localStorage.setItem('antall', JSON.stringify(alarm));
     localStorage.setItem('antall', JSON.stringify(antall));
     localStorage.setItem('ovingsinstillinger', JSON.stringify(ovingsinstillinger));
     localStorage.setItem('startdato', JSON.stringify(startdato));
@@ -174,6 +198,7 @@ function forstegang() {
     localStorage.setItem('aapnet', JSON.stringify(aapnetapp));
 	localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
 	localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
+	lagmelding();
 }
 
 //*******************************************************************************************	
@@ -269,16 +294,34 @@ function validerskjema(){
 		document.getElementById("skjemamelding").innerHTML ="Vennligst skriv inn en gyldig epostadresse.";
 		return false;
 		}
-	else if (navn == "") {
+	else if (navn === "") {
        document.getElementById("skjemamelding").innerHTML ="Vennligst skriv inn navnet ditt.";
         return false;
     }
-	else if (mld == "") {
+	else if (mld === "") {
        document.getElementById("skjemamelding").innerHTML ="Vennligst skriv inn en melding.";
         return false;
     }
 	else {
-		document.getElementById("skjemamelding").innerHTML ="Meldingen din er sendt til eMeistring. Du vil få svar til epostadressen som du oppga.";
+		document.getElementById("skjemamelding").innerHTML ="Meldingen din vil bli sendt til eMeistring.";
+	}
+}
+
+function hjelppause(){
+	var ovtype = JSON.parse(localStorage.getItem('lydklipp'));
+	var lydklipp = document.getElementById("lydklipp1");
+	
+	if(parseInt(ovtype)===1 && pause === 0){
+		pauseoving();
+	}
+	else if(parseInt(ovtype)===0 && !lydklipp.paused){	    
+		spillavLyd();
+	}
+	else if(intropause === 0 && introbilde > 0) {
+		pauseintro();
+	}
+	else {
+		return;
 	}
 }
 
@@ -292,6 +335,7 @@ var introbilde=0;
 var introtimeout="";
 
 function startintro() {
+	onClick='stopstatustimer()';
     document.getElementById("intro0").style.display = 'none';
 	document.getElementById("introspillav").innerHTML="<button id='spillavintro' onClick='pauseintro()' class='ui-btn ui-btn-a ui-mini'><i class='fa fa-pause'></i></button>";
 	introbilde=1;
@@ -299,7 +343,6 @@ function startintro() {
 }
 
 function stopintro(){
-	clearTimeout(introtimeout);
     for (var i = 0; i < 20; i++) {
         if (i===0) {
            document.getElementById("intro0").style.display = 'block';
@@ -308,32 +351,44 @@ function stopintro(){
 			document.getElementById("intro" + i).style.display = 'none';
 		}
     }
+	$('#intro-bakover').prop("disabled", true);
+	$('#intro-fremover').prop("disabled", false);
 	intropause = 0;
 	introfremdrift = 0;
 	introbilde=0;
-	introtimeout=""
+	clearTimeout(introtimeout);
 	document.getElementById("introspillav").innerHTML="<button id='spillavintro' onClick='pauseintro()' class='ui-btn ui-btn-a ui-mini'><i class='fa fa-pause'></i></button>";
 }
 
 function introvent() {
-    if (introbilde > 19 && +intropause === 0) {
-        document.getElementById("intro0").style.display = 'block';
-        $("#intro0").fadeIn();
-        $("#intro19").fadeOut();
-        document.getElementById("intro19").style.display = 'none';
-        document.getElementById("intro-fremdrift").value = "0";
+    if (introbilde === 19 && +intropause === 0) {
+		document.getElementById("intro19").style.display = 'block';
+		document.getElementById("intro18").style.display = 'none';
+		$('#intro-fremover').prop("disabled", true);
 		introTekst();
-    } else if (+intropause === 0) {
+		introtimeout=setTimeout(function () {
+			document.getElementById("intro0").style.display = 'block';
+			$("#intro0").fadeIn();
+			$("#intro19").fadeOut();
+			document.getElementById("intro19").style.display = 'none';
+			document.getElementById("intro-fremdrift").value = "0";
+			gaatiloving();
+        }, 5000);
+		
+    } else if (introbilde < 19 && +intropause === 0) {
         document.getElementById("intro" + introbilde).style.display = 'block';
         $("#intro" + introbilde).fadeIn();
         $("#intro" + (introbilde - 1)).fadeOut();
         document.getElementById("intro" + (introbilde - 1)).style.display = 'none';
         introtimeout=setTimeout(function () {
-			introbilde=+introbilde + 1
+			introbilde=+introbilde + 1;
             fortsettintro(introbilde);
 			introTekst();
         }, 10000);
     }
+	else {
+		return;
+	}
 }
 
 function fortsettintro() {
@@ -349,6 +404,8 @@ function pauseintro() {
 	document.getElementById("introspillav").innerHTML="<button id='spillavintro' onClick='introetterpause()' class='ui-btn ui-btn-a ui-mini'><i class='fa fa-play'></i></button>";
 	clearTimeout(introtimeout);
 	$("#intro-sekvens").append("<img id='intropausebilde' src='images/intro/intro_pause.jpg' onClick='introetterpause()' />");
+	$('#intro-bakover').prop("disabled", true);
+	$('#intro-fremover').prop("disabled", true);
 	for (var i = 0; i < 20; i++) {
 		document.getElementById("intro" + i).style.display = 'none';
 		document.getElementById("intro-hjelp").innerHTML = "Tykk for å fortsette";
@@ -360,7 +417,9 @@ function pauseintro() {
 function introetterpause() {
     $("#intropausebilde").remove();
 	document.getElementById("introspillav").innerHTML="<button id='spillavintro' onClick='pauseintro()' class='ui-btn ui-btn-a ui-mini'><i class='fa fa-pause'></i></button>";
-    intropause = 0;
+    $('#intro-bakover').prop("disabled", false);
+	$('#intro-fremover').prop("disabled", false);
+	intropause = 0;
 	introTekst();
     fortsettintro();
 }
@@ -391,9 +450,11 @@ function introTekst() {
     if (introbilde === 1) {
         tekst = "eMeistring Oppmerksomhetstrening er en webapp for oppmerksomhets-øving, beregnet på personer med sosial angst som mottar behandling ved eMeistring.";
 		document.getElementById("nesteknapp0").style.display='none';
+		$('#intro-bakover').prop("disabled", true);
 	} else if (introbilde === 2) {
         tekst = "Oppmerksomhetsøvingen varer i ca. 10 minutter og skal utføres en gang per dag i 7 dager.";
-    } else if (introbilde === 3) {
+		$('#intro-bakover').prop("disabled", false);
+	} else if (introbilde === 3) {
         tekst = "Når en person med sosial angst kommer i en sosialt truende situasjon er den automatiske reaksjonen å skifte fokus fra verden rundt til seg selv.";
     } else if (introbilde === 4) {
         tekst = "Ved å ha oppmerksomheten innover mister vi informasjon om hva som faktisk skjer der ute.";
@@ -411,7 +472,7 @@ function introTekst() {
     } else if (introbilde === 10) {
         tekst = "Du kan også velge om du vil planlegge alle øvingene samlet eller om du vil planlegge hver øving individuelt.";
     } else if (introbilde === 11) {
-        tekst = "Når en ny øving blir tilgjengenlig, vil det vises en knapp for å starte øvingen på forsiden.";
+        tekst = "Når en ny øving blir tilgjengenlig, vil det vises en knapp for å starte øvingen på oversiktssiden.";
     } else if (introbilde === 12 ) {
         tekst = "Øvingen består av 3 deler. I første del evaluerer du oppmerksomheten din før øvingen";
     } else if (introbilde === 13) {
@@ -424,11 +485,10 @@ function introTekst() {
         tekst = "Du kan også se en graf som viser hvordan oppmerksomheten din endrer seg over tid";
     } else if (introbilde === 17 ) {
         tekst = "Og du kan se dine før/etter evalueringer fra ferdige øvinger";
-    } else if (introbilde === 18) {
+    } else if (introbilde === 18) {	
         tekst = "Hvis du ønsker mer informasjon om øvingen og om hvordan du bruker appen, finner du dette ved å bruke 'Hjelp'-knappen i menyen øverst på sidene.";
     } else if (introbilde === 19) {
-        tekst = "Øvingen starter nå";
-		ovingnesteknapp(0);
+        tekst = " ";		
     } 
     document.getElementById("intro-hjelp").innerHTML = tekst;
 }
@@ -444,20 +504,39 @@ function setverdi(elemid, verdi) {
     element.value = verdi;
 }
 
+function introbryter(){
+	var neste = JSON.parse(localStorage.getItem('neste'));
+	var valg = document.getElementById("valgomintro").value;
+    localStorage.setItem('valgintroverdi', JSON.stringify(valg));
+	sjekkstatus();
+	nesteoving(neste);
+}
+
+function valgovingbryter(){
+	var neste = JSON.parse(localStorage.getItem('neste'));
+	var valg = document.getElementById("valgomoving").value;
+	localStorage.setItem('valgovingverdi', JSON.stringify(valg));
+	sjekkstatus();
+	nesteoving(neste);
+}
+
 //registrerer brukerens valg ang. lydklipp
 function lydbryter() {
     "use strict";
-	var neste = JSON.parse(localStorage.getItem('neste'));
     var valg = $('input[name="lydvalg"]:checked').val();
     localStorage.setItem('lydklipp', JSON.stringify(valg));
 	
     if (parseInt(valg) === 1) {
-        document.getElementById("ovingvalg1").style.display = 'block';
+        document.getElementById("visdel2a").style.display = 'none';
+		document.getElementById("visdel2b").style.display = 'block';
+		document.getElementById("ovingvalg1").style.display = 'block';
         document.getElementById("ovingvalg0").style.display = 'none';
 		document.getElementById("valgtlydtekst").innerHTML ="Du har valgt øving med bilde.";
 		setTimeout(function(){ $( "#starteoving" ).popup( "open" ); }, 500);
     } else {
-        document.getElementById("ovingvalg0").style.display = 'block';
+        document.getElementById("visdel2a").style.display = 'block';
+		document.getElementById("visdel2b").style.display = 'none';
+		document.getElementById("ovingvalg0").style.display = 'block';
         document.getElementById("ovingvalg1").style.display = 'none';
 		document.getElementById("valgtlydtekst").innerHTML ="Du har valgt øving med lyd.";
 		setTimeout(function(){ $( "#starteoving" ).popup( "open" ); }, 500);
@@ -512,7 +591,6 @@ function lagaarliste(aarid, autoselect) {
     var aarliste = "";
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var faar = ovinger[0].datoaar;
-    var sela = document.getElementById(aarid);
     for (var i = 0; i < 2; i++) {
         var aar = y + i;
         var sel = "";
@@ -531,20 +609,15 @@ function lagmndliste(mndid, aarid, autoselect) {
     "use strict";
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var fmnd = ovinger[0].datomnd;
-    var idag = new Date();
-    var m = idag.getMonth();
-    var y = idag.getFullYear();
     var mndliste = "";
-    var sela = document.getElementById(aarid);
-    var selaar = sela.options[sela.selectedIndex].value;
-    var smnd = document.getElementById(mndid);
+	var sel = "";
     for (var i = 0; i < 12; i++) {
         if (i === fmnd && +autoselect === 0) {
-            var sel = "selected='selected'";
+            sel = "selected='selected'";
         } else if (i === +autoselect && +autoselect > 0) {
             sel = "selected='selected'";
         } else {
-            var sel = "";
+            sel = "";
         }
         var mnd = i;
         mndliste += "<option value='" + mnd + "' " + sel + ">" + talltilmnd(mnd) + "</option>";
@@ -557,17 +630,12 @@ function lagdagliste(dagid, mndid, aarid, autoselect) {
     "use strict";
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var fdag = (ovinger[0].datodag) - 1;
-    var idag = new Date();
-    var d = idag.getDate();
-    var m = idag.getMonth();
-    var y = idag.getFullYear();
     var dagliste = "";
     var sela = document.getElementById(aarid);
     var selaar = sela.options[sela.selectedIndex].value;
     var smnd = document.getElementById(mndid);
     var selm = smnd.options[smnd.selectedIndex].value;
     var selmnd = parseInt(selm);
-    var sdg = document.getElementById(dagid);
     var imax = 0;
 
     if (selmnd === 0 || selmnd === 2 || selmnd === 4 || selmnd === 6 || selmnd === 7 || selmnd === 9 || selmnd === 11) {
@@ -609,9 +677,6 @@ function lagdagliste(dagid, mndid, aarid, autoselect) {
 //validering av dato når brukeren trykker på dato-feltene
 function sjekkdato(dagid, mndid, aarid) {
     var idag = new Date();
-    var d = idag.getDate();
-    var m = idag.getMonth();
-    var y = idag.getFullYear();
     var sela = document.getElementById(aarid);
     var aar = sela.options[sela.selectedIndex].value;
     var smnd = document.getElementById(mndid);
@@ -634,7 +699,7 @@ function sjekkdato(dagid, mndid, aarid) {
     document.getElementById("datotabell").style.border = feilbakgr;
 }
 
-function sjekk_aarfelt(dagid, mndid, aarid, autoselect) {
+function sjekk_aarfelt(dagid, mndid, aarid) {
     var smnd = document.getElementById(mndid);
     var mnd = smnd.options[smnd.selectedIndex].value;
 
@@ -642,7 +707,7 @@ function sjekk_aarfelt(dagid, mndid, aarid, autoselect) {
     lagmndliste(mndid, aarid, mnd);
 }
 
-function sjekk_mndfelt(dagid, mndid, aarid, autoselect) {
+function sjekk_mndfelt(dagid, mndid, aarid) {
     var sdg = document.getElementById(dagid);
     var dag = sdg.options[sdg.selectedIndex].value;
 
@@ -696,12 +761,8 @@ function talltilmnd(mndnr) {
 }
 
 //lager innhold i nedtrekkslisten for timer		
-function lagtimeliste(timeid, autoselect) {
+function lagtimeliste(timeid) {
     "use strict";
-    var ovinger = JSON.parse(localStorage.getItem('ovinger'));
-    var antall = JSON.parse(localStorage.getItem('antall'));
-    var idag = new Date();
-    var ftime = idag.getHours();
     var timeliste = "<option value='999' selected>Velg time</option>";
 
     for (var i = 0; i < 24; i++) {
@@ -719,13 +780,8 @@ function lagtimeliste(timeid, autoselect) {
 }
 
 //lager innhold i nedtrekkslisten for minutter	
-function lagminuttliste(minuttid, autoselect) {
+function lagminuttliste(minuttid) {
     "use strict";
-    var ovinger = JSON.parse(localStorage.getItem('ovinger'));
-    var antall = JSON.parse(localStorage.getItem('antall'));
-    var dag = +antall;
-    var idag = new Date();
-    var fmin = idag.getMinutes();
     var minuttliste = "<option value='999' selected>Velg minutt</option>";
 
     for (var i = 0; i < 60; i++) {
@@ -790,14 +846,21 @@ function lagplanleggingspopup(knappid) {
 
 //setter inn innhold i øvingsdialog-boksen	
 function lagovingspopup(knappid) {
+	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
+	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
+	stopstatustimer();
     $("body").on("pagecontainershow", function (event, ui) {
-        if (ui.toPage.prop("id") == "ovingpopup") {
+        if (ui.toPage.prop("id") === "ovingpopup") {
             erbrukeronline();
             document.getElementById("ovingoverskrift").innerHTML = "Øving dag " + knappid;
             //document.getElementById("ferdigknappoving").innerHTML = '<a href="#" data-rel="back" id="ovingferdig' + knappid + '" class="ui-btn uit-corner-all ui-shadow ui-btn-a ui-btn-icon-right ui-icon-check" onClick="lagreOving(' + knappid + ')">Lagre</a>';
-			$( "#starteoving" ).popup( "close" );
-			$.mobile.changePage("#ovingpopup");
-			startintro();
+			if(valgoving===0){
+				$( "#starteoving" ).popup( "close" );
+			}
+			if(valgintro===0){
+				stopintro();
+			}
+			ovingnesteknapp(0);						
 		}
     });
 }
@@ -817,29 +880,54 @@ function lagevalpopup(knappid) {
 //*********************************** Øving med lyd *****************************************
 //*******************************************************************************************
 
-//hva som skal skje når en trykker på 'neste' knappene i øvingsdialogen
+
+function gaatiloving(){
+	var neste = JSON.parse(localStorage.getItem('neste'));
+	var n = parseInt(neste) + 1;
+	lagovingspopup(n);
+	$.mobile.changePage('#ovingpopup');
+}
+
+//hva som skal skje når en er ferdig med en del i øvingsdialogen
 function ovingnesteknapp(knappnr) {
     "use strict";
     var lydklipp = document.getElementById("lydklipp1");
     if (knappnr === 0) {
-        document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
-        document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel1'>Før</div>";
-        document.getElementById("tab1").style.display = 'block';
-		document.getElementById("tab0").style.display = 'none';
+        //document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
+        //document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel1'>Før</div>";
+        $('#forovingiko').css('color','#0C2D82');
+		$('#ovingikoa').css('color','#e6e6e6');
+		$('#ovingikob').css('color','#e6e6e6');
+		$('#etterovingiko').css('color','#e6e6e6');
+		$('#forovingpil').css('color','#e6e6e6');
+		$('#ovingpil1a').css('color','#e6e6e6');
+		$('#ovingpil2b').css('color','#e6e6e6');
+		$('#ovingpil1b').css('color','#e6e6e6');
+		$('#ovingpil2a').css('color','#e6e6e6');
+		$('#etterovingpil').css('color','#e6e6e6');
+		document.getElementById("tab1").style.display = 'block';
         document.getElementById("tab2").style.display = 'none';
 		document.getElementById("tab3").style.display = 'none';
-		stopintro();
 	}    
 	else if (knappnr === 1) {
-        document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
-		document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel1'>Før</div>";
-        document.getElementById("blokk2").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel2'>Øving</div>";
-        document.getElementById("tab2").style.display = 'block';
-        document.getElementById("tab0").style.display = 'none';
+        //document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
+		//document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel1'>Før</div>";
+        //document.getElementById("blokk2").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel2'>Øving</div>";
+        $('#forovingiko').css('color','#0C2D82');
+		$('#ovingikoa').css('color','#0C2D82');
+		$('#ovingikob').css('color','#0C2D82');
+		$('#etterovingiko').css('color','#e6e6e6');
+		$('#forovingpil').css('color','#0C2D82');
+		$('#ovingpil1a').css('color','#0C2D82');
+		$('#ovingpil2b').css('color','#e6e6e6');
+		$('#ovingpil1b').css('color','#0C2D82');
+		$('#ovingpil2a').css('color','#e6e6e6');
+		$('#etterovingpil').css('color','#e6e6e6');
+		document.getElementById("tab2").style.display = 'block';
 		document.getElementById("tab1").style.display = 'none';
         document.getElementById("tab3").style.display = 'none';
 		var lydvalg = JSON.parse(localStorage.getItem('lydklipp'));
-		if (lydvalg==1){
+		if (parseInt(lydvalg)===1){
 			startoving();
 		}
 		else{
@@ -848,21 +936,29 @@ function ovingnesteknapp(knappnr) {
 		$( "#fortsettoving" ).popup( "close" );
 		
     } else {
-		document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
-        document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel1'>Før</div>";
-		document.getElementById("blokk2").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel2'>Øving</div>";
-        document.getElementById("blokk3").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel3'>Etter</div>";
-        document.getElementById("tab3").style.display = 'block';
+		//document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
+        //document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel1'>Før</div>";
+		//document.getElementById("blokk2").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel2'>Øving</div>";
+        //document.getElementById("blokk3").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel3'>Etter</div>";
+        $('#forovingiko').css('color','#0C2D82');
+		$('#ovingikoa').css('color','#0C2D82');
+		$('#ovingikob').css('color','#0C2D82');
+		$('#etterovingiko').css('color','#0C2D82');
+		$('#forovingpil').css('color','#0C2D82');
+		$('#ovingpil1a').css('color','#0C2D82');
+		$('#ovingpil2b').css('color','#0C2D82');
+		$('#ovingpilb').css('color','#0C2D82');
+		$('#ovingpil2a').css('color','#0C2D82');
+		$('#etterovingpil').css('color','#0C2D82');
+		document.getElementById("tab3").style.display = 'block';
         document.getElementById("tab2").style.display = 'none';
         document.getElementById("tab1").style.display = 'none';
-		document.getElementById("tab0").style.display = 'none';
         lydklipp.pause();
-
     }
 }
 
 //finner ut hvilket klipp brukeren har valgt og legger til eventlistener
-function lydvalg(lyd) {
+function lydvalg() {
 	"use strict";
     var lydklipp = document.getElementById("lydklipp1");
     lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
@@ -876,13 +972,13 @@ function spillavLyd() {
     var lydklipp = document.getElementById("lydklipp1");
     //hvis klippet står på pause, setter neste klikk på knappen i gang avspilling
     if (lydklipp.paused) {
-		document.getElementById("lyd-ill").innerHTML ="<img src='images/illustrasjon/oving_lyd.jpg' onClick='spillavLyd()'/>"
+		document.getElementById("lyd-ill").innerHTML ="<img src='images/illustrasjon/oving_lyd.jpg' onClick='spillavLyd()'/>";
         document.getElementById("spillav").innerHTML = "<button class='ui-btn ui-btn-a ui-mini' id='spillavlydklipp' onClick='spillavLyd()'><i class='fa fa-pause'></i></button>";
-        lydklipp.play();		
+        lydklipp.play();	
     }
     //hvis klippet spiller, setter neste klikk på knappen klippet på pause
     else {
-		document.getElementById("lyd-ill").innerHTML ="<img src='images/oving/lydoving_pause.jpg' onClick='spillavLyd()'/>"
+		document.getElementById("lyd-ill").innerHTML ="<img src='images/oving/lydoving_pause.jpg' onClick='spillavLyd()'/>";
         document.getElementById("spillav").innerHTML = "<button class='ui-btn ui-btn-a ui-mini' id='spillavlydklipp' onClick='spillavLyd()'><i class='fa fa-play'></i></button>";
         lydklipp.pause();
     }
@@ -895,7 +991,6 @@ function klippSlutt() {
 	lydklipp.currenTime=0;
 	lydstatus=0;
     document.getElementById("spillerfremdrift").value = 0;
-    document.getElementById("spillerfremdrift-etter").innerHTML = "";
 	ovingnesteknapp(2);
 }
 
@@ -909,12 +1004,15 @@ function fremdriftLyd() {
     if (lydklipp.currentTime > 0) {
         verdi = Math.floor((100 / lydklipp.duration) * lydklipp.currentTime);
     }
-    var lydtotal = (lydklipp.duration / 60).toFixed(2);
-    var lydnaa = (lydklipp.currentTime / 60).toFixed(2);
+    //var lydtotal = (lydklipp.duration / 60).toFixed(2);
+    //var lydnaa = (lydklipp.currentTime / 60).toFixed(2);
 	var lydsek=lydklipp.currentTime;
 	
 	if (lydsek > 10){
 		$('#lyd-bakover').prop("disabled", false);
+	}
+	else if(lydsek < 10){
+		$('#lyd-bakover').prop("disabled", true);
 	}
 	
 	if (lydsek < lydstatus){
@@ -930,12 +1028,12 @@ function fremdriftLyd() {
 		lydstatus=0;
 	}
     document.getElementById("spillerfremdrift").value = verdi;
-    //document.getElementById("spillerfremdrift-etter").innerHTML = "Spiller av " + lydnaa + " av " + lydtotal + " minutt";
+
 }
 
 function lydbakover() {
 	var lydklipp = document.getElementById("lydklipp1");
-	var nylyd=lydklipp.currentTime-5	
+	var nylyd=lydklipp.currentTime-5;	
 	if (nylyd+lydstatus >= 0){
 		if (lydstatus===0){
 			lydstatus=lydklipp.currentTime;
@@ -954,6 +1052,27 @@ function lydfremover() {
 		lydstatus=0;
 		lydklipp.currentTime += 5;
 	}
+}
+
+function volumendring(){
+	var vol=document.getElementById("volumslider").value;
+	var lydklipp=document.getElementById("lydklipp1");
+	var nyvol= (vol/10);
+	lydklipp.volume=nyvol;
+	
+	if (vol < 1){
+		document.getElementById("volumknapp").innerHTML="<i class='fa fa-volume-off' aria-hidden='true'></i>";
+	}
+	else if (vol <= 5){
+		document.getElementById("volumknapp").innerHTML="<i class='fa fa-volume-down' aria-hidden='true'></i>";
+	}
+	else{
+		document.getElementById("volumknapp").innerHTML="<i class='fa fa-volume-up' aria-hidden='true'></i>";
+	}
+}
+
+function lukkvolum(){
+	$( "#volumoving" ).popup( "close" );
 }
 //*******************************************************************************************	
 //*********************************** Øving med bilde ***************************************
@@ -1010,10 +1129,11 @@ function pauseoving() {
 	clearTimeout(ovingbildesekvens);
 	for (var i = 0; i < 44; i++) {
 		document.getElementById("sosoving" + i).style.display = 'none';
-	}
+	}	
     $("#oving-sekvens").append("<img id='pausebilde' src='images/oving/sosoving_pause.jpg' onClick='startetterpause()' />");
 	$('#anim-fremover').prop("disabled", true);
 	$('#anim-bakover').prop("disabled", true);
+	document.getElementById("symbol").innerHTML ="";
     document.getElementById("hjelp").innerHTML = "Trykk for å fortsette.";
 	document.getElementById("animspillav").innerHTML="<button id='spillavanimasjon' onClick='startetterpause()' class='ui-btn ui-btn-a ui-mini'><i class='fa fa-play'></i></button>";
     pause = 1;
@@ -1039,7 +1159,7 @@ function stoppoving() {
     fremdrift = 0;
 	bildenr=0;
 	ovingstatus=0;
-	ovingbildesekvens=""
+	ovingbildesekvens="";
 	$('#anim-fremover').prop("disabled", true);
 	$('#anim-bakover').prop("disabled", true);
 }
@@ -1085,62 +1205,84 @@ function animfremover() {
 
 //hjelpeteksten som vises under øvingsanimasjon
 function hjelpetekst() {
-    tekst = "";
+    var tekst = "";
+	var symbol ="";
+	
     if (bildenr === 1) {
         tekst = "Velkommen til dagens oppmerksomhetsøving. I denne øvingen skal du fokusere på forskjellige typer lyder rundt deg. Bildene og teksten på skjermen viser hvilke typer lyder og hvilken retning du skal fokusere på.";
-    }
+	}
     if (bildenr === 2) {
         tekst = "Dersom du ikke får til øvingen til å begynne med, er det viktig at du ikke gir opp men fortsetter å øve. Lykke til!";
     }
     if (bildenr === 3 || bildenr === 23) {
         tekst = "Fokuser på alle typer lyder foran deg";
+		symbol = "<i class='fa fa-arrow-up fa-2x'></i>";
     } else if (bildenr === 4 || bildenr === 24) {
         tekst = "Fokuser på alle typer lyder til høyre for deg";
+		symbol = "<i class='fa fa-arrow-right fa-2x'></i>";
     } else if (bildenr === 5 || bildenr === 25) {
         tekst = "Fokuser på alle typer lyder til venstre for deg";
+		symbol = "<i class='fa fa-arrow-left fa-2x'></i>";
     } else if (bildenr === 6 || bildenr === 26) {
         tekst = "Fokuser på alle typer lyder bak deg";
+		symbol = "<i class='fa fa-arrow-down fa-2x'></i>";
     } else if (bildenr === 7 || bildenr === 27) {
         tekst = "Fokuser på alle typer lyder i alle retninger rundt deg";
+		symbol = "<i class='fa fa-arrows fa-2x'></i>";
     } else if (bildenr === 8 || bildenr === 28) {
         tekst = "Fokuser på lyder fra natur foran deg (dyr, vind, regn...)";
+		symbol = "<i class='fa fa-arrow-up fa-2x'></i>";
     } else if (bildenr === 9 || bildenr === 29) {
         tekst = "Fokuser på lyder fra natur til høyre for deg (dyr, vind, regn...)";
+		symbol = "<i class='fa fa-arrow-right fa-2x'></i>";
     } else if (bildenr === 10 || bildenr === 30) {
         tekst = "Fokuser på lyder fra natur til venstre for deg (dyr, vind, regn...)";
+		symbol = "<i class='fa fa-arrow-left fa-2x'></i>";
     } else if (bildenr === 11 || bildenr === 31) {
         tekst = "Fokuser på lyder fra natur bak deg (dyr, vind, regn...)";
+		symbol = "<i class='fa fa-arrow-down fa-2x'></i>";
     } else if (bildenr === 12 || bildenr === 32) {
         tekst = "Fokuser på lyder fra natur i alle retninger rundt deg (dyr, vind, regn...)";
+		symbol = "<i class='fa fa-arrows fa-2x'></i>";
     } else if (bildenr === 13 || bildenr === 33) {
         tekst = "Fokuser på mekaniske lyder foran deg (biler, maskiner...)";
+		symbol = "<i class='fa fa-arrow-up fa-2x'></i>";
     } else if (bildenr === 14 || bildenr === 34) {
         tekst = "Fokuser på mekaniske lyder til høyre for deg (biler, maskiner...)";
+		symbol = "<i class='fa fa-arrow-right fa-2x'></i>";
     } else if (bildenr === 15 || bildenr === 35) {
         tekst = "Fokuser på mekaniske lyder til venstre for deg (biler, maskiner...)";
+		symbol = "<i class='fa fa-arrow-left fa-2x'></i>";
     } else if (bildenr === 16 || bildenr === 36) {
         tekst = "Fokuser på mekaniske lyder bak deg (biler, maskiner...)";
+		symbol = "<i class='fa fa-arrow-down fa-2x'></i>";
     } else if (bildenr === 17 || bildenr === 37) {
         tekst = "Fokuser på mekaniske lyder i alle retninger rundt deg (biler, maskiner...)";
+		symbol = "<i class='fa fa-arrows fa-2x'></i>";
     } else if (bildenr === 18 || bildenr === 38) {
         tekst = "Fokuser på lyder fra andre mennesker foran deg (stemmer, fottrinn..)";
+		symbol = "<i class='fa fa-arrow-up fa-2x'></i>";
     } else if (bildenr === 19 || bildenr === 39) {
         tekst = "Fokuser på lyder fra andre mennesker til høyre for deg (stemmer, fottrinn..)";
+		symbol = "<i class='fa fa-arrow-right fa-2x'></i>";
     } else if (bildenr === 20 || bildenr === 40) {
         tekst = "Fokuser på lyder fra andre mennesker til venstre for deg (stemmer, fottrinn..)";
+		symbol = "<i class='fa fa-arrow-left fa-2x'></i>";
     } else if (bildenr === 21 || bildenr === 41) {
         tekst = "Fokuser på lyder fra andre mennesker bak deg (stemmer, fottrinn..)";
+		symbol = "<i class='fa fa-arrow-down fa-2x'></i>";
     } else if (bildenr === 22 || bildenr === 42) {
         tekst = "Fokuser på lyder fra andre mennesker i alle retninger rundt deg (stemmer, fottrinn..)";
+		symbol = "<i class='fa fa-arrows fa-2x'></i>";
     } else if (bildenr === 43) {
         tekst = "Flott! Du er nå ferdig med dagens oppmersomhetsøving. Om noen sekunder blir du sendt videre til etter-evalueringen.";
        	ovingbildesekvens=setTimeout(function () {
 			stoppoving();
-			
         }, 12000);
 		
     }
     document.getElementById("hjelp").innerHTML = tekst;
+	document.getElementById("symbol").innerHTML = symbol;
 }
 
 //Evaluering øving:
@@ -1238,7 +1380,6 @@ function lagplanliste() {
     var planliste1 = "";
     var planliste2 = "";
 	var planfremdriftsside= "";
-	var kal="";
 	
     for (var i = 0; i < ovinger.length; i++) {
         var m = ovinger[i].datomnd;
@@ -1301,7 +1442,6 @@ function lagplanliste() {
 //lager liste for øvingssiden
 function lagovingliste() {
     "use strict";
-    var idag = new Date();
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var ovingliste1 = "";
     var ovingliste2 = "";
@@ -1311,7 +1451,6 @@ function lagovingliste() {
         var m = ovinger[i].datomnd;
         var mnd = talltilmnd(parseInt(m));
         var d = ovinger[i].datodag;
-        var y = ovinger[i].datoaar;
         var aktivert = ovinger[i].aktivert;
         if (d < 10) {
             d = "0" + d;
@@ -1386,8 +1525,6 @@ function lagreplanalle() {
     var mnd = document.getElementById("plan-mnd").value;
     var aar = document.getElementById("plan-aar").value;
     var dato = new Date(aar, mnd, dag);
-    var feiltekst1 = "";
-    var feiltekst2 = "";
     /*var feilt=0;*/
     var feild = 0;
     if (+dag < +idag.getDate() && +mnd === +idag.getMonth() && +aar === +idag.getFullYear()) {
@@ -1466,7 +1603,6 @@ function lagreplanalle() {
 
 //lagrer informasjon om en planlagt øving når bruker velger å planlegge øvinger individuelt	
 function lagreenplan(knappid) {
-    var idag = new Date();
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var time = document.getElementById("plan-time-oving").value;
     var minutter = document.getElementById("plan-minutt-oving").value;
@@ -1512,6 +1648,7 @@ function lagreOving(knappid) {
             break;
         }
     }
+	document.getElementById("startdatodiv").style.display = 'none';
     localStorage.setItem('ovinger', JSON.stringify(ovinger));
     localStorage.setItem('neste', JSON.stringify(neste));
     lagplanliste();
@@ -1521,10 +1658,11 @@ function lagreOving(knappid) {
     nesteoving(neste);
     graf();
 	setforste();
+	statustimer();
 	setTimeout(function(){
 		tabreset();
 		tvingOmlasting();
-	},1)
+	},1);
     //sendtilphp();
     $(".ui-dialog-page").dialog("close");
 }
@@ -1535,9 +1673,50 @@ function lagreOving(knappid) {
 //*******************************************************************************************	
 
 //timer som kjører funksjonen for å sjekke om øvinger skal aktiveres	
+var statTimer="";
+
 function statustimer() {
-    setInterval(sjekkstatus, 1000);
+	statTimer=setInterval(function(){sjekkstatus()}, 1000);
 }
+
+function stopstatustimer(){
+	clearInterval(statTimer);	
+}
+
+//nettlesermelding når ny øving er tilgjengelig
+function meldtilbruker() {
+  var options = {
+      body: "En ny oppmerksomhetsøving er tilgjengelig",
+      icon: 'images/logo/favicon-32x32.png'
+  };
+  var n = new Notification("eMeistring", options);
+  setTimeout(n.close.bind(n), 5000); 
+}
+
+function lagmelding() {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    return;
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    meldtilbruker();
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+       meldtilbruker();
+      }
+    });
+  }
+  
+}
+
 
 //finner antall øvinger/dager som er utførte. Antall brukes bla. på forsiden og evalueringssiden
 function antalldager() {
@@ -1546,12 +1725,10 @@ function antalldager() {
     var dager = 0;
     var m1 = ovinger[0].datomnd;
     var mnd1 = talltilmnd(parseInt(m1));
-    var y1 = ovinger[0].datoaar;
     var d1 = ovinger[0].datodag;
 	var startdato = d1 + "." + mnd1;
 	var m6 = ovinger[6].datomnd;
     var mnd6 = talltilmnd(parseInt(m6));
-    var y6 = ovinger[6].datoaar;
     var d6 = ovinger[6].datodag;
 	var sluttdato = d6 + "." + mnd6;
 	var deskfremdrift=document.getElementsByClassName("fremdrift-top-desktop");
@@ -1622,7 +1799,7 @@ function antalldager() {
 	}
 	
 	if (+dager === 7) {
-        document.getElementById("7dagerferdig").innerHTML = "Du har nå gjennomført 7 dager med oppmerksomhetsøvinger. Bra jobba!"
+        document.getElementById("7dagerferdig").innerHTML = "Du har nå gjennomført 7 dager med oppmerksomhetsøvinger. Bra jobba!";
     }
 }
 
@@ -1639,15 +1816,14 @@ function nesteoving(neste) {
     var sted = "";
     var idag = new Date();
 	var knapptekstoving = "";
+	var knapptekstmeny = "";
 	var ovingmeny=document.getElementsByClassName("oving-menyknapp");
 	var planknapptid=document.getElementsByClassName("tid-midt-klokke");
 	var planknappdato=document.getElementsByClassName("tid-top-neste");
 	var tilgjknapp=JSON.parse(localStorage.getItem('tilgjknapp'));
 	var ikketilgjknapp=JSON.parse(localStorage.getItem('ikketilgjknapp'));
-	
-	
-
-	
+    var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
+	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
    for (var i = 0; i < ovinger.length; i++) {
         //hvis dette er neste øving i rekken...
         if (ovinger[i].dag === (parseInt(neste) + 1)) {
@@ -1683,19 +1859,59 @@ function nesteoving(neste) {
             //hvis en øving er aktivert og ikke fullført enda
             if (+aktivert === 1 && +antall < 7) {
 				if(tilgjknapp===0){
-				knapptekstoving = "<a href='#introside'>"
+				document.getElementById("ov-tilgj").style.display = 'block';
+				//document.getElementById("lydvalg-oss").style.display = 'block';
+				//document.getElementById("lydvalg-avbryt").style.display = 'block';				
+				document.getElementById("ov-ikke-tilgj").style.display = 'none';
+				if (parseInt(valgintro)===1 && parseInt(valgoving)===0){
+					document.getElementById("startovingpop").innerHTML = "<a href='#ovingpopup' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onClick='lagovingspopup(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+					knapptekstmeny = "<a href='#introside' onClick='stopstatustimer()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
+					knapptekstoving = "<a href='#introside' onClick='stopstatustimer()'>"
 					+ "<img class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 					+ "<div class='imgteksttopp'>"
 					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
 					+ "<p>Jeg har en ny øving som venter.</p></div>"
 					+ "<p class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 					+ "</a>";
-				document.getElementById("ov-tilgj").style.display = 'block';
-				document.getElementById("lydvalg-oss").style.display = 'block';
-				document.getElementById("lydvalg-avbryt").style.display = 'block';				
-				document.getElementById("ov-ikke-tilgj").style.display = 'none';
-				document.getElementById("startovingpop").innerHTML = "<a href='#ovingpopup' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onClick='lagovingspopup(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+				}
+				else if (parseInt(valgintro)===0 && parseInt(valgoving)===0){
+					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+					knapptekstmeny = "<a href='#introside' onClick='stopstatustimer()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
+					knapptekstoving = "<a href='#introside' onClick='stopstatustimer()'>"
+					+ "<img class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+					+ "<div class='imgteksttopp'>"
+					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
+					+ "<p>Jeg har en ny øving som venter.</p></div>"
+					+ "<p class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+					+ "</a>";
+				}
+				else if (parseInt(valgintro)===0 && parseInt(valgoving)===1){
+					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+					knapptekstmeny = "<a href='#intro' onClick='startintro()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
+					knapptekstoving = "<a href='#intro' onClick='startintro()'>"
+					+ "<img class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+					+ "<div class='imgteksttopp'>"
+					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
+					+ "<p>Jeg har en ny øving som venter.</p></div>"
+					+ "<p class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+					+ "</a>";
+				}
+				else{
+					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+					knapptekstmeny = "<a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
+					knapptekstoving = "<a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")'>"
+					+ "<img class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+					+ "<div class='imgteksttopp'>"
+					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
+					+ "<p>Jeg har en ny øving som venter.</p></div>"
+					+ "<p class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+					+ "</a>";
+				}
 				document.getElementById("valgetterovingpop").innerHTML="<a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onclick='lagreOving(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
 				
 				for (i = 0; i < ovingmeny.length; i++) {
 					ovingmeny[i].innerHTML = knapptekstoving;
@@ -1728,11 +1944,16 @@ function nesteoving(neste) {
 					+ "<p> Fortsett å øve i dag kl: " + tid + "</p>"
 					+"</div>"
 					+ "</a>";
+				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
 				document.getElementById("ov-tilgj").style.display = 'none';
-				document.getElementById("lydvalg-oss").style.display = 'none';
-				document.getElementById("lydvalg-avbryt").style.display = 'none';				
+				//document.getElementById("lydvalg-oss").style.display = 'none';
+				//document.getElementById("lydvalg-avbryt").style.display = 'none';				
 				document.getElementById("ov-ikke-tilgj").style.display = 'block';
 				
+				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
 				
 				for (i = 0; i < ovingmeny.length; i++) {
 					ovingmeny[i].innerHTML = knapptekstoving;
@@ -1765,12 +1986,17 @@ function nesteoving(neste) {
 							+ "<p> Du har fullført alle 7 øvingene.</p>"
 							+"</div>"
 							+ "</a>";
-			
+				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
 				document.getElementById("ov-tilgj").style.display = 'none';
-				document.getElementById("lydvalg-oss").style.display = 'none';
-				document.getElementById("lydvalg-avbryt").style.display = 'none';				
+				//document.getElementById("lydvalg-oss").style.display = 'none';
+				//document.getElementById("lydvalg-avbryt").style.display = 'none';				
 				document.getElementById("ov-ikke-tilgj").style.display = 'none';
 				document.getElementById("alle-ov-ferdig").style.display = 'block';
+				
+				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
 				
 				for (i = 0; i < ovingmeny.length; i++) {
 					ovingmeny[i].innerHTML = knapptekstoving;
@@ -1804,11 +2030,16 @@ function nesteoving(neste) {
 					+ "<p>Fortsett å øve " + d + ". " + mnd + " kl." + tid + "</p>"
 					+ "</div>"
 					+ "</a>";
-				
+				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
 				document.getElementById("ov-tilgj").style.display = 'none';
-				document.getElementById("lydvalg-oss").style.display = 'none';
-				document.getElementById("lydvalg-avbryt").style.display = 'none';				
+				//document.getElementById("lydvalg-oss").style.display = 'none';
+				//document.getElementById("lydvalg-avbryt").style.display = 'none';				
 				document.getElementById("ov-ikke-tilgj").style.display = 'block';
+				
+				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
+				document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
 				
 				for (i = 0; i < ovingmeny.length; i++) {
 					ovingmeny[i].innerHTML = knapptekstoving;
@@ -1863,7 +2094,8 @@ function sjekkstatus() {
 
         //aktiverer øvinger hvis tidspunkt er nådd i dag
         if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
-            ovinger[i].aktivert = 1;
+            lagmelding();
+			ovinger[i].aktivert = 1;
             nesteoving(neste);
             lagovingliste();
             lagplanliste();
@@ -1872,15 +2104,48 @@ function sjekkstatus() {
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
         else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
-            ovinger[i].aktivert = 1;
+            lagmelding();
+			var ant = JSON.parse(localStorage.getItem('antall'));
+			var antall =parseInt(ant)+1;
+			var igjen = (7-antall);  
+			for (var i = 0; i < igjen; i++) {
+				var nydato = DateAdd(idag, "d", i);
+				var dagen = nydato.getDate();
+				var maaned = nydato.getMonth();
+				var aaret = nydato.getFullYear();
+				
+				ovinger[i].dato=nydato;
+				ovinger[i].datodag=dagen;
+				ovinger[i].datomnd=maaned;
+				ovinger[i].datoaar=aaret;
+			}
+			
+			ovinger[i].aktivert = 1;
             lagovingliste();
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
             nesteoving(neste);
+			
         }
         //hvis månedsskifte før brukeren åpner appen igjen
         else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
-            ovinger[i].aktivert = 1;
+            lagmelding();
+			var ant = JSON.parse(localStorage.getItem('antall'));
+			var antall =parseInt(ant)+1;
+			var igjen = (7-antall);  
+			for (var i = 0; i < igjen; i++) {
+				var nydato = DateAdd(idag, "d", i);
+				var dagen = nydato.getDate();
+				var maaned = nydato.getMonth();
+				var aaret = nydato.getFullYear();
+				
+				ovinger[i].dato=nydato;
+				ovinger[i].datodag=dagen;
+				ovinger[i].datomnd=maaned;
+				ovinger[i].datoaar=aaret;
+			}
+			
+			ovinger[i].aktivert = 1;
             lagovingliste();
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
@@ -1888,7 +2153,23 @@ function sjekkstatus() {
         }
         //hvis årskifte før brukeren åpner appen igjen
         else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
-            ovinger[i].aktivert = 1;
+            lagmelding();
+			var ant = JSON.parse(localStorage.getItem('antall'));
+			var antall =parseInt(ant)+1;
+			var igjen = (7-antall);  
+			for (var i = 0; i < igjen; i++) {
+				var nydato = DateAdd(idag, "d", i);
+				var dagen = nydato.getDate();
+				var maaned = nydato.getMonth();
+				var aaret = nydato.getFullYear();
+				
+				ovinger[i].dato=nydato;
+				ovinger[i].datodag=dagen;
+				ovinger[i].datomnd=maaned;
+				ovinger[i].datoaar=aaret;
+			}
+			
+			ovinger[i].aktivert = 1;
             lagovingliste();
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
@@ -1998,7 +2279,8 @@ function erbrukeronline() {
         document.getElementById("lydvalg0").disabled = false;
     } else {
         document.getElementById("online-feilmelding").innerHTML = "<span class='spantekstfeil'><i class='fa fa-times-circle'></i> Øvingen med lyd er ikke tilgjengelig fordi du ikke er koblet til Internett. Du kan enten gjøre den visuelle versjonen av øvingen, eller gjøre øvingen med lyd senere når du er tilkoblet til Internett. </span>";
-        document.getElementById("spillavlydklipp").disabled = true;
+        document.getElementById("online-feilmelding2").innerHTML = "<span class='spantekstfeil'><i class='fa fa-times-circle'></i> Øvingen med lyd er ikke tilgjengelig fordi du ikke er koblet til Internett. Du kan enten gjøre den visuelle versjonen av øvingen, eller gjøre øvingen med lyd senere når du er tilkoblet til Internett. </span>";
+		document.getElementById("spillavlydklipp").disabled = true;
         document.getElementById("lydvalg0").disabled = true;
         document.getElementById("ovingvalg1").style.display = 'block';
         document.getElementById("ovingvalg0").style.display = 'none';
@@ -2035,6 +2317,7 @@ function avbrytov() {
 	tabreset();
 	$( "#avbryteoving" ).popup( "close" );
 	setforste();
+	statustimer();
 	setTimeout(function(){
 		tvingOmlasting();
 	},1)
@@ -2047,6 +2330,26 @@ function tvingOmlasting(){
 $(function () {
     "use strict";
     $("[data-role=panel]").panel().enhanceWithin();
+});
+
+$(function () {
+    "use strict";
+	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
+	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));			
+	document.getElementById("valgomoving").value=valgoving;
+	document.getElementById("valgomintro").value=valgintro;
+    $("#instillinger").enhanceWithin().popup();
+    $("#instillinger").popup({
+        history: false
+    });
+});
+
+$(function () {
+    "use strict";
+    $("#volumoving").enhanceWithin().popup();
+    $("#volumoving").popup({
+        history: false
+    });
 });
 
 $(function () {
@@ -2101,16 +2404,52 @@ $(function () {
 //tilbakestiller tabvisningen og setter lydklipp på pause i øvings-dialogen
 function tabreset() {
     "use strict";
-    document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel0'>Intro</div>";
-	document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#E9F1F9;color:#333333;' id='visdel1'>Før</div>";
-    document.getElementById("blokk2").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#E9F1F9;color:#333333;' id='visdel2'>Øving</div>";
-    document.getElementById("blokk3").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#E9F1F9;color:#333333;' id='visdel3'>Etter</div>";
-    document.getElementById("tab0").style.display = 'block';
-	document.getElementById("tab1").style.display = 'none';
+    $('#forovingiko').css('color','#0C2D82');
+	$('#ovingikoa').css('color','#e6e6e6');
+	$('#ovingikob').css('color','#e6e6e6');
+	$('#etterovingiko').css('color','#e6e6e6');
+	$('#forovingpil').css('color','#e6e6e6');
+	$('#ovingpil1a').css('color','#e6e6e6');
+	$('#ovingpil2b').css('color','#e6e6e6');
+	$('#ovingpil1b').css('color','#e6e6e6');
+	$('#ovingpil2a').css('color','#e6e6e6');
+	$('#etterovingpil').css('color','#e6e6e6');
+	document.getElementById("tab1").style.display = 'block';
     document.getElementById("tab2").style.display = 'none';
     document.getElementById("tab3").style.display = 'none';    
 }
 
+function strendring(){
+	var bredde=$(document).width();
+	var harclass=$( "#forovingiko" ).hasClass( "fa-2x" );
+	if (bredde >= 500 && harclass===false){
+		$("#forovingiko").addClass("fa-2x");
+		$("#ovingikoa").addClass("fa-2x");
+		$("#ovingikob").addClass("fa-2x");
+		$("#etterovingiko").addClass("fa-2x");
+		$("#forovingpil").addClass("fa-2x");
+		$("#ovingpil2a").addClass("fa-2x");
+		$("#ovingpil1a").addClass("fa-2x");
+		$("#ovingpil2b").addClass("fa-2x");
+		$("#ovingpil1b").addClass("fa-2x");
+		$("#etterovingpil").addClass("fa-2x");
+	}
+	else if(bredde < 500 && harclass===true){
+		$("#forovingiko").removeClass("fa-2x");
+		$("#ovingikoa").removeClass("fa-2x");
+		$("#ovingikob").removeClass("fa-2x");
+		$("#etterovingiko").removeClass("fa-2x");
+		$("#forovingpil").removeClass("fa-2x");
+		$("#ovingpil2a").removeClass("fa-2x");
+		$("#ovingpil1a").removeClass("fa-2x");
+		$("#ovingpil2b").removeClass("fa-2x");
+		$("#ovingpil1b").removeClass("fa-2x");
+		$("#etterovingpil").removeClass("fa-2x");
+	}
+	
+	}
+
+//Visning av tooltips
 $( function()
 {
     var targets = $( '[rel~=tooltip]' ),
@@ -2189,10 +2528,7 @@ $( function()
 });
 
 
-//DEAKTIVERT PGA PROBLEMER I FIREFOX
 //hvilke sider hvor det skal være lov å sveipe mot høyre/venstre
-
-/*<--FJERN DENNE KOMMENTAREN FOR Å BRUKE 1/2
 $(document).on('swipeleft', '.ui-page', function (event) {
     if (event.handled !== true) {
 		//om det er første gang brukeren er på siden
@@ -2212,7 +2548,7 @@ $(document).on('swipeleft', '.ui-page', function (event) {
             side = 'ingen';
         }
 
-        if (nesteside.length > 0 && aktivId !== 'introside' && aktivId !== 'starteoving' && aktivId !== 'fortsettoving' && aktivId !== 'avbryteoving' && aktivId !== 'kontakt' && aktivId !== 'oss' && aktivId !== 'popup-om-appen' && aktivId !== 'grafpop' && aktivId !== 'evalpopup' && aktivId !== 'planpopup' && aktivId !== 'ovingpopup' && bredde <=800) {
+        if (nesteside.length > 0 && aktivId !== 'introside' && aktivId !== 'popup-om-appen' && aktivId !== 'grafpop' && aktivId !== 'evalpopup' && aktivId !== 'planpopup' && aktivId !== 'ovingpopup' && nesteside[0].id !== 'ovingpopup' && bredde <=800) {
             $.mobile.changePage(nesteside, {
                 transition: "slidefade",
                 reverse: false
@@ -2231,7 +2567,7 @@ $(document).on('swiperight', '.ui-page', function (event) {
         var aktivId = aktiv[0].id;
 		var bredde=$(document).width();
 		
-        if (forrigeside.length > 0 && aktivId !== 'introside' && aktivId !== 'starteoving' && aktivId !== 'fortsettoving' && aktivId !== 'avbryteoving' && aktivId !== 'kontakt' && aktivId !== 'oss' && aktivId !== 'popup-om-appen' && aktivId !== 'grafpop' && aktivId !== 'evalpopup' && aktivId !== 'planpopup' && aktivId !== 'ovingpopup' && bredde <=800) {
+        if (forrigeside.length > 0 && aktivId !== 'introside' && aktivId !== 'popup-om-appen' && aktivId !== 'grafpop' && aktivId !== 'evalpopup' && aktivId !== 'planpopup' && aktivId !== 'ovingpopup' && forrigeside[0].id !== 'ovingpopup' && bredde <=800) {
             $.mobile.changePage(forrigeside, {
                 transition: "slidefade",
                 reverse: true
@@ -2241,4 +2577,3 @@ $(document).on('swiperight', '.ui-page', function (event) {
     }
     return false;
 }); 
- FJERN DENNE KOMMENTAREN FOR Å BRUKE 2/2 --> */
