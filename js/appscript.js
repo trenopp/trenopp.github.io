@@ -2100,7 +2100,7 @@ function sjekkstatus() {
         var minu = ovinger[i].datominutter;
         var aktivert = ovinger[i].aktivert;
 	
-		if (inaktiv > 0){
+		if (inaktiv > 0 && +aktivert === 1 && +utfort === 0){
 			var ovingnr = ovinger[i].dag;			
 			var igjen = 7-neste;
 			
