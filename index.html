@@ -37,7 +37,7 @@
 	
 <!-- popup for å starte øvinger starter her -->
 <!-- popup starte øving -->
-<div data-role="popup" id="starteoving" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:500px;">
+<div data-role="popup" id="starteoving" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:200px;">
     <div data-role="header" data-theme="b">
 		<h1>Starte øving?</h1>
     </div>
@@ -84,14 +84,14 @@
 		<p>Du kan starte øvingen igjen senere ved å trykke "Tilgjengelige øvinger" på menyen, eller trykke på øvings-valget på oversiktssiden.</p>
         <h3 class="ui-title">Er du sikker på at du vil avbryte øvingen? </h3>
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a" onclick="avbrytov()">Ja</a>
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Nei</a>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Nei</a>
     </div>
 </div>
 <!-- popup for å avbryte øvinger slutter her -->
 <!-- /popup avbryte øving -->
 <!-- popup for instillinger starter her -->
 <!-- popup instillinger-->
-<div data-role="popup" id="instillinger" data-overlay-theme="b" data-theme="b" data-dismissible="true">
+<div data-role="popup" id="instillinger" data-overlay-theme="b" data-theme="b" data-dismissible="false">
     <div data-role="header" data-theme="b">
 		<h1>Instillinger</h1>
     </div>
@@ -116,7 +116,7 @@
 				</select>
 			</div>
 		</div>
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Lukk</a>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Lukk</a>
     </div>
 </div>
 <!-- popup for instillinger slutter her -->
@@ -143,7 +143,7 @@
 <!-- /popup volum lyd-øving -->
 <!-- popup for kontakt starter her -->
 <!-- popup kontakt -->
-<div data-role="popup" id="kontakt" data-overlay-theme="b" data-theme="b" data-dismissible="true" style="max-width:400px;">
+<div data-role="popup" id="kontakt" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
     <div data-role="header" data-theme="b">
 		<h1>Kontakt eMeistring</h1>
     </div>
@@ -159,7 +159,7 @@
 			<input type="submit" data-theme="a" value="<i class='fa fa-envelope'></i> Send">
 		</form>
 		<p id="skjemamelding"></p>
-		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Lukk</a>
+		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Lukk</a>
     </div>
 </div>
 <!-- popup for kontakt slutter her -->
@@ -167,11 +167,11 @@
 
 <!-- popup for hjelp starter her -->
 <!-- popup hjelp -->
-<div data-role="popup" id="oss" data-overlay-theme="b" data-theme="b" data-dismissible="true">
+<div data-role="popup" id="oss" data-overlay-theme="b" data-theme="b" onclick="etterpause()" data-dismissible="false" >
     <div data-role="header" data-theme="b">
 		<h2>Har du spørsmål?</h2>
     </div>
-    <div data-role="content" class="ui-body-a">
+    <div data-role="content" style="max-width:95vw;" class="ui-body-a">
         <!-- innhold intro -->
          <h2 class="sideundertittel"><em class="fa fa-info-circle"></em> Ofte stilte spørsmål</h2>
             <form class="ui-filterable" data-theme="e">
@@ -384,7 +384,7 @@
                     </div>
                 </div>
             </div>
-			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" data-rel="back">Lukk</a>
+			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Lukk</a>
     </div>
 </div>
 <!-- popup for hjelp slutter her -->
@@ -424,7 +424,7 @@
 		<div data-role="navbar" class="menyside meny-skygge">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
 		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
-		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
+		<li><a href="#oss" data-rel="popup" data-position-to="window" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
 		</div>
@@ -534,7 +534,7 @@
 				<li class="meny-storskjerm" style="margin-top:0.2em;width:20%;"><a href="#" onClick="tvingOmlasting()"><img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/></a></li>
 			</ul>				
 		</div>
-		<div class="ui-grid-b meny-storskjerm" style="background-color:#E9F1F9; box-shadow: 5px 5px 15px #8c8c8c;">
+		<div class="ui-grid-b meny-storskjerm meny-skygge">
 		<div class="ui-block-a">
 		</div>
 				<div class="ui-block-b">
@@ -551,7 +551,7 @@
 
 		<!--Meny top-->
 		<!--Meny top-->
-		<div data-role="navbar" class="menyside" style="background-color:#E9F1F9;box-shadow: 5px 5px 15px #8c8c8c;">
+		<div data-role="navbar" class="menyside meny-skygge">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
 		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
@@ -719,7 +719,7 @@
 				<li class="meny-storskjerm" style="margin-top:0.2em;width:20%;"><a href="#" onClick="tvingOmlasting()"><img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/></a></li>
 			</ul>				
 		</div>
-		<div class="ui-grid-b meny-storskjerm" style="background-color:#E9F1F9; box-shadow: 5px 5px 15px #8c8c8c;">
+		<div class="ui-grid-b meny-storskjerm meny-skygge">
 		<div class="ui-block-a">
 		</div>
 				<div class="ui-block-b">
@@ -735,7 +735,7 @@
 
 
 		<!--Meny top-->
-		<div data-role="navbar" class="menyside" style="background-color:#E9F1F9;box-shadow: 5px 5px 15px #8c8c8c;">
+		<div data-role="navbar" class="menyside meny-skygge" style="background-color:#E9F1F9;box-shadow: 5px 5px 15px #8c8c8c;">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
 		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
@@ -1143,9 +1143,9 @@
 	<h1 style="text-align:center;max-height:50px;padding:10px;"><img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/></h1>
 	<div data-role="navbar" class="meny-skygge">
         	<ul>
-			<li><a href="#oss" data-rel="popup" data-transition="pop" data-position-to="window" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
-			<li><a href="#kontakt" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-lg"></i></a></li>
-			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop"title="Avslutt"><i class="fa fa-close fa-lg"></i></a></li>
+			<li><a href="#oss" data-rel="popup" data-transition="pop" onclick="hjelppause()" data-position-to="window" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#kontakt" data-rel="popup" data-transition="pop" onclick="hjelppause()" title="Kontakt"><i class="fa fa-envelope fa-lg"></i></a></li>
+			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop" onclick="hjelppause()" title="Avslutt"><i class="fa fa-close fa-lg"></i></a></li>
 			</ul>			
 	</div>
     </div>

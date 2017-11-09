@@ -141,6 +141,35 @@ function setforste() {
 	statustimer();
 }
 
+function autostartoving(dag){
+	var forste=parseInt(JSON.parse(localStorage.getItem('forste')));
+	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
+	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
+	var ovtype = parseInt(JSON.parse(localStorage.getItem('lydklipp')));
+	if (forste === 0){
+		
+		if((parseInt(valgintro)===0 && parseInt(valgoving)===0) || (parseInt(valgintro)===1 && parseInt(valgoving)===0)){
+			$.mobile.changePage("#introside");
+		}
+		else if(parseInt(valgintro)===0 && parseInt(valgoving)===1){
+			$.mobile.changePage('#intro');
+			startintro();
+		}
+		else{
+			lagovingspopup(dag);
+			$.mobile.changePage('#ovingpopup');
+			if(parseInt(ovtype)===1){
+				startoving();
+			}
+			else {	    
+				spillavLyd();
+			}
+		}
+	var autostartactive=1;
+	localStorage.setItem('autostartactive', JSON.stringify(autostart));
+	}
+}
+
 //det som skal lagres i local storage blir opprettet første gang brukeren starter appen
 function forstegang() {
     "use strict";
@@ -161,6 +190,7 @@ function forstegang() {
 	var ikketilgjknapp=0;
 	var valgoving=0;
 	var valgintro=0;
+	var autostartactive=1;
     var ovinger = [];
     for (var i = 0; i < 7; i++) {
         var nydato = DateAdd(idag, "d", i);
@@ -185,6 +215,7 @@ function forstegang() {
             aktivert: 0,
         };
     }
+	localStorage.setItem('autostartactive', JSON.stringify(autostart));
 	localStorage.setItem('valgovingverdi', JSON.stringify(valgoving));
     localStorage.setItem('valgintroverdi', JSON.stringify(valgintro));
     localStorage.setItem('forste', JSON.stringify(forste));
@@ -319,14 +350,32 @@ function hjelppause(){
 	var ovtype = JSON.parse(localStorage.getItem('lydklipp'));
 	var lydklipp = document.getElementById("lydklipp1");
 	
-	if(parseInt(ovtype)===1 && pause === 0){
+	if(parseInt(ovtype)===1 && pause === 0 && bildenr > 0){
 		pauseoving();
 	}
-	else if(parseInt(ovtype)===0 && !lydklipp.paused){	    
+	else if(parseInt(ovtype)===0 && !lydklipp.paused && lydklipp.currentTime > 0){	    
 		spillavLyd();
 	}
 	else if(intropause === 0 && introbilde > 0) {
 		pauseintro();
+	}
+	else {
+		return;
+	}
+}
+
+function etterpause(){
+	var ovtype = JSON.parse(localStorage.getItem('lydklipp'));
+	var lydklipp = document.getElementById("lydklipp1");
+	
+	if(parseInt(ovtype)===1 && pause === 1 && bildenr > 0){
+		startetterpause();
+	}
+	else if(parseInt(ovtype)===0 && lydklipp.paused){	    
+		spillavLyd();
+	}
+	else if(intropause === 1 && introbilde > 0) {
+		introetterpause();
 	}
 	else {
 		return;
@@ -880,8 +929,6 @@ function lagevalpopup(knappid) {
     document.getElementById("evaloverskrift").innerHTML = "Evaluering dag " + knappid;
 	evalslider(ovinger[knappid - 1].evalfor,3);
 	evalslider(ovinger[knappid - 1].evaletter,4);
-    //document.getElementById("visevalfor").value = parseInt(ovinger[knappid - 1].evalfor) + 3;
-    //document.getElementById("visevaletter").value = parseInt(ovinger[knappid - 1].evaletter) + 3;
 }
 
 //*******************************************************************************************	
@@ -1644,6 +1691,7 @@ function lagreOving(knappid) {
     "use strict";
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var neste = JSON.parse(localStorage.getItem('neste'));
+	var autostartactive=0;
     for (var i = 0; i < ovinger.length; i++) {
         if (ovinger[i].dag === knappid) {
             ovinger[i].evalfor = $('input[name="oppmfor"]:checked').val();
@@ -1651,9 +1699,6 @@ function lagreOving(knappid) {
             ovinger[i].utfort = 1;
             ovinger[i].aktivert = 0;
             neste = i + 1;
-			console.log(ovinger[i].dag); 
-			console.log(ovinger[i].evalfor);
-			console.log(ovinger[i].evaletter);
             break;
         }
     }
@@ -1661,11 +1706,12 @@ function lagreOving(knappid) {
 	document.getElementById("startdatodiv").style.display = 'none';
     localStorage.setItem('ovinger', JSON.stringify(ovinger));
     localStorage.setItem('neste', JSON.stringify(neste));
+	localStorage.setItem('autostartactive', JSON.stringify(autostart));
     lagplanliste();
     lagovingliste();
     lagevalliste();
     antalldager();
-    nesteoving(neste);
+    nesteoving(neste);	
     graf();
 	setforste();
 	statustimer();
@@ -1700,7 +1746,7 @@ function meldtilbruker() {
       icon: 'images/logo/favicon-32x32.png'
   };
   var n = new Notification("eMeistring", options);
-  setTimeout(n.close.bind(n), 5000); 
+  setTimeout(n.close.bind(n), 10000); 
 }
 
 function lagmelding() {
@@ -1819,7 +1865,6 @@ function nesteoving(neste) {
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	var antall = JSON.parse(localStorage.getItem('antall'));
 	var lydklipp = JSON.parse(localStorage.getItem('lydklipp'));
-    //console.log(antall);
 	var dag = "";
     var tid = "";
     var dato = "";
@@ -1834,6 +1879,7 @@ function nesteoving(neste) {
 	var ikketilgjknapp=JSON.parse(localStorage.getItem('ikketilgjknapp'));
     var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
+	var autostartactive =parseInt(JSON.parse(localStorage.getItem('autostartactive')));
 	
    for (var i = 0; i < ovinger.length; i++) {
         //hvis dette er neste øving i rekken...
@@ -1944,6 +1990,9 @@ function nesteoving(neste) {
                             
 				//document.getElementById("ovingside-nesteoving").innerHTML = " Du har en ny øving som venter på deg:";
                 lagovingliste();
+				if(autostartactive===0){
+					autostartoving(ovinger[i].dag);
+				}
             }
             //hvis neste øving er i dag, og øvingen ikke er aktivert enda
             else if (+m === +idag.getMonth() && +y === +idag.getFullYear() && +dg === +idag.getDate() && +aktivert === 0 && +antall < 7) {
@@ -2089,7 +2138,6 @@ function sjekkstatus() {
     var t = idag.getHours();
     var minutt = idag.getMinutes();
 	var nydato ="";
-	console.log(ovinger.length);
 	
     for (var i = 0; i < ovinger.length; i++) {
         var dag = ovinger[i].datodag;
@@ -2100,7 +2148,7 @@ function sjekkstatus() {
         var minu = ovinger[i].datominutter;
         var aktivert = ovinger[i].aktivert;
 		
-		if (+aktivert === 1 && +utfort === 0 && ((+dag < +d && +mnd === +m && +aar === +y)||(+mnd < +m && +aar === +y)||(+aar < +y)) ){
+		if (+utfort === 0 && ((+dag < +d && +mnd === +m && +aar === +y)||(+mnd < +m && +aar === +y)||(+aar < +y)) ){
 			var ovingnr = ovinger[i].dag;			
 			var igjen = ovinger.length - parseInt(ovingnr);
 				nydato = DateAdd(idag, "d", i);
@@ -2108,64 +2156,62 @@ function sjekkstatus() {
 				ovinger[i].datomnd = nydato.getMonth();
 				ovinger[i].datoaar = nydato.getFullYear();
 				ovinger[i].aktivert = 0;
-				aktivert=0;
 				console.log(i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
 				lagovingliste();
 				lagplanliste();
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
 				erbrukeronline();
 				nesteoving(neste);
-
 		}
 		
 		else{	
         //aktiverer øvinger hvis tidspunkt er nådd i dag
-        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
-            erbrukeronline();
-			lagmelding();
-			ovinger[i].aktivert = 1;
-            nesteoving(neste);
-            lagovingliste();
-            lagplanliste();
-            localStorage.setItem('ovinger', JSON.stringify(ovinger));
-        }
+			if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
+				erbrukeronline();
+				lagmelding();
+				ovinger[i].aktivert = 1;
+				nesteoving(neste);
+				lagovingliste();
+				lagplanliste();
+				localStorage.setItem('ovinger', JSON.stringify(ovinger));
+			}
 		
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
-        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0) {
-            erbrukeronline();
-			lagmelding();
-			ovinger[i].aktivert = 1;
-            lagovingliste();
-            lagplanliste();
-            localStorage.setItem('ovinger', JSON.stringify(ovinger));
-            nesteoving(neste);
+			else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0) {
+				erbrukeronline();
+				lagmelding();
+				ovinger[i].aktivert = 1;
+				lagovingliste();
+				lagplanliste();
+				localStorage.setItem('ovinger', JSON.stringify(ovinger));
+				nesteoving(neste);
 
-        }
+			}
         //hvis månedsskifte før brukeren åpner appen igjen
-        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
-            erbrukeronline();
-			lagmelding();
-			ovinger[i].aktivert = 1;
-            lagovingliste();
-            lagplanliste();
-            localStorage.setItem('ovinger', JSON.stringify(ovinger));
-            nesteoving(neste);
-        }
-        //hvis årskifte før brukeren åpner appen igjen
-        else if (+aar < +y && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
-            erbrukeronline();
-			lagmelding();
-			ovinger[i].aktivert = 1;
-            lagovingliste();
-            lagplanliste();
-            localStorage.setItem('ovinger', JSON.stringify(ovinger));
-            nesteoving(neste);
-        } 
+			else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
+				erbrukeronline();
+				lagmelding();
+				ovinger[i].aktivert = 1;
+				lagovingliste();
+				lagplanliste();
+				localStorage.setItem('ovinger', JSON.stringify(ovinger));
+				nesteoving(neste);
+			}
+			//hvis årskifte før brukeren åpner appen igjen
+			else if (+aar < +y && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
+				erbrukeronline();
+				lagmelding();
+				ovinger[i].aktivert = 1;
+				lagovingliste();
+				lagplanliste();
+				localStorage.setItem('ovinger', JSON.stringify(ovinger));
+				nesteoving(neste);
+			} 
 
-		else {
-            nesteoving(neste);
-        }
+			else {
+				nesteoving(neste);
+			}
 		}
     }
 }
