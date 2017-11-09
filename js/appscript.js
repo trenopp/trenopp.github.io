@@ -2101,7 +2101,7 @@ function sjekkstatus() {
         var aktivert = ovinger[i].aktivert;
 			
         //aktiverer øvinger hvis tidspunkt er nådd i dag
-        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
+        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2113,7 +2113,7 @@ function sjekkstatus() {
 		
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
-        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0) {
+        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && inaktiv===0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2136,7 +2136,7 @@ function sjekkstatus() {
 			inaktiv++;
         }
         //hvis årskifte før brukeren åpner appen igjen
-        else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
+        else if (+aar < +y && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2153,7 +2153,7 @@ function sjekkstatus() {
 		
 		if (inaktiv > 0){
 			var ovingnr = ovinger[i].dag;			
-			var igjen = 7-ovingnr;
+			var igjen = 7-neste;
 			
 			for (var n = 0; n < igjen; n++){
 				nydato = DateAdd(idag, "d", n);
