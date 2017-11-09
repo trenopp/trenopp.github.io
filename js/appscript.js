@@ -2099,9 +2099,23 @@ function sjekkstatus() {
         var time = ovinger[i].datotime;
         var minu = ovinger[i].datominutter;
         var aktivert = ovinger[i].aktivert;
+	
+		if (inaktiv > 0){
+			var ovingnr = ovinger[i].dag;			
+			var igjen = 7-neste;
 			
+			for (var n = 0; n < igjen; n++){
+				nydato = DateAdd(idag, "d", n);
+				ovinger[i].datodag= nydato.getDate();
+				ovinger[i].datomnd = nydato.getMonth();
+				ovinger[i].datoaar = nydato.getFullYear();
+				localStorage.setItem('ovinger', JSON.stringify(ovinger));
+			}
+			inaktiv=0;
+		}
+		else{	
         //aktiverer øvinger hvis tidspunkt er nådd i dag
-        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
+        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2109,11 +2123,12 @@ function sjekkstatus() {
             lagovingliste();
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
+			inaktiv++;
         }
 		
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
-        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && inaktiv===0) {
+        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2136,7 +2151,7 @@ function sjekkstatus() {
 			inaktiv++;
         }
         //hvis årskifte før brukeren åpner appen igjen
-        else if (+aar < +y && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
+        else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2150,19 +2165,6 @@ function sjekkstatus() {
 		else {
             nesteoving(neste);
         }
-		
-		if (inaktiv > 0){
-			var ovingnr = ovinger[i].dag;			
-			var igjen = 7-neste;
-			
-			for (var n = 0; n < igjen; n++){
-				nydato = DateAdd(idag, "d", n);
-				ovinger[i].datodag= nydato.getDate();
-				ovinger[i].datomnd = nydato.getMonth();
-				ovinger[i].datoaar = nydato.getFullYear();
-				localStorage.setItem('ovinger', JSON.stringify(ovinger));
-			}
-			inaktiv=0;
 		}
     }
 }
