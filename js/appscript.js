@@ -2099,8 +2099,11 @@ function sjekkstatus() {
         var time = ovinger[i].datotime;
         var minu = ovinger[i].datominutter;
         var aktivert = ovinger[i].aktivert;
-	
-		if (inaktiv > 0 && +aktivert === 1 && +utfort === 0){
+		if(aktivert ===1){
+			inaktiv++
+		}
+		
+		if (inaktiv > 1 && +aktivert === 1 && +utfort === 0){
 			var ovingnr = ovinger[i].dag;			
 			var igjen = 7-neste;
 			
@@ -2113,9 +2116,10 @@ function sjekkstatus() {
 			}
 			inaktiv=0;
 		}
+		
 		else{	
         //aktiverer øvinger hvis tidspunkt er nådd i dag
-        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
+        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2123,12 +2127,11 @@ function sjekkstatus() {
             lagovingliste();
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
-			inaktiv++;
         }
 		
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
-        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0) {
+        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && inaktiv===0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2136,11 +2139,10 @@ function sjekkstatus() {
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
             nesteoving(neste);
-			inaktiv++;
-			
+
         }
         //hvis månedsskifte før brukeren åpner appen igjen
-        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
+        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2148,10 +2150,9 @@ function sjekkstatus() {
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
             nesteoving(neste);
-			inaktiv++;
         }
         //hvis årskifte før brukeren åpner appen igjen
-        else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
+        else if (+aar < +y && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2159,7 +2160,6 @@ function sjekkstatus() {
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
             nesteoving(neste);
-			inaktiv++;
         } 
 
 		else {
