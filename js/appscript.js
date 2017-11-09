@@ -2101,7 +2101,7 @@ function sjekkstatus() {
         var aktivert = ovinger[i].aktivert;
 			
         //aktiverer øvinger hvis tidspunkt er nådd i dag
-        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0 && inaktiv === 0) {
+        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2109,11 +2109,11 @@ function sjekkstatus() {
             lagovingliste();
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
-			inaktiv=0;
         }
+		
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
-        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort === 0 && inaktiv === 0) {
+        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2125,7 +2125,7 @@ function sjekkstatus() {
 			
         }
         //hvis månedsskifte før brukeren åpner appen igjen
-        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0 && inaktiv === 0) {
+        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2136,7 +2136,7 @@ function sjekkstatus() {
 			inaktiv++;
         }
         //hvis årskifte før brukeren åpner appen igjen
-        else if (+aar < +y && +aktivert === 0 && +utfort === 0 && inaktiv === 0) {
+        else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2146,7 +2146,12 @@ function sjekkstatus() {
             nesteoving(neste);
 			inaktiv++;
         } 
-		else if (inaktiv > 0){
+
+		else {
+            nesteoving(neste);
+        }
+		
+		if (inaktiv > 0){
 			var ovingnr = ovinger[i].dag;			
 			var igjen = 7-ovingnr;
 			
@@ -2159,10 +2164,6 @@ function sjekkstatus() {
 			}
 			inaktiv=0;
 		}
-		else {
-            nesteoving(neste);
-			inaktiv=0;
-        }
     }
 }
 
