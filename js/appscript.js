@@ -2078,18 +2078,18 @@ function nesteoving(neste) {
 //sjekker om dato og tidspunkt for å aktivere en ny øving er nådd	
 function sjekkstatus() {
     "use strict";
-    var alarm = JSON.parse(localStorage.getItem('alarm'));
-    var forste = JSON.parse(localStorage.getItem('forste'));
-    var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var neste = JSON.parse(localStorage.getItem('neste'));
-    var idag = new Date();
+	var alarm = JSON.parse(localStorage.getItem('alarm'));
+    var forste = JSON.parse(localStorage.getItem('forste'));
+	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
+	var idag = new Date();
     var d = idag.getDate();
     var m = idag.getMonth();
     var y = idag.getFullYear();
     var t = idag.getHours();
     var minutt = idag.getMinutes();
-	var inaktiv=0;
 	var nydato ="";
+	console.log(ovinger.length);
 	
     for (var i = 0; i < ovinger.length; i++) {
         var dag = ovinger[i].datodag;
@@ -2099,27 +2099,28 @@ function sjekkstatus() {
         var time = ovinger[i].datotime;
         var minu = ovinger[i].datominutter;
         var aktivert = ovinger[i].aktivert;
-		if(aktivert ===1){
-			inaktiv++
-		}
 		
-		if (inaktiv > 1 && +aktivert === 1 && +utfort === 0){
+		if (+aktivert === 1 && +utfort === 0 && ((+dag < +d && +mnd === +m && +aar === +y)||(+mnd < +m && +aar === +y)||(+aar < +y)) ){
 			var ovingnr = ovinger[i].dag;			
-			var igjen = 7-neste;
-			
-			for (var n = 0; n < igjen; n++){
-				nydato = DateAdd(idag, "d", n);
+			var igjen = ovinger.length - parseInt(ovingnr);
+				nydato = DateAdd(idag, "d", i);
 				ovinger[i].datodag= nydato.getDate();
 				ovinger[i].datomnd = nydato.getMonth();
 				ovinger[i].datoaar = nydato.getFullYear();
+				ovinger[i].aktivert = 0;
+				aktivert=0;
+				console.log(i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
+				lagovingliste();
+				lagplanliste();
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
-			}
-			inaktiv=0;
+				erbrukeronline();
+				nesteoving(neste);
+
 		}
 		
 		else{	
         //aktiverer øvinger hvis tidspunkt er nådd i dag
-        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
+        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2131,7 +2132,7 @@ function sjekkstatus() {
 		
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
-        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && inaktiv===0) {
+        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2142,7 +2143,7 @@ function sjekkstatus() {
 
         }
         //hvis månedsskifte før brukeren åpner appen igjen
-        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
+        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
