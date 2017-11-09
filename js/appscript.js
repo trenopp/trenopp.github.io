@@ -30,8 +30,8 @@ window.onload = function () {
             setTimeout(lagmndliste("plan-mnd", "plan-aar", 0), 500);
             setTimeout(lagdagliste("plan-dag", "plan-mnd", "plan-aar", 0), 600);
 			opphavsrettdato();
-
             $.mobile.changePage("#introside");
+
             /*$('div[data-role="page"]').bind('pageshow', function () {
                 document.title = "Oppmerksomhetstrening"
             });*/
@@ -1834,6 +1834,7 @@ function nesteoving(neste) {
 	var ikketilgjknapp=JSON.parse(localStorage.getItem('ikketilgjknapp'));
     var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
+	
    for (var i = 0; i < ovinger.length; i++) {
         //hvis dette er neste øving i rekken...
         if (ovinger[i].dag === (parseInt(neste) + 1)) {
@@ -1872,48 +1873,49 @@ function nesteoving(neste) {
 				document.getElementById("ov-tilgj").style.display = 'block';
 				document.getElementById("introside-meny").style.display = 'block';
 				document.getElementById("ov-ikke-tilgj").style.display = 'none';
+
 				if (parseInt(valgintro)===1 && parseInt(valgoving)===0){
 					document.getElementById("startovingpop").innerHTML = "<a href='#ovingpopup' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onClick='lagovingspopup(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
 					knapptekstmeny = "<a href='#introside' onClick='stopstatustimer()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
 					knapptekstoving = "<a href='#introside' onClick='stopstatustimer()'>"
-					+ "<img class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+					+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 					+ "<div class='imgteksttopp'>"
 					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
 					+ "<p>Jeg har en ny øving som venter.</p></div>"
-					+ "<p class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+					+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 					+ "</a>";
 				}
 				else if (parseInt(valgintro)===0 && parseInt(valgoving)===0){
 					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
 					knapptekstmeny = "<a href='#introside' onClick='stopstatustimer()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
 					knapptekstoving = "<a href='#introside' onClick='stopstatustimer()'>"
-					+ "<img class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+					+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 					+ "<div class='imgteksttopp'>"
 					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
 					+ "<p>Jeg har en ny øving som venter.</p></div>"
-					+ "<p class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+					+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 					+ "</a>";
 				}
 				else if (parseInt(valgintro)===0 && parseInt(valgoving)===1){
 					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
 					knapptekstmeny = "<a href='#intro' onClick='startintro()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
 					knapptekstoving = "<a href='#intro' onClick='startintro()'>"
-					+ "<img class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+					+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 					+ "<div class='imgteksttopp'>"
 					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
 					+ "<p>Jeg har en ny øving som venter.</p></div>"
-					+ "<p class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+					+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 					+ "</a>";
 				}
 				else{
 					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
 					knapptekstmeny = "<a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
 					knapptekstoving = "<a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")'>"
-					+ "<img class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+					+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 					+ "<div class='imgteksttopp'>"
 					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
 					+ "<p>Jeg har en ny øving som venter.</p></div>"
-					+ "<p class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+					+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 					+ "</a>";
 				}
 				document.getElementById("valgetterovingpop").innerHTML="<a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onclick='lagreOving(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
@@ -2086,7 +2088,9 @@ function sjekkstatus() {
     var y = idag.getFullYear();
     var t = idag.getHours();
     var minutt = idag.getMinutes();
-
+	var inaktiv=0;
+	var nydato ="";
+	
     for (var i = 0; i < ovinger.length; i++) {
         var dag = ovinger[i].datodag;
         var utfort = ovinger[i].utfort;
@@ -2095,9 +2099,9 @@ function sjekkstatus() {
         var time = ovinger[i].datotime;
         var minu = ovinger[i].datominutter;
         var aktivert = ovinger[i].aktivert;
-
+			
         //aktiverer øvinger hvis tidspunkt er nådd i dag
-        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
+        if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0 && inaktiv === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2105,10 +2109,11 @@ function sjekkstatus() {
             lagovingliste();
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
+			inaktiv=0;
         }
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
-        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
+        else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort === 0 && inaktiv === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2116,10 +2121,11 @@ function sjekkstatus() {
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
             nesteoving(neste);
+			inaktiv++;
 			
         }
         //hvis månedsskifte før brukeren åpner appen igjen
-        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
+        else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0 && inaktiv === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2127,9 +2133,10 @@ function sjekkstatus() {
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
             nesteoving(neste);
+			inaktiv++;
         }
         //hvis årskifte før brukeren åpner appen igjen
-        else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
+        else if (+aar < +y && +aktivert === 0 && +utfort === 0 && inaktiv === 0) {
             erbrukeronline();
 			lagmelding();
 			ovinger[i].aktivert = 1;
@@ -2137,8 +2144,24 @@ function sjekkstatus() {
             lagplanliste();
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
             nesteoving(neste);
-        } else {
+			inaktiv++;
+        } 
+		else if (inaktiv > 0){
+			var ovingnr = ovinger[i].dag;			
+			var igjen = 7-ovingnr;
+			
+			for (var n = 0; n < igjen; n++){
+				nydato = DateAdd(idag, "d", n);
+				ovinger[i].datodag= nydato.getDate();
+				ovinger[i].datomnd = nydato.getMonth();
+				ovinger[i].datoaar = nydato.getFullYear();
+				localStorage.setItem('ovinger', JSON.stringify(ovinger));
+			}
+			inaktiv=0;
+		}
+		else {
             nesteoving(neste);
+			inaktiv=0;
         }
     }
 }
@@ -2255,6 +2278,27 @@ function erbrukeronline() {
 function rulltilelement(t){
      document.getElementById(t).scrollIntoView(true);
 }
+
+function hoverpaaforside(idbilde,idtekst){
+    $(idbilde).removeClass("imgbakgr");
+	$(idtekst).removeClass("imgtekstbunn");
+	$(idbilde).addClass("imgbakgrover");
+	$(idtekst).addClass("imgtekstbunnover");
+}
+
+function hoveravforside(idbilde,idtekst){
+    $(idbilde).addClass("imgbakgr");
+	$(idtekst).addClass("imgtekstbunn");
+	$(idbilde).removeClass("imgbakgrover");
+	$(idtekst).removeClass("imgtekstbunnover");
+}
+
+
+$(window).bind('hashchange',function(event){
+	var sidenaa = history.state;
+    var stateObj = { sidenaa: "" };
+	history.replaceState(stateObj, "eMeistring Oppmeksomhetstrening", "index.html");
+});
 
 
 //tooltip popup om startdato
