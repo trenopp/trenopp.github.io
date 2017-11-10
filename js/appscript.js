@@ -114,6 +114,7 @@ window.onload = function () {
             }
 			localStorage.setItem('tilgjknapp',JSON.stringify(0));
 			localStorage.setItem('ikketilgjknapp',JSON.stringify(0));
+
         }
 
     } else {
@@ -146,8 +147,9 @@ function autostartoving(dag){
 	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
 	var ovtype = parseInt(JSON.parse(localStorage.getItem('lydklipp')));
+	var autostartactive=0;	
 	if (forste === 0){
-		
+		autostart=1;
 		if((parseInt(valgintro)===0 && parseInt(valgoving)===0) || (parseInt(valgintro)===1 && parseInt(valgoving)===0)){
 			$.mobile.changePage("#introside");
 		}
@@ -165,9 +167,13 @@ function autostartoving(dag){
 				spillavLyd();
 			}
 		}
-	var autostartactive=1;
-	localStorage.setItem('autostartactive', JSON.stringify(autostart));
+
 	}
+	else{
+		autostart=0;
+	}
+	localStorage.setItem('autostartactive', JSON.stringify(autostart));
+	console.log(autostartactive);
 }
 
 //det som skal lagres i local storage blir opprettet første gang brukeren starter appen
@@ -190,7 +196,7 @@ function forstegang() {
 	var ikketilgjknapp=0;
 	var valgoving=0;
 	var valgintro=0;
-	var autostartactive=1;
+	var autostart=1;
     var ovinger = [];
     for (var i = 0; i < 7; i++) {
         var nydato = DateAdd(idag, "d", i);
@@ -1691,7 +1697,7 @@ function lagreOving(knappid) {
     "use strict";
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var neste = JSON.parse(localStorage.getItem('neste'));
-	var autostartactive=0;
+	var autostart=0;
     for (var i = 0; i < ovinger.length; i++) {
         if (ovinger[i].dag === knappid) {
             ovinger[i].evalfor = $('input[name="oppmfor"]:checked').val();
@@ -1699,13 +1705,13 @@ function lagreOving(knappid) {
             ovinger[i].utfort = 1;
             ovinger[i].aktivert = 0;
             neste = i + 1;
+			localStorage.setItem('ovinger', JSON.stringify(ovinger));
+			localStorage.setItem('neste', JSON.stringify(neste));
             break;
         }
     }
 
 	document.getElementById("startdatodiv").style.display = 'none';
-    localStorage.setItem('ovinger', JSON.stringify(ovinger));
-    localStorage.setItem('neste', JSON.stringify(neste));
 	localStorage.setItem('autostartactive', JSON.stringify(autostart));
     lagplanliste();
     lagovingliste();
@@ -2148,23 +2154,6 @@ function sjekkstatus() {
         var minu = ovinger[i].datominutter;
         var aktivert = ovinger[i].aktivert;
 		
-		if (+utfort === 0 && ((+dag < +d && +mnd === +m && +aar === +y)||(+mnd < +m && +aar === +y)||(+aar < +y)) ){
-			var ovingnr = ovinger[i].dag;			
-			var igjen = ovinger.length - parseInt(ovingnr);
-				nydato = DateAdd(idag, "d", i);
-				ovinger[i].datodag= nydato.getDate();
-				ovinger[i].datomnd = nydato.getMonth();
-				ovinger[i].datoaar = nydato.getFullYear();
-				ovinger[i].aktivert = 0;
-				console.log(i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
-				lagovingliste();
-				lagplanliste();
-				localStorage.setItem('ovinger', JSON.stringify(ovinger));
-				erbrukeronline();
-				nesteoving(neste);
-		}
-		
-		else{	
         //aktiverer øvinger hvis tidspunkt er nådd i dag
 			if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
 				erbrukeronline();
@@ -2174,6 +2163,7 @@ function sjekkstatus() {
 				lagovingliste();
 				lagplanliste();
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
+				console.log("i dag " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
 			}
 		
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
@@ -2182,11 +2172,22 @@ function sjekkstatus() {
 				erbrukeronline();
 				lagmelding();
 				ovinger[i].aktivert = 1;
-				lagovingliste();
-				lagplanliste();
-				localStorage.setItem('ovinger', JSON.stringify(ovinger));
-				nesteoving(neste);
-
+				var t=-1;
+				var ovingnr = (ovinger[i].dag-1);
+				for (var n=ovingnr;n < ovinger.length;n++){
+					t++;
+					nydato = DateAdd(idag, "d", t);
+					ovinger[n].datodag= nydato.getDate();
+					ovinger[n].datomnd = nydato.getMonth();
+					ovinger[n].datoaar = nydato.getFullYear();
+					ovinger[n].aktivert = 0;
+					lagovingliste();
+					lagplanliste();
+					localStorage.setItem('ovinger', JSON.stringify(ovinger));
+					console.log("dag over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
+					nesteoving(neste);
+				}
+				
 			}
         //hvis månedsskifte før brukeren åpner appen igjen
 			else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
@@ -2197,9 +2198,10 @@ function sjekkstatus() {
 				lagplanliste();
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
 				nesteoving(neste);
+				console.log("mnd over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
 			}
 			//hvis årskifte før brukeren åpner appen igjen
-			else if (+aar < +y && +aktivert === 0 && +utfort === 0 && inaktiv===0) {
+			else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
 				erbrukeronline();
 				lagmelding();
 				ovinger[i].aktivert = 1;
@@ -2207,12 +2209,13 @@ function sjekkstatus() {
 				lagplanliste();
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
 				nesteoving(neste);
+				console.log("år over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
 			} 
 
 			else {
 				nesteoving(neste);
 			}
-		}
+
     }
 }
 
@@ -2377,6 +2380,8 @@ function avbrytov() {
 	$( "#avbryteoving" ).popup( "close" );
 	setforste();
 	statustimer();
+	var autostartactive=1;
+	localStorage.setItem('autostartactive', JSON.stringify(autostartactive));
 	setTimeout(function(){
 		tvingOmlasting();
 	},1)
