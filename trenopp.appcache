@@ -13,7 +13,8 @@ CACHE MANIFEST
  favicon.ico
  images/logo/logo-oving-s.png
  images/logo/logo-oving-l.png
- images/soslogosvg.svg
+ images/logo/logo-oving-s.svg
+ images/logo/logo-oving-l.svg
  browserconfig.xml
 CACHE:
 # Logo

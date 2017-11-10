@@ -11,7 +11,6 @@ window.onload = function () {
         if (localStorage.getItem('ovinger') === null) {
 			forstegang();
             lagplanliste();
-            lagovingliste();
             lagevalliste();
 			window.addEventListener("resize", strendring);
 			strendring();            
@@ -89,7 +88,6 @@ window.onload = function () {
             erbrukeronline();
 			statustimer();
             lagplanliste();
-            lagovingliste();
             lagevalliste();
             tabreset();
             antalldager();
@@ -147,16 +145,19 @@ function autostartoving(dag){
 	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
 	var ovtype = parseInt(JSON.parse(localStorage.getItem('lydklipp')));
-	var autostart=parseInt(JSON.parse(localStorage.getItem('autostartactive')));
-	if (forste === 0){
-		autostart=1;
-		console.log("autostarter øving");
+	var autostart=JSON.parse(localStorage.getItem('autostartactive'));
+	if (autostart===0){
+		
 		if((parseInt(valgintro)===0 && parseInt(valgoving)===0) || (parseInt(valgintro)===1 && parseInt(valgoving)===0)){
 			$.mobile.changePage("#introside");
+			var autostart=1;
+			localStorage.setItem('autostartactive', JSON.stringify(autostart));
 		}
 		else if(parseInt(valgintro)===0 && parseInt(valgoving)===1){
 			$.mobile.changePage('#intro');
 			startintro();
+			var autostart=1;
+			localStorage.setItem('autostartactive', JSON.stringify(autostart));
 		}
 		else{
 			lagovingspopup(dag);
@@ -167,14 +168,11 @@ function autostartoving(dag){
 			else {	    
 				spillavLyd();
 			}
+			var autostart=1;
+			localStorage.setItem('autostartactive', JSON.stringify(autostart));
 		}
 
 	}
-	else{
-		autostart=0;
-	}
-	localStorage.setItem('autostartactive', JSON.stringify(autostart));
-	console.log(autostartactive);
 }
 
 //det som skal lagres i local storage blir opprettet første gang brukeren starter appen
@@ -1502,54 +1500,6 @@ function lagplanliste() {
 	//document.getElementById("planliste2").innerHTML = "<li data-role='list-divider'>Planlagte øvinger</li>"+planfremdriftsside;
 }
 
-//lager liste for øvingssiden
-function lagovingliste() {
-    "use strict";
-    var ovinger = JSON.parse(localStorage.getItem('ovinger'));
-    var ovingliste1 = "";
-    var ovingliste2 = "";
-    var forrigeovingferdig = 0;
-
-    for (var i = 0; i < ovinger.length; i++) {
-        var m = ovinger[i].datomnd;
-        var mnd = talltilmnd(parseInt(m));
-        var d = ovinger[i].datodag;
-        var aktivert = ovinger[i].aktivert;
-        if (d < 10) {
-            d = "0" + d;
-        }
-        var dato = d + ". " + mnd;
-        var t = ovinger[i].datotime;
-        if (t < 10) {
-            t = "0" + t;
-        }
-        var minutt = ovinger[i].datominutter;
-        if (minutt < 10) {
-            minutt = "0" + minutt;
-        }
-        var tid = t + ":" + minutt;
-        if (ovinger[i].dag > 1) {
-            forrigeovingferdig = ovinger[i - 1].utfort;
-        } else {
-            forrigeovingferdig = 1;
-        }
-
-        //legger til øving i listen dersom øvingen er aktivert og forrige øving er ferdig	
-        if (+aktivert === 1 && +forrigeovingferdig === 1 && ovinger[i].utfort === 0) {
-            ovingliste1 += "<li><a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")' id='popup-oving" + ovinger[i].dag + "' data-transition='pop' class='ui-btn ui-btn-a ui-icon-carat-r ui-btn-icon-right'><div class='ovingdag'><div class='dag'>Dag</div><div class='dagnr'>" + ovinger[i].dag + "</div></div><div class='ovinginfo'><div class='ovinginfo-oppe'> " + dato + " kl: " + tid + " </div><div class='ovinginfo-nede'>Start øving</div></div></a></li>";
-        }
-        //legger til øving som deaktivert punkt i listen dersom den er utført
-        else if (ovinger[i].utfort === 1) {
-            ovingliste2 += "<li><a href='#' id='popup-oving" + ovinger[i].dag + "' class='ui-btn ui-btn-d ui-icon-? ui-nodisc-icon ui-state-disabled'><div class='ovingdag'><div class='dag'>Dag</div><div class='dagnr'>" + ovinger[i].dag + "</div></div><div class='ovinginfo'><div class='ovinginfo-oppe'></div><div class='ovinginfo-nede'>Fullført øving</div></div></a></li>";
-
-        } else {
-            ovingliste1 += "";
-            ovingliste2 += "";
-        }
-    }
-    //document.getElementById("ovingsliste").innerHTML = ovingliste1;
-}
-
 //lager liste for evalueringssiden
 function lagevalliste() {
     "use strict";
@@ -1620,7 +1570,6 @@ function lagreplanalle() {
             document.getElementById("feildato").innerHTML = "";
             document.getElementById("erlagret").innerHTML = "<p>Endringene er lagret.</p>";
             lagplanliste();
-            lagovingliste();
         }
         //hvis første øving ikke er utført enda, og brukeren har valgt å planlegge øvinger individuelt, lagres bare startdatoen
         else if (+antall === 0 && +ovingsinstillinger === 1 && ovinger[i].utfort === 0 && +feild === 0) {
@@ -1635,7 +1584,6 @@ function lagreplanalle() {
             document.getElementById("feildato").innerHTML = "";
             document.getElementById("erlagret").innerHTML = "<p>Endringene er lagret.</p>";
             lagplanliste();
-            lagovingliste();
         }
         //hvis første øving er utført, lagres bare tid og sted
         else if (+antall > 0 && +ovinger[i].utfort === 0 && +ovingsinstillinger === 0) {
@@ -1653,7 +1601,6 @@ function lagreplanalle() {
             localStorage.setItem('ovinger', JSON.stringify(ovinger));
             document.getElementById("erlagret").innerHTML = "<p>Endringene er lagret.</p>";
             lagplanliste();
-            lagovingliste();
         } else if (+antall === 0 && +feild > 0) {
             document.getElementById("erlagret").innerHTML = "Datoen er tilbake i tid. Vennligst velg en annen dato. Ingen endringer ble lagret";
         }
@@ -1685,7 +1632,6 @@ function lagreenplan(knappid) {
 	/*document.getElementById("feiltid2").innerHTML = "";*/
 	document.getElementById("erlagret2").innerHTML = "<p>Endringene er lagret.</p>";
     lagplanliste();
-    lagovingliste();
     nesteoving(neste);  
     setTimeout(function () {
         document.getElementById("erlagret2").innerHTML = "";
@@ -1715,7 +1661,6 @@ function lagreOving(knappid) {
 	document.getElementById("startdatodiv").style.display = 'none';
 	localStorage.setItem('autostartactive', JSON.stringify(autostart));
     lagplanliste();
-    lagovingliste();
     lagevalliste();
     antalldager();
     nesteoving(neste);	
@@ -1886,7 +1831,7 @@ function nesteoving(neste) {
 	var ikketilgjknapp=JSON.parse(localStorage.getItem('ikketilgjknapp'));
     var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
-	var autostartactive =parseInt(JSON.parse(localStorage.getItem('autostartactive')));
+	var autostart =parseInt(JSON.parse(localStorage.getItem('autostartactive')));
 	
    for (var i = 0; i < ovinger.length; i++) {
         //hvis dette er neste øving i rekken...
@@ -1996,8 +1941,7 @@ function nesteoving(neste) {
 				}
                             
 				//document.getElementById("ovingside-nesteoving").innerHTML = " Du har en ny øving som venter på deg:";
-                lagovingliste();
-				if(autostartactive===0){
+				if(autostart===0 && +dag > 1){
 					autostartoving(ovinger[i].dag);
 				}
             }
@@ -2039,7 +1983,6 @@ function nesteoving(neste) {
                 //document.getElementById("ovingside-nesteoving").innerHTML = " ";
 				document.getElementById("dlg-ov-dato-tid").innerHTML = " i dag kl: " + tid;
                 //document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> i dag kl: " + tid + " " + sted;
-                lagovingliste();
             }
 			//hvis alle øvingene er fullført
             else if(+aktivert === 0 && +antall === 7){
@@ -2081,7 +2024,6 @@ function nesteoving(neste) {
                 document.getElementById("ovingside-nesteoving").innerHTML = " ";
 				document.getElementById("dlg-ov-dato-tid").innerHTML = " ";
                 //document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> i dag kl: " + tid + " " + sted;
-                lagovingliste();
 			}
 			
 			//hvis neste øving er lenger frem i tid
@@ -2122,7 +2064,6 @@ function nesteoving(neste) {
                 //document.getElementById("ovingside-nesteoving").innerHTML = "";
 				document.getElementById("dlg-ov-dato-tid").innerHTML = dato + " kl: " + tid;
                 //document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> " + dato + " kl: " + tid + " " + sted;
-                lagovingliste();
             }
 			    
             break;
@@ -2184,10 +2125,10 @@ function sjekkstatus() {
     var m = idag.getMonth();
     var y = idag.getFullYear();
     var t = idag.getHours();
-    var minutt = idag.getMinutes();
+    var autostart=1;
+	var minutt = idag.getMinutes();
 	var nydato ="";
-	var t=1;
-	
+
     for (var i = 0; i < ovinger.length; i++) {
         var dag = ovinger[i].datodag;
         var utfort = ovinger[i].utfort;
@@ -2201,10 +2142,11 @@ function sjekkstatus() {
 			if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
 				lagmelding();
 				ovinger[i].aktivert = 1;
-				var autostart=0;
-				localStorage.setItem('autostartactive', JSON.stringify(autostart));
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
 				console.log("i dag " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
+				if (i>0){				
+					autostart=0;
+				}
 			}
 
 
@@ -2212,21 +2154,30 @@ function sjekkstatus() {
         //hvis brukeren åpner appen i samme mnd.
 			else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort===0) {
 				utsettov(i);
+				if (i>0){				
+					autostart=0;
+				}
 				break;			
 			}
         //hvis månedsskifte før brukeren åpner appen igjen
 			else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
 				utsettov(i);
+				if (i>0){				
+					autostart=0;
+				}
 				break;	
 			}
 			//hvis årskifte før brukeren åpner appen igjen
 			else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
 				utsettov(i);
+				if (i>0){				
+					autostart=0;
+				}				
 				break;	
 			} 
     }
+	localStorage.setItem('autostartactive', JSON.stringify(autostart));
 	antalldager();
-	lagovingliste();
 	lagplanliste();	
 	nesteoving(neste);
 	erbrukeronline();

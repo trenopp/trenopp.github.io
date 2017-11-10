@@ -1,5 +1,5 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="672px" height="352px" viewBox="0 0 672 352">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="277px" height="81px" viewBox="0 0 277 81">
 <defs>
 <g id="soslogo_logo_sirkel_0_Layer0_0_STROKES_1_FILL">
 <path fill="#0C2D82" stroke="none" d="
@@ -142,34 +142,6 @@ Q 391 202 418 170 445 137 510 137 542 137 598 149
 L 598 0
 Q 525 -20 456 -20 332 -20 269 55 206 130 206 268
 L 206 939 9 939 9 1082 206 1082 206 1344 391 1344 Z"/>
-
-<glyph unicode="n" horiz-adv-x="1130" d="
-M 315 1082
-L 321 946
-Q 445 1102 645 1102 988 1102 991 715
-L 991 0 806 0 806 716
-Q 805 833 753 889 700 945 589 945 499 945 431 897 363 849 325 771
-L 325 0 140 0 140 1082 315 1082 Z"/>
-
-<glyph unicode="i" horiz-adv-x="497" d="
-M 341 0
-L 156 0 156 1082 341 1082 341 0 Z
-M 141 1369
-Q 141 1414 169 1445 196 1476 250 1476 304 1476 332 1445 360 1414 360 1369 360 1324 332 1294 304 1264 250 1264 196 1264 169 1294 141 1324 141 1369 Z"/>
-
-<glyph unicode="g" horiz-adv-x="1149" d="
-M 96 550
-Q 96 803 213 952 330 1102 523 1102 721 1102 832 962
-L 841 1082 1010 1082 1010 26
-Q 1010 -184 886 -305 761 -426 551 -426 434 -426 322 -376 210 -326 151 -239
-L 247 -128
-Q 366 -275 538 -275 673 -275 749 -199 824 -123 824 15
-L 824 108
-Q 713 -20 521 -20 331 -20 214 133 96 286 96 550 Z
-M 282 529
-Q 282 346 357 241 432 137 567 137 742 137 824 296
-L 824 790
-Q 739 945 569 945 434 945 358 840 282 735 282 529 Z"/>
 </font>
 
 <font horiz-adv-x="2048">
@@ -271,35 +243,35 @@ Q 289 630 354 571 419 512 535 512 778 512 778 748 778 995 532 995 415 995 352 93
 </font>
 </defs>
 
-<g transform="matrix( 1, 0, 0, 1, -44,128.25) ">
-<g transform="matrix( 1.57867431640625, 0, 0, 1.6622314453125, 430.3,18.3) ">
+<g transform="matrix( 0.4804534912109375, 0, 0, 0.4804534912109375, 7.2,5.5) ">
+<g transform="matrix( 1.57867431640625, 0, 0, 1.6622314453125, 328.95,49.45) ">
 <clipPath id="Mask_Mask_1">
-<rect x="-126.9" y="-2" width="306" height="38.8" fill="#FFFFFF" stroke="none"/>
+<rect x="-114.3" y="-2" width="260.3" height="49.6" fill="#FFFFFF" stroke="none"/>
 </clipPath>
 
-<text clip-path="url(#Mask_Mask_1)" writing-mode="lr"><tspan x="-124.9" y="27.55" baseline-shift="0%" kerning="auto" font-family="Roboto_Regular" font-size="29" fill="#0C2D82" xml:space="preserve">ppmerksomhetstrening</tspan></text>
+<text clip-path="url(#Mask_Mask_1)" writing-mode="lr"><tspan x="-112.1" y="36.1" baseline-shift="0%" kerning="auto" font-family="Roboto" font-size="38" fill="#0C2D82" xml:space="preserve">ppmerksomhet</tspan></text>
 </g>
 </g>
 
-<g transform="matrix( 0.5199737548828125, 0, 0, 0.5199737548828125, 31.2,103.8) ">
+<g transform="matrix( 0.2499847412109375, 0, 0, 0.2499847412109375, 3.6,5.9) ">
 <g transform="matrix( 1, 0, 0, 1, 0,0) ">
 <use xlink:href="#soslogo_logo_sirkel_0_Layer0_0_STROKES_1_FILL"/>
 </g>
 </g>
 
-<g transform="matrix( 1, 0, 0, 1, 333.15,108.1) ">
+<g transform="matrix( 0.4804534912109375, 0, 0, 0.4804534912109375, 101.5,4.75) ">
 <clipPath id="Mask_Mask_2">
-<rect x="119.05" y="-2" width="26.95" height="56.6" fill="#FFFFFF" stroke="none"/>
+<rect x="114.7" y="-2" width="31.3" height="66.65" fill="#FFFFFF" stroke="none"/>
 </clipPath>
 
-<text clip-path="url(#Mask_Mask_2)" writing-mode="lr"><tspan x="121.25" y="38.95" baseline-shift="0%" kerning="auto" font-family="Lucida_Calligraphy_Italic" font-style="italic" font-size="42" fill="#0C2D82" xml:space="preserve">e</tspan></text>
+<text clip-path="url(#Mask_Mask_2)" writing-mode="lr"><tspan x="116.9" y="46.4" baseline-shift="0%" kerning="auto" font-family="Lucida Calligraphy" font-style="italic" font-size="50" fill="#0C2D82" xml:space="preserve">e</tspan></text>
 </g>
 
-<g transform="matrix( 1, 0, 0, 1, 517.05,101.5) ">
+<g transform="matrix( 0.4804534912109375, 0, 0, 0.4804534912109375, 206.95,0.95) ">
 <clipPath id="Mask_Mask_3">
-<rect x="-41.7" y="-2" width="187.7" height="61.2" fill="#FFFFFF" stroke="none"/>
+<rect x="-76.6" y="-2" width="222.6" height="72.1" fill="#FFFFFF" stroke="none"/>
 </clipPath>
 
-<text clip-path="url(#Mask_Mask_3)" writing-mode="lr"><tspan x="-39.5" y="44.9" baseline-shift="0%" kerning="auto" font-family="Open_Sans_Regular" font-size="42" fill="#0C2D82" xml:space="preserve">Meistring</tspan></text>
+<text clip-path="url(#Mask_Mask_3)" writing-mode="lr"><tspan x="-74.4" y="53.45" baseline-shift="0%" kerning="auto" font-family="Open Sans" font-size="50" fill="#0C2D82" xml:space="preserve">Meistring</tspan></text>
 </g>
 </svg>
