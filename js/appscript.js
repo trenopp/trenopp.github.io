@@ -138,7 +138,42 @@ function setforste() {
 	document.getElementById("vennligstvent").innerHTML ="";
     localStorage.setItem('forste', JSON.stringify(forste));
 	statustimer();
+/*
+	var nydato="";
+	var idag = new Date();
+	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
+	for (var i = 0; i < 7; i++) {
+
+	if(i===6){
+		var nydato = DateAdd(idag, "d", 0);
+		ovinger[i].datodag = nydato.getDate();
+		ovinger[i].datomnd = nydato.getMonth();
+		ovinger[i].datoaar = nydato.getFullYear();
+		localStorage.setItem('ovinger', JSON.stringify(ovinger));
+					
+	}
+	else{
+		var t=(ovinger.length-i)
+		var nydato = DateAdd(idag, "d", 0-t);
+		ovinger[i].datodag = nydato.getDate();
+		ovinger[i].datomnd = nydato.getMonth();
+		ovinger[i].datoaar = nydato.getFullYear();		
+		ovinger[i].utfort =1;
+		ovinger[i].aktivert =0;
+		ovinger[i].evalfor =0;
+		ovinger[i].evaletter =1;
+		
+		localStorage.setItem('ovinger', JSON.stringify(ovinger));
+	}
+    }
+	var startd = DateAdd(idag, "d", -7);
+	localStorage.setItem('startdato', JSON.stringify(startd));
+	localStorage.setItem('antall', JSON.stringify(6));
+	localStorage.setItem('tilgjknapp',JSON.stringify(0));
+	localStorage.setItem('ikketilgjknapp',JSON.stringify(1));
+	localStorage.setItem('neste', JSON.stringify(6));*/
 }
+
 
 function autostartoving(dag){
 	var forste=parseInt(JSON.parse(localStorage.getItem('forste')));
@@ -1631,12 +1666,13 @@ function lagreenplan(knappid) {
 	localStorage.setItem('ovinger', JSON.stringify(ovinger));
 	/*document.getElementById("feiltid2").innerHTML = "";*/
 	document.getElementById("erlagret2").innerHTML = "<p>Endringene er lagret.</p>";
-    lagplanliste();
-    nesteoving(neste);  
+	antalldager();
+	lagplanliste();	
+	nesteoving(neste); 
     setTimeout(function () {
         document.getElementById("erlagret2").innerHTML = "";
     }, 5000);
-    $(".ui-dialog-page").dialog("close");
+    tvingOmlasting();
 }
 
 //lagrer informasjon om utført øving
@@ -1654,7 +1690,10 @@ function lagreOving(knappid) {
             neste = i + 1;
 			localStorage.setItem('ovinger', JSON.stringify(ovinger));
 			localStorage.setItem('neste', JSON.stringify(neste));
-            break;
+            if(i===0){
+				setforste();
+			}
+			break;
         }
     }
 
@@ -1665,7 +1704,6 @@ function lagreOving(knappid) {
     antalldager();
     nesteoving(neste);	
     graf();
-	setforste();
 	statustimer();
 	setTimeout(function(){
 		tabreset();
@@ -1735,9 +1773,9 @@ function antalldager() {
     var mnd1 = talltilmnd(parseInt(m1));
     var d1 = ovinger[0].datodag;
 	var startdato = d1 + "." + mnd1;
-	var m6 = ovinger[6].datomnd;
+	var m6 = ovinger[ovinger.length-1].datomnd;
     var mnd6 = talltilmnd(parseInt(m6));
-    var d6 = ovinger[6].datodag;
+    var d6 = ovinger[ovinger.length-1].datodag;
 	var sluttdato = d6 + "." + mnd6;
 	var deskfremdrift=document.getElementsByClassName("fremdrift-top-desktop");
 	var deskplan=document.getElementsByClassName("plan-top-desktop");
@@ -1755,13 +1793,14 @@ function antalldager() {
         }
     }
 	
-	var planlgt=7-dager;
+	var planlgt=ovinger.length-dager;
 	var utfrt=dager;
     localStorage.setItem('antall', JSON.stringify(dager));
+	
 	if (dager === 0 ){
 		document.getElementById("ovingside-utforte").innerHTML = "Du har ikke fullført noen øvinger enda. Etter at du har utført øvinger vil de vises i en liste her, og du vil kunne se på din egen-evaluring for hver øving.";
 	}
-	else if (dager === 7){
+	else if (dager === ovinger.length){
 		document.getElementById("ovingside-utforte").innerHTML = "Du har fullført 7 av 7 dager og er ferdig med 7-dagers programmet.";
 	}
 	else {
@@ -1786,7 +1825,7 @@ function antalldager() {
 	}
 	
 	for (i = 0; i < deskplan.length; i++) {
-		if (dager === 7){
+		if (dager === ovinger.length){
 		deskplan[i].innerHTML = "Jeg har fullført alle planlagte øvinger";	
 		}
 		else {
@@ -1806,7 +1845,7 @@ function antalldager() {
 		fremdriftikon[i].innerHTML = "<img class='knapp-bilde' src='images/ikoner/ikon-liste" + dager +".png' alt='Vis fremdrift' />";
 	}
 	
-	if (+dager === 7) {
+	if (+dager === ovinger.length) {
         document.getElementById("7dagerferdig").innerHTML = "Du har nå gjennomført 7 dager med oppmerksomhetsøvinger. Bra jobba!";
     }
 }
@@ -1833,243 +1872,222 @@ function nesteoving(neste) {
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
 	var autostart =parseInt(JSON.parse(localStorage.getItem('autostartactive')));
 	
-   for (var i = 0; i < ovinger.length; i++) {
-        //hvis dette er neste øving i rekken...
-        if (ovinger[i].dag === (parseInt(neste) + 1)) {
-            dag = ovinger[i].dag;
-            var aktivert = ovinger[i].aktivert;
-            var m = ovinger[i].datomnd;
-            var mnd = talltilmnd(parseInt(m));
-            var y = ovinger[i].datoaar;
-            var d = ovinger[i].datodag;
-            var dg = d;
-			
-            if (d < 10) {
-                d = "0" + d;
-            }
-            if (+y === +idag.getFullYear) {
-                dato = d + ". " + mnd;
-            } else {
-                dato = d + ". " + mnd + " " + y;
-            }
-            var t = ovinger[i].datotime;
-            var time = t;
-            if (t < 10) {
-                t = "0" + t;
-            }
-            var minutt = ovinger[i].datominutter;
-            var minu = minutt;
-            if (minutt < 10) {
-                minutt = "0" + minutt;
-            }
-            tid = t + ":" + minutt;
-            sted = ovinger[i].sted;
-
-            //hvis en øving er aktivert og ikke fullført enda
-            if (+aktivert === 1 && +antall < 7) {
-				if(tilgjknapp===0){
-				document.getElementById("ov-tilgj").style.display = 'block';
-				document.getElementById("introside-meny").style.display = 'block';
-				document.getElementById("ov-ikke-tilgj").style.display = 'none';
-
-				if (parseInt(valgintro)===1 && parseInt(valgoving)===0){
-					document.getElementById("startovingpop").innerHTML = "<a href='#ovingpopup' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onClick='lagovingspopup(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
-					knapptekstmeny = "<a href='#introside' onClick='stopstatustimer()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
-					knapptekstoving = "<a href='#introside' onClick='stopstatustimer()'>"
-					+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
-					+ "<div class='imgteksttopp'>"
-					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
-					+ "<p>Jeg har en ny øving som venter.</p></div>"
-					+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
-					+ "</a>";
-				}
-				else if (parseInt(valgintro)===0 && parseInt(valgoving)===0){
-					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
-					knapptekstmeny = "<a href='#introside' onClick='stopstatustimer()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
-					knapptekstoving = "<a href='#introside' onClick='stopstatustimer()'>"
-					+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
-					+ "<div class='imgteksttopp'>"
-					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
-					+ "<p>Jeg har en ny øving som venter.</p></div>"
-					+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
-					+ "</a>";
-				}
-				else if (parseInt(valgintro)===0 && parseInt(valgoving)===1){
-					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
-					knapptekstmeny = "<a href='#intro' onClick='startintro()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
-					knapptekstoving = "<a href='#intro' onClick='startintro()'>"
-					+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
-					+ "<div class='imgteksttopp'>"
-					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
-					+ "<p>Jeg har en ny øving som venter.</p></div>"
-					+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
-					+ "</a>";
-				}
-				else{
-					document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
-					knapptekstmeny = "<a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
-					knapptekstoving = "<a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")'>"
-					+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
-					+ "<div class='imgteksttopp'>"
-					+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
-					+ "<p>Jeg har en ny øving som venter.</p></div>"
-					+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
-					+ "</a>";
-				}
-				document.getElementById("valgetterovingpop").innerHTML="<a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onclick='lagreOving(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
-				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
-				
-				for (i = 0; i < ovingmeny.length; i++) {
-					ovingmeny[i].innerHTML = knapptekstoving;
-				}
-				
-				for (i = 0; i < planknapptid.length; i++) {
-					planknapptid[i].innerHTML = "Neste øving er klar nå";
-				}
-				
-				for (i = 0; i < planknappdato.length; i++) {
-					planknappdato[i].innerHTML = " ";
-				}
-				antalldager();
-				tilgjknapp=1;
-				ikketilgjknapp=0;
-				localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
-				localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
-				}
-                            
-				//document.getElementById("ovingside-nesteoving").innerHTML = " Du har en ny øving som venter på deg:";
-				if(autostart===0 && +dag > 1){
-					autostartoving(ovinger[i].dag);
-				}
-            }
-            //hvis neste øving er i dag, og øvingen ikke er aktivert enda
-            else if (+m === +idag.getMonth() && +y === +idag.getFullYear() && +dg === +idag.getDate() && +aktivert === 0 && +antall < 7) {
-				if(ikketilgjknapp===0){
-				knapptekstoving = "<a href='#introside'>"
-					+ "<img class='imgbakgr' src='images/illustrasjon/vent.jpg'>"
-					+ "<div class='imgteksttopp'>"
-					+ "<h2><i class='fa fa-spinner' aria-hidden='true'></i> Øvingen er ikke klar.</h2>"
-					+ "<p> Fortsett å øve i dag kl: " + tid + "</p>"
-					+"</div>"
-					+ "</a>";
-				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
-				document.getElementById("ov-tilgj").style.display = 'none';
-				document.getElementById("introside-meny").style.display = 'none';
-				document.getElementById("ov-ikke-tilgj").style.display = 'block';
-				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
-				
-				for (i = 0; i < ovingmeny.length; i++) {
-					ovingmeny[i].innerHTML = knapptekstoving;
-				}
-				
-				for (i = 0; i < planknapptid.length; i++) {
-					planknapptid[i].innerHTML = "Min neste øving er klar i dag kl." + tid;
-				}
-				
-				for (i = 0; i < planknappdato.length; i++) {
-					planknappdato[i].innerHTML = " i dag kl.";
-				}
-				ikketilgjknapp=1;
-				tilgjknapp=0;
-				localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
-				localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
-				}
-                //document.getElementById("ovingside-nesteoving").innerHTML = " ";
-				document.getElementById("dlg-ov-dato-tid").innerHTML = " i dag kl: " + tid;
-                //document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> i dag kl: " + tid + " " + sted;
-            }
-			//hvis alle øvingene er fullført
-            else if(+aktivert === 0 && +antall === 7){
-				if(ikketilgjknapp===0){
-				knapptekstoving = "<a href='#introside' class='ui-btn ui-btn-d knappetekst'>"
-							+ "<img class='imgbakgr' src='images/illustrasjon/ferdig.jpg'>"
+	//hvis alle øvingene er fullført
+    if(+antall === ovinger.length){
+		if(ikketilgjknapp===0){
+			console.log("//hvis alle øvingene er fullført");
+			console.log("aktivert " + aktivert + "antall " + antall + "tilgj " + tilgjknapp + "ikketilgj " + ikketilgjknapp);
+			knapptekstoving = "<a href='#introside'>"
+							+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/ferdig.jpg'>"
 							+ "<div class='imgteksttopp'>"
-							+ "<h2><i class='fa fa-spinner' aria-hidden='true'></i> Gratulerer! </h2>"
-							+ "<p> Du har fullført alle 7 øvingene.</p>"
+							+ "<h2><i class='fa fa-trophy' aria-hidden='true'></i> Ferdig! </h2>"
+							+ "<p> Jeg har fullført alle øvingene.</p>"
+							+ "<p></p>"
 							+"</div>"
 							+ "</a>";
-				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
-				document.getElementById("ov-tilgj").style.display = 'none';
-				document.getElementById("introside-meny").style.display = 'none';
-				document.getElementById("ov-ikke-tilgj").style.display = 'none';
-				document.getElementById("alle-ov-ferdig").style.display = 'block';
+			knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
+			document.getElementById("ov-tilgj").style.display = 'none';
+			document.getElementById("introside-meny").style.display = 'none';
+			document.getElementById("ov-ikke-tilgj").style.display = 'none';
+			document.getElementById("alle-ov-ferdig").style.display = 'block';
 				
-				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
+			document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
+			document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
+			document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
+			document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
 				
-				for (i = 0; i < ovingmeny.length; i++) {
-					ovingmeny[i].innerHTML = knapptekstoving;
-				}
-				
-				for (i = 0; i < planknapptid.length; i++) {
-					planknapptid[i].innerHTML = "Ingen planlagte øvinger " ;
-				}
-				
-				for (i = 0; i < planknappdato.length; i++) {
-					planknappdato[i].innerHTML = " ";
-				}
-				ikketilgjknapp=1;
-				tilgjknapp=0;
-				localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
-				localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
-				}
-                document.getElementById("ovingside-nesteoving").innerHTML = " ";
-				document.getElementById("dlg-ov-dato-tid").innerHTML = " ";
-                //document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> i dag kl: " + tid + " " + sted;
+			for (i = 0; i < ovingmeny.length; i++) {
+				ovingmeny[i].innerHTML = knapptekstoving;
 			}
+				
+			for (i = 0; i < planknapptid.length; i++) {
+				planknapptid[i].innerHTML = "Ingen planlagte øvinger " ;
+			}
+				
+			for (i = 0; i < planknappdato.length; i++) {
+				planknappdato[i].innerHTML = " ";
+			}
+			ikketilgjknapp=1;
+			tilgjknapp=1;
+			localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
+			localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
+				}
+            //document.getElementById("ovingside-nesteoving").innerHTML = " ";
+			document.getElementById("dlg-ov-dato-tid").innerHTML = " ";
+                //document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> i dag kl: " + tid + " " + sted;
+			stopstatustimer();
+			autostart=1;
+			localStorage.setItem('autostartactive',JSON.stringify(autostart));
+			}  
+	else{
+		for (var i = 0; i < ovinger.length; i++) {
+        //hvis dette er neste øving i rekken...
+			if (ovinger[i].dag === (parseInt(neste) + 1)) {
+				dag = ovinger[i].dag;
+				var aktivert = ovinger[i].aktivert;
+				var m = ovinger[i].datomnd;
+				var mnd = talltilmnd(parseInt(m));
+				var y = ovinger[i].datoaar;
+				var d = ovinger[i].datodag;
+				var dg = d;
 			
-			//hvis neste øving er lenger frem i tid
-            else {
-				if(ikketilgjknapp===0){
-				knapptekstoving = "<a href='#introside'>"
-					+ "<img class='imgbakgr' src='images/illustrasjon/vent.jpg'>"
-					+ "<div class='imgteksttopp'>"
-					+ "<h2><i class='fa fa-spinner' aria-hidden='true'></i> Øvingen er ikke klar.</h2>"
-					+ "<p>Fortsett å øve " + d + ". " + mnd + " kl." + tid + "</p>"
-					+ "</div>"
-					+ "</a>";
-				knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
-				document.getElementById("ov-tilgj").style.display = 'none';
-				document.getElementById("introside-meny").style.display = 'none';			
-				document.getElementById("ov-ikke-tilgj").style.display = 'block';
-				document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
-				document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
+				if (d < 10) {
+					d = "0" + d;
+				}
+				if (+y === +idag.getFullYear) {
+					dato = d + ". " + mnd;
+				} else {
+					dato = d + ". " + mnd + " " + y;
+				}
+				var t = ovinger[i].datotime;
+				var time = t;
+				if (t < 10) {
+					t = "0" + t;
+				}
+				var minutt = ovinger[i].datominutter;
+				var minu = minutt;
+				if (minutt < 10) {
+					minutt = "0" + minutt;
+				}
+				tid = t + ":" + minutt;
+				sted = ovinger[i].sted;
+
+				//hvis en øving er aktivert og ikke fullført enda
+				if (+aktivert === 1 && +antall < ovinger.length) {
+					if(tilgjknapp===0){
+						console.log("//hvis en øving er aktivert og ikke fullført enda");
+						console.log("aktivert " + aktivert + "antall " + antall + "tilgj " + tilgjknapp + "ikketilgj " + ikketilgjknapp + "length" + ovinger.length);					
+						document.getElementById("ov-tilgj").style.display = 'block';
+						document.getElementById("introside-meny").style.display = 'block';
+						document.getElementById("ov-ikke-tilgj").style.display = 'none';
+
+					if (parseInt(valgintro)===1 && parseInt(valgoving)===0){
+						document.getElementById("startovingpop").innerHTML = "<a href='#ovingpopup' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onClick='lagovingspopup(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+						knapptekstmeny = "<a href='#introside' onClick='stopstatustimer()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
+						knapptekstoving = "<a href='#introside' onClick='stopstatustimer()'>"
+						+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+						+ "<div class='imgteksttopp'>"
+						+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
+						+ "<p>Jeg har en ny øving som venter.</p></div>"
+						+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+						+ "</a>";
+					}
+					else if (parseInt(valgintro)===0 && parseInt(valgoving)===0){
+						document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+						knapptekstmeny = "<a href='#introside' onClick='stopstatustimer()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
+						knapptekstoving = "<a href='#introside' onClick='stopstatustimer()'>"
+						+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+						+ "<div class='imgteksttopp'>"
+						+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
+						+ "<p>Jeg har en ny øving som venter.</p></div>"
+						+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+						+ "</a>";
+					}
+					else if (parseInt(valgintro)===0 && parseInt(valgoving)===1){
+						document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+						knapptekstmeny = "<a href='#intro' onClick='startintro()' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
+						knapptekstoving = "<a href='#intro' onClick='startintro()'>"
+						+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+						+ "<div class='imgteksttopp'>"
+						+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
+						+ "<p>Jeg har en ny øving som venter.</p></div>"
+						+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+						+ "</a>";
+					}
+					else{
+						document.getElementById("startovingpop").innerHTML = "<a href='#intro' onClick='startintro()' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+						knapptekstmeny = "<a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>1</span></a>";
+						knapptekstoving = "<a href='#ovingpopup' onClick='lagovingspopup(" + ovinger[i].dag + ")'>"
+						+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
+						+ "<div class='imgteksttopp'>"
+						+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
+						+ "<p>Jeg har en ny øving som venter.</p></div>"
+						+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
+						+ "</a>";
+					}
+					document.getElementById("valgetterovingpop").innerHTML="<a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-a ui-mini' onclick='lagreOving(" + ovinger[i].dag + ")'>Ja</a><a href='#' class='ui-btn ui-corner-all ui-shadow ui-btn-e ui-mini' data-rel='back'>Nei</a>";
+					document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
+					document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
+					document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
+					document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
 				
-				for (i = 0; i < ovingmeny.length; i++) {
-					ovingmeny[i].innerHTML = knapptekstoving;
-				}
+					for (i = 0; i < ovingmeny.length; i++) {
+						ovingmeny[i].innerHTML = knapptekstoving;
+					}
 				
-				for (i = 0; i < planknapptid.length; i++) {
-					planknapptid[i].innerHTML = "Neste øving er klar " + d + ". " + mnd + " kl." + tid;
-				}
+					for (i = 0; i < planknapptid.length; i++) {
+						planknapptid[i].innerHTML = "Neste øving er klar nå";
+					}
 				
-				for (i = 0; i < planknappdato.length; i++) {
-					planknappdato[i].innerHTML = " i morgen kl.";
-				}
-				ikketilgjknapp=1;
-				tilgjknapp=0;
-				localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
-				localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
-				}
-                //document.getElementById("ovingside-nesteoving").innerHTML = "";
-				document.getElementById("dlg-ov-dato-tid").innerHTML = dato + " kl: " + tid;
-                //document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> " + dato + " kl: " + tid + " " + sted;
+					for (i = 0; i < planknappdato.length; i++) {
+						planknappdato[i].innerHTML = " ";
+					}
+					antalldager();
+					tilgjknapp=1;
+					ikketilgjknapp=0;
+					localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
+					localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
+					}
+                            
+					//document.getElementById("ovingside-nesteoving").innerHTML = " Du har en ny øving som venter på deg:";
+					if(autostart===0 && +dag > 1){
+						autostartoving(ovinger[i].dag);
+					}
             }
-			    
-            break;
-        }
+				//hvis neste øving er i dag, og øvingen ikke er aktivert enda
+				else if (+aktivert === 0 && +antall < ovinger.length) {
+					if(ikketilgjknapp===0){
+					console.log(" //hvis neste øving er i dag, og øvingen ikke er aktivert enda");	
+					console.log("aktivert " + aktivert + "antall " + antall + "tilgj " + tilgjknapp + "ikketilgj " + ikketilgjknapp);
+					var tidspkt="";
+					if(+m === +idag.getMonth() && +y === +idag.getFullYear() && +dg === +idag.getDate()){
+						tidspkt="i dag";
+					}
+					else{
+						tidspkt= d + ". " + mnd;
+					}
+					knapptekstoving = "<a href='#introside'>"
+						+ "<img class='imgbakgr' src='images/illustrasjon/vent.jpg'>"
+						+ "<div class='imgteksttopp'>"
+						+ "<h2><i class='fa fa-spinner' aria-hidden='true'></i> Øvingen er ikke klar.</h2>"
+						+ "<p> Fortsett å øve " + tidspkt + " kl: " + tid + "</p>"
+						+"</div>"
+						+ "</a>";
+					knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
+					document.getElementById("ov-tilgj").style.display = 'none';
+					document.getElementById("introside-meny").style.display = 'none';
+					document.getElementById("ov-ikke-tilgj").style.display = 'block';
+					document.getElementById("ovknapp_meny").innerHTML =knapptekstmeny;
+					document.getElementById("ovknapp_oversikt").innerHTML =knapptekstmeny;
+					document.getElementById("ovknapp_plan").innerHTML =knapptekstmeny;
+					document.getElementById("ovknapp_fram").innerHTML =knapptekstmeny;
+				
+					for (i = 0; i < ovingmeny.length; i++) {
+						ovingmeny[i].innerHTML = knapptekstoving;
+					}
+				
+					for (i = 0; i < planknapptid.length; i++) {
+						planknapptid[i].innerHTML = "Neste øving er klar i dag kl." + tid;
+					}
+				
+					for (i = 0; i < planknappdato.length; i++) {
+						planknappdato[i].innerHTML = " i dag kl.";
+					}
+					ikketilgjknapp=1;
+					tilgjknapp=0;
+					localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
+					localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
+					}
+					//document.getElementById("ovingside-nesteoving").innerHTML = " ";
+					document.getElementById("dlg-ov-dato-tid").innerHTML = " i dag kl: " + tid;
+					//document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> i dag kl: " + tid + " " + sted;
+				}
+  
+				break;
+			}
 		
-    }
+		}
+	}
 }
 
 //setter nye datoer for utgåtte øvinger
@@ -2139,7 +2157,7 @@ function sjekkstatus() {
         var aktivert = ovinger[i].aktivert;
 		
         //aktiverer øvinger hvis tidspunkt er nådd i dag
-			if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || +time < +t) && +aktivert === 0 && +utfort === 0) {
+			if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || (+time < +t)) && +aktivert === 0 && +utfort === 0) {
 				lagmelding();
 				ovinger[i].aktivert = 1;
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
