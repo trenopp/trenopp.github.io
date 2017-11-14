@@ -1,6 +1,17 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="277px" height="81px" viewBox="0 0 277 81">
 <defs>
+    <style type="text/css">
+ 	@font-face {
+   	 font-family: Roboto;
+   	 src: url('../../css/fonts/Roboto-Regular.ttf');
+	}
+
+	@font-face {
+    	font-family: OpenSans;
+    	src: url('../../css/fonts/OpenSans-Regular.ttf');
+	}
+	</style>
 <g id="soslogo_logo_sirkel_0_Layer0_0_STROKES_1_FILL">
 <path fill="#0C2D82" stroke="none" d="
 M 153.6 -3.3
@@ -63,7 +74,7 @@ Vendor ID: GOOG
 Copyright 2011 Google Inc. All Rights Reserved.
 http://www.apache.org/licenses/LICENSE-2.0
 URL for more Information: http://www.adobe.com/go/font_vendor_id?ID=GOOG&Name=Roboto&PSName=Roboto-Regular&applanguage=en_US-->
-<font-face font-family="Roboto_Regular" units-per-em="2048" ascent="1946" descent="512"/>
+<font-face font-family="Roboto-Regular" units-per-em="2048" ascent="1946" descent="512"/>
 
 <glyph unicode="p" horiz-adv-x="1149" d="
 M 1054 529
@@ -145,11 +156,11 @@ L 206 939 9 939 9 1082 206 1082 206 1344 391 1344 Z"/>
 </font>
 
 <font horiz-adv-x="2048">
-<!--  Font Name: Lucida Calligraphy Italic
+<!--  Font Name: Lucida Calligraphy
 Vendor ID: B&H 
 © 1991 Bigelow & Holmes. All Rights Reserved. © 1990-1991 Type Solutions, Inc. All Rights Reserved.
 URL for more Information: http://www.adobe.com/go/font_vendor_id?ID=B&H&Name=Lucida%20Calligraphy&PSName=LucidaCalligraphy-Italic&applanguage=en_US-->
-<font-face font-family="Lucida_Calligraphy_Italic" units-per-em="2048" ascent="1900" descent="666"/>
+<font-face font-family="Lucida_Calligraphy" units-per-em="2048" ascent="1900" descent="666"/>
 
 <glyph unicode="e" horiz-adv-x="1109" d="
 M 1170 274
@@ -167,7 +178,7 @@ Vendor ID: 1ASC
 Digitized data copyright © 2010-2011, Google Corporation.
 http://www.apache.org/licenses/LICENSE-2.0
 URL for more Information: http://www.adobe.com/go/font_vendor_id?ID=1ASC&Name=Open%20Sans&PSName=OpenSans&applanguage=en_US-->
-<font-face font-family="Open_Sans_Regular" units-per-em="2048" ascent="2189" descent="600"/>
+<font-face font-family="OpenSans-Regular" units-per-em="2048" ascent="2189" descent="600"/>
 
 <glyph unicode="M" horiz-adv-x="1849" d="
 M 848 0

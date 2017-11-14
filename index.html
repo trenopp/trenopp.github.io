@@ -32,9 +32,49 @@
 		<meta name="theme-color" content="#E9F1F9">
 		</head>
 <body>
-	
-<!-- popup for å starte øvinger starter her -->
-<!-- popup starte øving -->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 											Innhold					 										-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 	A. Popupbokser																							-->
+<!-- 		1. Øving:Gå videre til øving etter lydvalg og/eller intro											-->
+<!-- 		2. Øving:Gå videre i øving etter selv evaluering av oppmerksomhet (før og etter)					-->
+<!-- 		3. Øving:Avbryte øving (gå tilbake til oversikt)													-->
+<!-- 		4. Instillinger																						-->
+<!-- 		5. Øving:Volumkontroll																				-->
+<!-- 		6. Planlegging:Planlegge enkelt-øving																-->
+<!-- 		7. Fremdrift:Vis egenevaluering for enkelt-øving													-->
+<!-- 		8. Kontaktskjema																					-->
+<!-- 		9. Hjelp/Ofte stilte spørsmål																		-->
+<!-- 	B. Sider																								-->
+<!-- 		10. Tittelside/oversiktsside																		-->
+<!-- 		11. Planlegging 																					-->
+<!-- 		12. Fremdrift																						-->
+<!-- 	C. Dialogbokser																							-->
+<!-- 		13. Øving (evaluering før, øvingen: lyd eller bilde, evaluering etter)								-->
+<!-- 		14. Om webappen (link i footer på sidene)															-->
+<!-- 		15. Øving: introduksjons-slides																		-->
+<!-- 		16. Øving: lydvalg/startside for øvinger															-->
+<!-- 	D. Mobilmeny																							-->
+<!-- 		17. Side-meny som vises på små skjermer																-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->	
+
+
+
+
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 										A. Popupbokser starter her 											-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 	1. Øving:Gå videre til øving etter lydvalg og/eller intro												-->
+<!-- 	2. Øving:Gå videre i øving etter selv evaluering av oppmerksomhet (før og etter)						-->
+<!-- 	3. Øving:Avbryte øving (gå tilbake til oversikt)														-->
+<!-- 	4. Instillinger																							-->
+<!-- 	5. Øving:Volumkontroll																					-->
+<!-- 	6. Planlegging:Planlegge enkelt-øving																	-->
+<!-- 	7. Fremdrift:Vis egenevaluering for enkelt-øving														-->
+<!-- 	8. Kontaktskjema																						-->
+<!-- 	9. Hjelp/Ofte stilte spørsmål																			-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->	
+<!-- 							1. Øving:Gå videre til øving etter lydvalg og/eller intro 						-->
 <div data-role="popup" id="starteoving" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:200px;">
     <div data-role="header" data-theme="b">
 		<h1>Starte øving?</h1>
@@ -48,10 +88,8 @@
 		</div>
     </div>
 </div>
-<!-- popup for å starte øvinger slutter her -->
 <!-- /popup starte øving -->
-<!-- popup for å fortsette øvinger starter her -->
-<!-- popup fortsette øving -->
+<!-- 					2. Øving:Gå videre i øving etter selv evaluering av oppmerksomhet (før og etter)		-->
 <div data-role="popup" id="fortsettoving" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
     <div data-role="header" data-theme="b">
 		<h1 id="popfortoverskr">Evalueringsvalg</h1>		
@@ -70,9 +108,8 @@
 		</div>
     </div>
 </div>
-<!-- popup for å fortsette øvinger slutter her -->	
-<!-- popup for å avbryte øvinger starter her -->
-<!-- popup avbryte øving -->
+<!-- /popup for å fortsette øvinger -->	
+<!-- 							3. Øving:Avbryte øving (gå tilbake til oversikt) 								-->
 <div data-role="popup" id="avbryteoving" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
     <div data-role="header" data-theme="b">
 		<h1>Avbryt øving?</h1>
@@ -85,10 +122,8 @@
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Nei</a>
     </div>
 </div>
-<!-- popup for å avbryte øvinger slutter her -->
 <!-- /popup avbryte øving -->
-<!-- popup for instillinger starter her -->
-<!-- popup instillinger-->
+<!-- 											4. Instillinger													-->
 <div data-role="popup" id="instillinger" data-overlay-theme="b" data-theme="b" data-dismissible="false">
     <div data-role="header" data-theme="b">
 		<h1>Instillinger</h1>
@@ -129,10 +164,8 @@
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Lukk</a>
     </div>
 </div>
-<!-- popup for instillinger slutter her -->
 <!-- /popup instillinger -->
-<!-- popup for volum lyd-øving starter her -->
-<!-- popup volum lyd-øving -->
+<!-- 												5. Øving:Volumkontroll 										-->
 <div data-role="popup" id="volumoving" data-theme="c" data-shadow="true" data-dismissible="true" style="min-width:200px">
 	<div class="ui-grid-b">
 		<div class="ui-block-a" style="max-width:10%;text-align:center;">
@@ -149,10 +182,8 @@
 		</div>
 	</div>	
 </div>
-<!-- popup for volum lyd-øving slutter her -->
 <!-- /popup volum lyd-øving -->
-<!-- dialogboks for planlegging starter her -->
-<!-- dialog planlegging -->
+<!-- 									6. Planlegging:Planlegge enkelt-øving									-->
 <div data-role="popup" id="planpopup" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:350px">
     <div data-role="header" data-theme="b">
 	<h1 id="plandagoverskrift"></h1>
@@ -203,10 +234,35 @@
         </div>
     </div>
 </div>
-<!-- /dialog planlegging -->
-<!-- dialogboks for planlegging slutter her -->
-<!-- popup for kontakt starter her -->
-<!-- popup kontakt -->
+<!-- /popup planlegging -->
+<!-- 									7. Fremdrift:Vis egenevaluering for enkelt-øving 						-->
+<div data-role="popup" id="evalpopup" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:350px;max-width:500px;">
+    
+    <div data-role="header">
+		<h1 id="evaloverskrift"></h1>
+    </div>
+    <div role="main" class="ui-content ui-body-c">
+	        	<h1 id="evaloverskrift"></h1>
+        <div class="ui-body-d ui-content">
+             <h2 class="ovingtab">Oppmerksomheten min før øvingen</h2>
+
+            <div class="ui-grid-solo">
+                <div id="evalforklaring3"></div>
+            </div>
+
+           	<h2 class="ovingtab" style="padding-top:1em">Oppmerksomheten min etter øvingen</h2>
+
+            <div class="ui-grid-solo">
+                <div id="evalforklaring4"></div>
+            </div>
+            <div style="margin-top:4em;">	<a href="#evaluering" class="ui-btn ui-btn-a ui-btn-icon-right ui-icon-delete" data-rel="back">Tilbake</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /popup evaluering -->
+<!-- 												8. Kontaktskjema 											-->
 <div data-role="popup" id="kontakt" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
     <div data-role="header" data-theme="b">
 		<h1>Kontakt eMeistring</h1>
@@ -226,18 +282,14 @@
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Lukk</a>
     </div>
 </div>
-<!-- popup for kontakt slutter her -->
 <!-- /popup kontakt -->
-
-<!-- popup for hjelp starter her -->
-<!-- popup hjelp -->
+<!-- 											9. Hjelp/Ofte stilte spørsmål 									-->
 <div data-role="popup" id="oss" data-overlay-theme="b" data-theme="b" onclick="etterpause()" data-dismissible="false" >
     <div data-role="header" data-theme="b">
 		<h2>Har du spørsmål?</h2>
     </div>
     <div data-role="content" style="max-width:95vw;" class="ui-body-a">
-        <!-- innhold intro -->
-         <h2 class="sideundertittel"><em class="fa fa-info-circle"></em> Ofte stilte spørsmål</h2>
+          <h2 class="sideundertittel"><em class="fa fa-info-circle"></em> Ofte stilte spørsmål</h2>
             <form class="ui-filterable" data-theme="e">
                 <label for="sokbarliste" class="ui-hidden-accessible">Filtreringsfelt</label>
                 <input id="sokbarliste" name="sokbarliste" data-type="search" placeholder="Søk" data-theme="e">
@@ -451,11 +503,19 @@
 			<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Lukk</a>
     </div>
 </div>
-<!-- popup for hjelp slutter her -->
 <!-- /popup hjelp -->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 											Popupbokser slutter her 										-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
 
-<!-- sider starter her-->
-<!-- tittelside starter her -->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 										B. Sider starter her 												-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 	10. Tittelside/oversiktsside																			-->
+<!-- 	11. Planlegging 																						-->
+<!-- 	12. Fremdrift																							-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->	
+<!-- 										10. Tittelside/oversiktsside 										-->
 <div id="tittelside" data-role="page" data-transition="slidefade" data-prev="fremdrift" data-next="planlegging">
     <!-- side tittel -->
     <div data-role="header" data-theme="f">
@@ -507,7 +567,7 @@
     <!-- /header tittel -->
 			<div id="sidemeny" style="display:none;">
 				<ul data-role="listview" data-theme="b" data-count-theme="e" data-inset="false" class="meny-storskjerm side-side" style="position: fixed; padding-top:5%;margin-top:-30px; float:left;">
-						<li><a href="#" onClick="tvingOmlasting()" class="ui-btn ui-btn-active"><i class="fa fa-list fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Oversikt<span></span></a></li>
+						<li><a href="#" class="ui-btn ui-btn-active"><i class="fa fa-list fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Oversikt<span></span></a></li>
 						<li id="ovknapp_oversikt"><a href="#introside" class="ui-btn"><i class="fa fa-check fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Tilgjengelige øvinger<span class="ui-li-count tilgj-ant">1</span></a></li>
 						<li><a href="#planlegging" class="ui-btn"><i class="fa fa-clock-o fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Planlagte øvinger<span class="ui-li-count plan-ant">7</span></a></li>
 						<li><a href="#fremdrift" onClick="graf()" class="ui-btn"><i class="fa fa-bar-chart fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Fullførte øvinger<span class="ui-li-count full-ant">0</span></a></li>
@@ -544,7 +604,7 @@
 								<img id="planleggknappbilde" class="imgbakgr" src="images/illustrasjon/planlegg.jpg">
 								<div class="imgteksttopp">
 								<h2><i class="fa fa-clock-o"></i> Min øvingsplan</h2>
-								<p>
+								<p class="tekstforside">
 								<span class="plan-top-desktop"></span><br/>
 								<span class="tid-midt-klokke"></span><br/>
 								<span class="tid-bunn-dato"></span><br/>
@@ -555,7 +615,7 @@
 							<img id="fremdriftknappbilde" class="imgbakgr" src="images/illustrasjon/framdrift.jpg">
 							<div class="imgteksttopp">
 							<h2><i class="fa fa-bar-chart"></i> Min fremdrift</h2>
-							<p>Jeg har fullført <span class="fremdrift-top-desktop"></span> </p>
+							<p class="tekstforside">Jeg har fullført <span class="fremdrift-top-desktop"></span> </p>
 							</div>
 							<p id="fremdriftknapptekst" class="imgtekstbunn"><strong>Vis fremdrift <i class="fa fa-chevron-circle-right"> </i></strong></p>
 							</a>
@@ -594,9 +654,8 @@
     <!-- /footer tittel -->
 </div>
 <!-- /side tittel -->
-<!-- tittelside slutter her -->
 
-<!-- Planleggingsside starter her -->
+<!-- 													11.Planlegging 											-->
 <div id="planlegging" data-role="page" data-transition="slidefade" data-dialog="false" data-prev="tittelside" data-next="fremdrift">
     <!-- side plan -->
 <div data-role="header" data-theme="f">
@@ -631,8 +690,6 @@
 		</div>
 		</div>
 
-
-		<!--Meny top-->
 		<!--Meny top-->
 		<div data-role="navbar" class="menyside meny-skygge">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
@@ -647,7 +704,7 @@
     </div>
     <!-- /header plan -->
 					<ul data-role="listview" data-theme="b" data-count-theme="e" data-inset="false" class="meny-storskjerm side-side" style="position: fixed; padding-top:5%;margin-top:-30px; float:left;">
-						<li><a href="index.html" onClick="tvingOmlasting()" class="ui-btn ui-btn-"><i class="fa fa-list fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Oversikt<span></span></a></li>
+						<li><a href="index.html" class="ui-btn ui-btn-"><i class="fa fa-list fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Oversikt<span></span></a></li>
 						<li id="ovknapp_plan"><a href="#introside" class="ui-btn"><i class="fa fa-check fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Tilgjengelige øvinger<span class="ui-li-count tilgj-ant">1</span></a></li>
 						<li><a href="#planlegging" class="ui-btn ui-btn-active"><i class="fa fa-clock-o fa-fw fa-lg" style="text-align:left;"></i> Planlagte øvinger<span class="ui-li-count plan-ant">7</span></a></li>
 						<li><a href="#fremdrift" onClick="graf()" class="ui-btn"><i class="fa fa-bar-chart fa-fw fa-lg" style="text-align:left;"></i> Fullførte øvinger<span class="ui-li-count full-ant">0</span></a></li>
@@ -786,9 +843,8 @@
     </div>
     <!-- /footer plan -->
 </div>
-<!-- /side plan -->
-<!-- planleggingsside slutter her -->
-<!-- fremdriftsside starter her -->
+<!-- /side planlegging -->
+<!-- 														12. Fremdrift 										-->
 <div id="fremdrift" data-role="page" data-transition="slidefade" data-dialog="false" data-prev="planlegging" data-next="tittelside">
     <!-- side intro -->
     <div data-role="header" data-theme="f">
@@ -837,7 +893,7 @@
 
     </div>
 				<ul data-role="listview" data-theme="b" data-count-theme="e" data-inset="false" class="meny-storskjerm side-side" style="position: fixed; padding-top:5%;margin-top:-30px; float:left;">
-						<li><a href="index.html" onClick="tvingOmlasting()" class="ui-btn ui-btn"><i class="fa fa-list fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Oversikt<span></span></a></li>
+						<li><a href="index.html" class="ui-btn ui-btn"><i class="fa fa-list fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Oversikt<span></span></a></li>
 						<li id="ovknapp_fram"><a href="#introside" class="ui-btn"><i class="fa fa-check fa-fw fa-lg" style="text-align:left;"></i>&nbsp; Tilgjengelige øvinger<span class="ui-li-count tilgj-ant">1</span></a></li>
 						<li><a href="#planlegging" class="ui-btn"><i class="fa fa-clock-o fa-fw fa-lg" style="text-align:left;"></i> Planlagte øvinger<span class="ui-li-count plan-ant">7</span></a></li>
 						<li><a href="#fremdrift" onClick="graf()" class="ui-btn ui-btn-active "><i class="fa fa-bar-chart fa-fw fa-lg" style="text-align:left;"></i> Fullførte øvinger<span class="ui-li-count full-ant">0</span></a></li>
@@ -905,13 +961,21 @@
     <!-- /footer fremdrift -->
 </div>
 <!-- /side fremdrift -->
-<!-- fremdriftsside slutter her -->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 												Sider slutter her											-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
 
-<!-- sider slutter her-->
-<!-- dialogbokser starter her -->
-<!-- dialogboks for øvinger starter her -->
+
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 										C. Dialogbokser starter her 										-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 	13. Øving (evaluering før, øvingen: lyd eller bilde, evaluering etter)									-->
+<!-- 	14. Om webappen (link i footer på sidene)																-->
+<!-- 	15. Øving: introduksjons-slides																			-->
+<!-- 	16. Øving: lydvalg/startside for øvinger																-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->	
+<!-- 						13. Øving (evaluering før, øvingen: lyd eller bilde, evaluering etter) 				-->
 <div data-role="page" id="ovingpopup" data-close-btn="none" data-theme="c" data-dialog="true" data-dom-cache="false">
-    <!-- dialog øving -->
     <div data-role="header" class="gradient">
 	<h1 style="text-align:center;max-height:50px;padding:10px;">
 	<object class="meny-storskjerm" data="images/logo/logo-oving-s.svg" type="image/svg+xml">
@@ -1127,47 +1191,8 @@
 	</div>
 </div>
 <!-- /dialog øving -->
-<!-- dialogboks for øvinger slutter her -->
-
-
-<!-- dialogboks for evaluering starter her -->
-<div data-role="page" id="evalpopup" data-theme="b" data-close-btn="none" data-dialog="true" data-dom-cache="false">
-    <!-- dialog evaluering -->
-    <div data-role="header" class="gradient">
-			<h1 style="text-align:center;max-height:50px;padding:10px;">
-		<object class="meny-storskjerm" data="images/logo/logo-oving-s.svg" type="image/svg+xml">
-			<img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/>
-		</object>
-		<object class="menyside" data="images/logo/logo-oving-l.svg" type="image/svg+xml">
-			<img src="images/logo/logo-oving-l.png" alt="eMeistring Oppmerksomhetstrening logo"/>
-		</object>
-	</h1>
-    </div>
-    <div role="main" class="ui-content ui-body-c">
-	        	<h1 id="evaloverskrift"></h1>
-        <div class="ui-body-d ui-content">
-             <h2 class="ovingtab">Oppmerksomheten min før øvingen</h2>
-
-            <div class="ui-grid-solo">
-                <div id="evalforklaring3"></div>
-            </div>
-
-           	<h2 class="ovingtab" style="padding-top:1em">Oppmerksomheten min etter øvingen</h2>
-
-            <div class="ui-grid-solo">
-                <div id="evalforklaring4"></div>
-            </div>
-            <div style="margin-top:4em;">	<a href="#evaluering" class="ui-btn ui-btn-a ui-btn-icon-right ui-icon-delete" data-rel="back">Tilbake</a>
-
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /dialog evaluering -->
-<!-- dialogboks for evaluering slutter her -->
-<!-- dialogboks 'om appen' starter her -->
+<!-- 											14. Om webappen (link i footer på sidene) 						-->
 <div data-role="page" id="popup-om-appen" style="min-height:100%;" data-theme="b" data-close-btn="none" data-dialog="true" data-dom-cache="false">
-    <!-- dialog info -->
     <div data-role="header" class="gradient">
 		<h1 style="text-align:center;max-height:50px;padding:10px;">
 		<object class="meny-storskjerm" data="images/logo/logo-oving-s.svg" type="image/svg+xml">
@@ -1192,10 +1217,8 @@
         </div>
     </div>
 </div>
-<!-- /dialog info -->
-<!-- dialogboks 'om appen' slutter her -->
-
-<!-- dialogboks for introduksjon starter her -->
+<!-- /dialogboks 'om appen'-->
+<!-- 											15. Øving: introduksjons-slides 								-->
 <div data-role="page" id="intro" data-close-btn="none" data-dialog="true" data-theme="c" data-dom-cache="false">
     <div data-role="header" class="gradient">
 	<h1 style="text-align:center;max-height:50px;padding:10px;">
@@ -1274,9 +1297,8 @@
         </div>
 	 </div>
 </div>
-<!-- dialogbokser for introduksjon slutter her -->
-
-<!-- dialogboks for introside:velkommen starter her -->
+<!-- /dialogbokser for introduksjon -->
+<!-- 										16. Øving: lydvalg/startside for øvinger 							-->
 <div data-role="page" id="introside" data-close-btn="none" data-dialog="true" data-theme="c" data-dom-cache="false">
     <div data-role="header" class="gradient">
 	<h1 style="text-align:center;max-height:50px;padding:10px;">
@@ -1326,19 +1348,30 @@
 
     </div>
 </div>
-<!-- dialogbokser slutter her -->
+<!-- /dialogboks for lydvalg -->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 											Dialogbokser slutter her 										-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
 
-<!--panel-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 											D. Mobilmeny starter her 										-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+<!-- 	17. Side-meny som vises på små skjermer																	-->
+<!-- --------------------------------------------------------------------------------------------------------- 	-->
+
+<!-- 											17. menypanel 													-->
 <div data-role="panel" id="menypanel" data-position="left" data-display="overlay" data-theme="a" style="background-color:#E9F1F9;padding-top:10%;" data-dom-cache="false">
-    <!-- menypanel -->
+    
 				<ul data-role="listview" data-theme="b" data-count-theme="e" data-inset="false">
-						<li><a href="#" onClick="tvingOmlasting()" class="ui-btn ui-btn"><i class="fa fa-list fa-fw fa-lg" style="text-align:left;"></i> Oversikt<span></span></a></li>
+						<li><a href="index.html" class="ui-btn ui-btn"><i class="fa fa-list fa-fw fa-lg" style="text-align:left;"></i> Oversikt<span></span></a></li>
 						<li id="ovknapp_meny"><a href="#introside" class="ui-btn"><i class="fa fa-check fa-fw fa-lg" style="text-align:left;"></i> Tilgjengelige øvinger<span class="ui-li-count tilgj-ant">1</span></a></li>
 						<li><a href="#planlegging" class="ui-btn"><i class="fa fa-clock-o fa-fw fa-lg" style="text-align:left;"></i> Planlagte øvinger<span class="ui-li-count plan-ant">7</span></a></li>
 						<li><a href="#fremdrift" class="ui-btn"><i class="fa fa-bar-chart fa-fw fa-lg" style="text-align:left;"></i> Fullførte øvinger<span class="ui-li-count full-ant">0</span></a></li>
 				</ul>
 </div>
 <!-- /menypanel -->
-
+<!-- --------------------------------------------------------------------------------------------------------- -->
+<!-- Mobilmeny slutter her -->
+<!-- --------------------------------------------------------------------------------------------------------- -->
 </body>
 </html>

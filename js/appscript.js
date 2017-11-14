@@ -32,7 +32,11 @@ window.onload = function () {
             setTimeout(lagmndliste("plan-mnd", "plan-aar", 0), 500);
             setTimeout(lagdagliste("plan-dag", "plan-mnd", "plan-aar", 0), 600);
 			opphavsrettdato();
-            $.mobile.changePage("#introside");
+            window.applicationCache.addEventListener('updateready', onUpdateReady);
+            if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
+                onUpdateReady();
+            }
+		   $.mobile.changePage("#introside");
 
             /*$('div[data-role="page"]').bind('pageshow', function () {
                 document.title = "Oppmerksomhetstrening"
@@ -106,7 +110,6 @@ window.onload = function () {
             setTimeout(lagmndliste("plan-mnd", "plan-aar", 0), 500);
             setTimeout(lagdagliste("plan-dag", "plan-mnd", "plan-aar", 0), 900);
             opphavsrettdato();
-            nesteoving(neste);
             //sendtilphp();
             if (+forste === 1) {
                 $.mobile.changePage("#introside");
@@ -218,7 +221,7 @@ function autostartoving(dag){
 
 //det som skal lagres i local storage blir opprettet første gang brukeren starter appen
 function forstegang() {
-    "use strict";
+     
 	var alarm = 1;
     var forste = 1;
     var antall = 0;
@@ -601,7 +604,7 @@ function introTekst() {
 
 //endrer input verdi på et element
 function setverdi(elemid, verdi) {
-    "use strict";
+     
     var element = document.getElementById(elemid);
     element.value = verdi;
 }
@@ -648,7 +651,7 @@ function lukkinstillinger(){
 
 //registrerer brukerens valg ang. lydklipp
 function lydbryter() {
-    "use strict";
+     
     var valg = $('input[name="lydvalg"]:checked').val();
     localStorage.setItem('lydklipp', JSON.stringify(valg));
 	
@@ -671,7 +674,7 @@ function lydbryter() {
 
 //registrerer brukerens valg ang. planlegging av øvinger
 function planbryter() {
-    "use strict";
+     
     var valg = document.getElementById("velgsammetid").value;
     var ovingsinstillinger = "";
 
@@ -694,7 +697,7 @@ function planbryter() {
 
 //lager automatisk dato for opphavsrett i bunnteksten på siden	
 function opphavsrettdato() {
-    "use strict";
+     
     var start = 2015;
     var aarnaa = new Date();
     if (start === aarnaa.getFullYear()) {
@@ -711,7 +714,7 @@ function opphavsrettdato() {
 
 //lager innhold i nedtrekkslisten for år.
 function lagaarliste(aarid, autoselect) {
-    "use strict";
+     
     var idag = new Date();
     var y = idag.getFullYear();
     var aarliste = "";
@@ -732,7 +735,7 @@ function lagaarliste(aarid, autoselect) {
 
 //lager innhold i nedtrekkslisten for mnd.
 function lagmndliste(mndid, aarid, autoselect) {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var fmnd = ovinger[0].datomnd;
     var mndliste = "";
@@ -753,7 +756,7 @@ function lagmndliste(mndid, aarid, autoselect) {
 
 //lager innhold i nedtrekkslisten for dager.
 function lagdagliste(dagid, mndid, aarid, autoselect) {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var fdag = (ovinger[0].datodag) - 1;
     var dagliste = "";
@@ -843,7 +846,7 @@ function sjekk_mndfelt(dagid, mndid, aarid) {
 
 //gjør om mnd nr til mnd navn (kortform)	
 function talltilmnd(mndnr) {
-    "use strict";
+     
     var mndnavn = "";
     switch (mndnr) {
         case 0:
@@ -888,7 +891,7 @@ function talltilmnd(mndnr) {
 
 //lager innhold i nedtrekkslisten for timer		
 function lagtimeliste(timeid) {
-    "use strict";
+     
     var timeliste = "<option value='999' selected>Velg time</option>";
 
     for (var i = 0; i < 24; i++) {
@@ -907,7 +910,7 @@ function lagtimeliste(timeid) {
 
 //lager innhold i nedtrekkslisten for minutter	
 function lagminuttliste(minuttid) {
-    "use strict";
+     
     var minuttliste = "<option value='999' selected>Velg minutt</option>";
 
     for (var i = 0; i < 60; i++) {
@@ -927,7 +930,7 @@ function lagminuttliste(minuttid) {
 
 //legger til <antall> <type> til <dato>. Brukes for å beregne dato for øvinger utfra startdatoen
 function DateAdd(dato, type, antall) {
-    "use strict";
+     
     var y = dato.getFullYear(),
         m = dato.getMonth(),
         d = dato.getDate();
@@ -962,7 +965,7 @@ function stringToDate(_date,_format,_delimiter){
 
 //setter inn innhold i planleggingsdialog-boksen	
 function lagplanleggingspopup(knappid) {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     document.getElementById("plandagoverskrift").innerHTML = "Planlegg dag " + knappid;
 	document.getElementById("label-for-plan-sted").innerHTML = "<label for='plan-sted-oving" + knappid + "'>Skriv inn sted:</label>";
@@ -995,7 +998,7 @@ function lagovingspopup(knappid) {
 
 //setter inn innhold i evalueringsdialog-boksen	
 function lagevalpopup(knappid) {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     document.getElementById("evaloverskrift").innerHTML = "Evaluering dag " + knappid;
 	evalslider(ovinger[knappid - 1].evalfor,3);
@@ -1017,7 +1020,7 @@ function gaatiloving(){
 
 //hva som skal skje når en er ferdig med en del i øvingsdialogen
 function ovingnesteknapp(knappnr) {
-    "use strict";
+     
     var lydklipp = document.getElementById("lydklipp1");
     if (knappnr === 0) {
         //document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
@@ -1086,7 +1089,7 @@ function ovingnesteknapp(knappnr) {
 
 //finner ut hvilket klipp brukeren har valgt og legger til eventlistener
 function lydvalg() {
-	"use strict";
+	 
     var lydklipp = document.getElementById("lydklipp1");
     lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
     lydklipp.addEventListener("ended", klippSlutt, false);
@@ -1095,7 +1098,7 @@ function lydvalg() {
 
 //hva som skjer når brukeren spiller av lydklipp
 function spillavLyd() {
-	"use strict";
+	 
     var lydklipp = document.getElementById("lydklipp1");
     //hvis klippet står på pause, setter neste klikk på knappen i gang avspilling
     if (lydklipp.paused) {
@@ -1415,7 +1418,7 @@ function hjelpetekst() {
 //Evaluering øving:
 //bilde + tekst som endres når en bruker slideren for evaluering før/etter øving	
 function evalnrtiltekst(evalnr) {
-    "use strict";
+     
     var evaltekst = "";
 	var evalbakgrunn="";
     switch (evalnr) {
@@ -1499,7 +1502,7 @@ symbolsynlig=0;
 
 //lager liste for planleggingssiden	
 function lagplanliste() {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var ovingsinstillinger = JSON.parse(localStorage.getItem('ovingsinstillinger'));
     var antall = JSON.parse(localStorage.getItem('antall'));
@@ -1569,7 +1572,7 @@ function lagplanliste() {
 
 //lager liste for evalueringssiden
 function lagevalliste() {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     ovinger.reverse();
 
@@ -1578,7 +1581,7 @@ function lagevalliste() {
     for (var i = 0; i < ovinger.length; i++) {
         //legger til øving i listen dersom øvingen er utført
         if (ovinger[i].utfort === 1) {
-            evalliste += "<li><a href='#evalpopup' onClick='lagevalpopup(" + ovinger[i].dag + ")' id='popup-eval" + ovinger[i].dag + "' data-transition='pop' class='ui-btn ui-btn-d ui-icon-carat-r ui-btn-icon-right'><h2>Dag " + ovinger[i].dag + "</h2><p>Fullført øving</p><p class='ui-li-aside'>Vis min egen-evaluering</p></a></li>";
+            evalliste += "<li><a href='#evalpopup' data-rel='popup' onClick='lagevalpopup(" + ovinger[i].dag + ")' id='popup-eval" + ovinger[i].dag + "' data-transition='pop' class='ui-btn ui-btn-d ui-icon-carat-r ui-btn-icon-right'><h2>Dag " + ovinger[i].dag + "</h2><p>Fullført øving</p><p class='ui-li-aside'>Vis min egen-evaluering</p></a></li>";
         } else {
             evalliste += "";
         }
@@ -1592,7 +1595,7 @@ function lagevalliste() {
 
 //lagrer plan for alle øvinger	
 function lagreplanalle() {
-    "use strict";
+     
     var idag = new Date();
     var ovingsinstillinger = JSON.parse(localStorage.getItem('ovingsinstillinger'));
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
@@ -1712,7 +1715,7 @@ function lagreenplan(knappid) {
 
 //lagrer informasjon om utført øving
 function lagreOving(knappid) {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var neste = JSON.parse(localStorage.getItem('neste'));
 	var autostart=0;
@@ -1821,7 +1824,7 @@ function lagmelding(mld) {
 
 //finner antall øvinger/dager som er utførte. Antall brukes bla. på forsiden og evalueringssiden
 function antalldager() {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var dager = 0;
     var m1 = ovinger[0].datomnd;
@@ -1907,7 +1910,7 @@ function antalldager() {
 
 //lager meldinger øverst på forsiden og på øvingssiden ang. neste øving
 function nesteoving(neste) {
-    "use strict";
+     
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	var antall = JSON.parse(localStorage.getItem('antall'));
 	var lydklipp = JSON.parse(localStorage.getItem('lydklipp'));
@@ -1936,7 +1939,7 @@ function nesteoving(neste) {
 							+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/ferdig.jpg'>"
 							+ "<div class='imgteksttopp'>"
 							+ "<h2><i class='fa fa-trophy' aria-hidden='true'></i> Ferdig! </h2>"
-							+ "<p> Jeg har fullført alle øvingene.</p>"
+							+ "<p class='tekstforside'> Jeg har fullført alle øvingene.</p>"
 							+ "<p></p>"
 							+"</div>"
 							+ "</a>";
@@ -2024,7 +2027,7 @@ function nesteoving(neste) {
 						+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 						+ "<div class='imgteksttopp'>"
 						+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
-						+ "<p>Jeg har en ny øving som venter.</p></div>"
+						+ "<p class='tekstforside'>Jeg har en ny øving som venter.</p></div>"
 						+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 						+ "</a>";
 					}
@@ -2035,7 +2038,7 @@ function nesteoving(neste) {
 						+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 						+ "<div class='imgteksttopp'>"
 						+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
-						+ "<p>Jeg har en ny øving som venter.</p></div>"
+						+ "<p class='tekstforside'>Jeg har en ny øving som venter.</p></div>"
 						+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 						+ "</a>";
 					}
@@ -2046,7 +2049,7 @@ function nesteoving(neste) {
 						+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 						+ "<div class='imgteksttopp'>"
 						+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
-						+ "<p>Jeg har en ny øving som venter.</p></div>"
+						+ "<p class='tekstforside'>Jeg har en ny øving som venter.</p></div>"
 						+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 						+ "</a>";
 					}
@@ -2057,7 +2060,7 @@ function nesteoving(neste) {
 						+ "<img id='ovingknappbilde' class='imgbakgr' src='images/illustrasjon/start.jpg'>"
 						+ "<div class='imgteksttopp'>"
 						+ "<h2><i class='fa fa-check' aria-hidden='true'></i> Øving dag " + ovinger[i].dag + "</h2>"
-						+ "<p>Jeg har en ny øving som venter.</p></div>"
+						+ "<p class='tekstforside'>Jeg har en ny øving som venter.</p></div>"
 						+ "<p id='ovingknapptekst' class='imgtekstbunn'><strong>Start øving <i class='fa fa-chevron-circle-right'> </i></strong></p>"
 						+ "</a>";
 					}
@@ -2106,7 +2109,7 @@ function nesteoving(neste) {
 						+ "<img class='imgbakgr' src='images/illustrasjon/vent.jpg'>"
 						+ "<div class='imgteksttopp'>"
 						+ "<h2><i class='fa fa-spinner' aria-hidden='true'></i> Øvingen er ikke klar.</h2>"
-						+ "<p> Fortsett å øve " + tidspkt + " kl: " + tid + "</p>"
+						+ "<p class='tekstforside'> Fortsett å øve " + tidspkt + " kl: " + tid + "</p>"
 						+"</div>"
 						+ "</a>";
 					knapptekstmeny = "<a href='#introside' class='ui-btn'><i class='fa fa-check fa-fw fa-lg' style='text-align:left;'></i> Tilgjengelige øvinger<span class='ui-li-count tilgj-ant'>0</span></a>";
@@ -2201,7 +2204,7 @@ function utsettov(ovnr){
 
 //sjekker om dato og tidspunkt for å aktivere en ny øving er nådd	
 function sjekkstatus() {
-    "use strict";
+     
     var neste = JSON.parse(localStorage.getItem('neste'));
     var forste = JSON.parse(localStorage.getItem('forste'));
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
@@ -2343,7 +2346,7 @@ function graf() {
 }
 //tekst som skal være på vertikal akse på grafen
 function evaltalltiltekst(tall) {
-    "use strict";
+     
     var evaltekst = "";
     switch (tall) {
         case -3:
@@ -2457,12 +2460,12 @@ function tvingOmlasting(){
 }
 
 $(function () {
-    "use strict";
+     
     $("[data-role=panel]").panel().enhanceWithin();
 });
 
 $(function () {
-    "use strict";
+     
 	lukkinstillinger();
     $("#instillinger").enhanceWithin().popup();
     $("#instillinger").popup({
@@ -2471,7 +2474,7 @@ $(function () {
 });
 
 $(function () {
-    "use strict";
+     
     $("#planpopup").enhanceWithin().popup();
     $("#planpopup").popup({
         history: false
@@ -2479,7 +2482,15 @@ $(function () {
 });
 
 $(function () {
-    "use strict";
+     
+    $("#evalpopup").enhanceWithin().popup();
+    $("#evalpopup").popup({
+        history: false
+    });
+});
+
+$(function () {
+     
     $("#volumoving").enhanceWithin().popup();
     $("#volumoving").popup({
         history: false
@@ -2487,7 +2498,7 @@ $(function () {
 });
 
 $(function () {
-    "use strict";
+     
     $("#fortsettoving").enhanceWithin().popup();
     $("#fortsettoving").popup({
         history: false
@@ -2495,7 +2506,7 @@ $(function () {
 });
 
 $(function () {
-    "use strict";
+     
     $("#starteoving").enhanceWithin().popup();
     $("#starteoving").popup({
         history: false
@@ -2503,7 +2514,7 @@ $(function () {
 });
 
 $(function () {
-    "use strict";
+     
     $("#avbryteoving").enhanceWithin().popup();
     $("#avbryteoving").popup({
         history: false
@@ -2512,7 +2523,7 @@ $(function () {
 
 //popupmenyen for små skjermer	
 $(function () {
-    "use strict";
+     
     $("#popup-meny-top").enhanceWithin().popup();
     $("#popup-meny-top").popup({
         history: false
@@ -2520,7 +2531,7 @@ $(function () {
 });
 
 $(function () {
-    "use strict";
+    
     $("#oss").enhanceWithin().popup();
     $("#oss").popup({
         history: false
@@ -2528,7 +2539,7 @@ $(function () {
 });
 
 $(function () {
-    "use strict";
+     
     $("#kontakt").enhanceWithin().popup();
     $("#kontakt").popup({
         history: false
@@ -2537,7 +2548,7 @@ $(function () {
 
 //tilbakestiller tabvisningen og setter lydklipp på pause i øvings-dialogen
 function tabreset() {
-    "use strict";
+     
     $('#forovingiko').css('color','#0C2D82');
 	$('#ovingikoa').css('color','#e6e6e6');
 	$('#ovingikob').css('color','#e6e6e6');

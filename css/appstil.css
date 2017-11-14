@@ -908,6 +908,10 @@ img.ri:empty
 		display:block;
 	}
 
+	.tekstforside{
+	font-size:0.9em;
+}
+	
 
 	.logo-storskjerm{
 		display:block;
