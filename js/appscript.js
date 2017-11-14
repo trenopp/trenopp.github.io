@@ -10,7 +10,8 @@ window.onload = function () {
         //og funksjoner for å lagre innhold, skjule/vise første gang osv. kjøres
         if (localStorage.getItem('ovinger') === null) {
 			forstegang();
-            lagplanliste();
+            varselkomp();
+			lagplanliste();
             lagevalliste();
 			window.addEventListener("resize", strendring);
 			strendring();            
@@ -24,6 +25,8 @@ window.onload = function () {
             lagtimeliste("plan-time-oving");
 			document.getElementById("valgomoving").value=0;
 			document.getElementById("valgomintro").value=0;
+			$("#valgomvarsel").val("1").flipswitch("refresh");
+			//document.getElementById("valgomvarsel").options.item(1).selected="selected";
             setTimeout(lagminuttliste("plan-minutt-oving"), 100);
             setTimeout(lagaarliste("plan-aar", 0), 200);
             setTimeout(lagmndliste("plan-mnd", "plan-aar", 0), 500);
@@ -50,8 +53,10 @@ window.onload = function () {
             var forste = JSON.parse(localStorage.getItem('forste'));
             var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 			var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
+			var valgvarsel=parseInt(JSON.parse(localStorage.getItem('alarm')));
 			document.getElementById("valgomoving").value=valgoving;
 			document.getElementById("valgomintro").value=valgintro;
+			document.getElementById("valgomvarsel").value=valgvarsel;
 			
 			setverdi("velgsammetid", ovingsinstillinger);
             if (parseInt(ovingsinstillinger) === 0) {
@@ -85,7 +90,8 @@ window.onload = function () {
 			var bruk = JSON.parse(localStorage.getItem('aapnet'));
 			var antbruk = +bruk + 1;
 			localStorage.setItem('aapnet', JSON.stringify(antbruk));
-            erbrukeronline();
+            varselkomp();
+			erbrukeronline();
 			statustimer();
             lagplanliste();
             lagevalliste();
@@ -213,7 +219,7 @@ function autostartoving(dag){
 //det som skal lagres i local storage blir opprettet første gang brukeren starter appen
 function forstegang() {
     "use strict";
-	var alarm =2;
+	var alarm = 1;
     var forste = 1;
     var antall = 0;
     var ovingsinstillinger = 0;
@@ -228,8 +234,8 @@ function forstegang() {
     var aapnetapp = 0;
 	var tilgjknapp=0;
 	var ikketilgjknapp=0;
-	var valgoving=0;
-	var valgintro=0;
+	var valgoving="0";
+	var valgintro="0";
 	var autostart=1;
     var ovinger = [];
     for (var i = 0; i < 7; i++) {
@@ -271,7 +277,6 @@ function forstegang() {
     localStorage.setItem('aapnet', JSON.stringify(aapnetapp));
 	localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
 	localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
-	lagmelding();
 }
 
 //*******************************************************************************************	
@@ -390,13 +395,13 @@ function hjelppause(){
 	var ovtype = JSON.parse(localStorage.getItem('lydklipp'));
 	var lydklipp = document.getElementById("lydklipp1");
 	
-	if(parseInt(ovtype)===1 && pause === 0 && bildenr > 0){
+	if(parseInt(ovtype)===1 && pause === 0 && bildenr > 0 && fremdrift > 0){
 		pauseoving();
 	}
 	else if(parseInt(ovtype)===0 && !lydklipp.paused && lydklipp.currentTime > 0){	    
 		spillavLyd();
 	}
-	else if(intropause === 0 && introbilde > 0) {
+	else if(intropause === 0 && introbilde > 0 && introfremdrift > 0) {
 		pauseintro();
 	}
 	else {
@@ -408,13 +413,13 @@ function etterpause(){
 	var ovtype = JSON.parse(localStorage.getItem('lydklipp'));
 	var lydklipp = document.getElementById("lydklipp1");
 	
-	if(parseInt(ovtype)===1 && pause === 1 && bildenr > 0){
+	if(parseInt(ovtype)===1 && pause === 1 && bildenr > 0 && fremdrift > 0){
 		startetterpause();
 	}
-	else if(parseInt(ovtype)===0 && lydklipp.paused){	    
+	else if(parseInt(ovtype)===0 && lydklipp.paused && lydklipp.currentTime > 0){	    
 		spillavLyd();
 	}
-	else if(intropause === 1 && introbilde > 0) {
+	else if(intropause === 1 && introbilde > 0 && introfremdrift > 0) {
 		introetterpause();
 	}
 	else {
@@ -432,7 +437,7 @@ var introbilde=0;
 var introtimeout="";
 
 function startintro() {
-	onClick='stopstatustimer()';
+	stopstatustimer();
     document.getElementById("intro0").style.display = 'none';
 	document.getElementById("introspillav").innerHTML="<button id='spillavintro' onClick='pauseintro()' class='ui-btn ui-btn-a ui-mini'><i class='fa fa-pause'></i></button>";
 	introbilde=1;
@@ -602,19 +607,43 @@ function setverdi(elemid, verdi) {
 }
 
 function introbryter(){
-	var neste = JSON.parse(localStorage.getItem('neste'));
 	var valg = document.getElementById("valgomintro").value;
     localStorage.setItem('valgintroverdi', JSON.stringify(valg));
-	sjekkstatus();
-	nesteoving(neste);
+	localStorage.setItem('tilgjknapp',JSON.stringify(0));
+	document.getElementById("inst-endret").innerHTML = "<p>Endringene gjelder f.o.m <strong>neste</strong> øving.</p>";
+    setTimeout(function () {
+        document.getElementById("inst-endret").innerHTML = "";
+    }, 5000);
 }
 
 function valgovingbryter(){
-	var neste = JSON.parse(localStorage.getItem('neste'));
 	var valg = document.getElementById("valgomoving").value;
 	localStorage.setItem('valgovingverdi', JSON.stringify(valg));
-	sjekkstatus();
-	nesteoving(neste);
+	localStorage.setItem('tilgjknapp',JSON.stringify(0));
+	document.getElementById("inst-endret").innerHTML = "<p>Endringene gjelder f.o.m <strong>neste</strong> øving.</p>";
+    setTimeout(function () {
+        document.getElementById("inst-endret").innerHTML = "";
+    }, 5000);
+}
+
+function varselbryter(){
+	var valg=document.getElementById("valgomvarsel").value;
+	if(+valg===0){
+		lagmelding("Varsler er nå slått på.");
+		localStorage.setItem('alarm', JSON.stringify(0));
+	}
+	else {
+	   localStorage.setItem('alarm', JSON.stringify(1));
+	}
+}
+
+function lukkinstillinger(){
+	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
+	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
+	var valgvarsel=parseInt(JSON.parse(localStorage.getItem('alarm')));
+	document.getElementById("valgomoving").value=valgoving;
+	document.getElementById("valgomintro").value=valgintro;
+	document.getElementById("valgomvarsel").value=valgvarsel;
 }
 
 //registrerer brukerens valg ang. lydklipp
@@ -937,9 +966,11 @@ function lagplanleggingspopup(knappid) {
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     document.getElementById("plandagoverskrift").innerHTML = "Planlegg dag " + knappid;
 	document.getElementById("label-for-plan-sted").innerHTML = "<label for='plan-sted-oving" + knappid + "'>Skriv inn sted:</label>";
-    document.getElementById("plan-oving-dag-knapp").innerHTML = '<a href="#" id="plan-dag' + knappid + '-send" class="ui-btn uit-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-check" onClick="lagreenplan(' + knappid + ')">Lagre instillinger</a>';
+    document.getElementById("plan-oving-dag-knapp").innerHTML = '<a href="#" id="plan-dag' + knappid + '-send" class="ui-btn uit-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-check" onClick="lagreenplan(' + knappid + ')">Lagre plan</a>';
     document.getElementById("plan-dialg-tekstfelt").innerHTML = "<input class='ui-bar ui-body-e' name='plan-sted-oving" + knappid + "' id='plan-sted-oving" + knappid + "' value='" + ovinger[knappid - 1].sted + "' onkeypress='{if (event.keyCode==13)lagreenplan(" + knappid + ")}' type='text' placeholder='f.eks. hjemme...'>";
-}
+	lagtimeliste("plan-time-oving");
+    lagminuttliste("plan-minutt-oving");
+	}
 
 //setter inn innhold i øvingsdialog-boksen	
 function lagovingspopup(knappid) {
@@ -979,6 +1010,7 @@ function lagevalpopup(knappid) {
 function gaatiloving(){
 	var neste = JSON.parse(localStorage.getItem('neste'));
 	var n = parseInt(neste) + 1;
+	stopintro();
 	lagovingspopup(n);
 	$.mobile.changePage('#ovingpopup');
 }
@@ -1499,19 +1531,19 @@ function lagplanliste() {
         var tid = t + ":" + minutt;
         
 		 if (ovinger[i].utfort === 0 && ovinger[i].aktivert===0) {
-			planfremdriftsside += "<li><a href='#planpopup' onClick='lagplanleggingspopup(" + ovinger[i].dag + ")' id='popup-planlegg" + ovinger[i].dag + "' data-transition='pop' class='ui-btn ui-btn-c ui-icon-carat-r ui-btn-icon-right'><h2>Dag "+ovinger[i].dag+"</h2><p><strong>" + dato + " kl: " + tid + " " + ovinger[i].sted + "</strong></p><p class='ui-li-aside'>Trykk for å endre tid/sted</p></a></li>";
+			planfremdriftsside += "<li><a href='#planpopup' data-rel='popup' onClick='lagplanleggingspopup(" + ovinger[i].dag + ")' id='popup-planlegg" + ovinger[i].dag + "' data-transition='pop' class='ui-btn ui-btn-c ui-icon-carat-r ui-btn-icon-right'><h2>Dag "+ovinger[i].dag+"</h2><p><strong>" + dato + " kl: " + tid + " " + ovinger[i].sted + "</strong></p><p class='ui-li-aside'>Trykk for å endre tid/sted</p></a></li>";
 
 		 } 
 		 
 		 
 	   //legger til øvinger i listen dersom de ikke er utførte og brukeren har valgt å planlegge øvingene individuelt
         if (ovinger[i].utfort === 0 && ovingsinstillinger === 1) {
-            planliste1 += "<li><a href='#planpopup' onClick='lagplanleggingspopup(" + ovinger[i].dag + ")' id='popup-planlegg" + ovinger[i].dag + "' data-transition='pop' class='ui-btn ui-btn-c ui-icon-carat-r ui-btn-icon-right'><h2>Dag "+ovinger[i].dag+"</h2><p><strong>" + dato + " kl: " + tid + " " + ovinger[i].sted + "</strong></p><p class='ui-li-aside'>Trykk for å endre tid/sted</p></a></li>";
+            planliste1 += "<li><a href='#planpopup' data-rel='popup' onClick='lagplanleggingspopup(" + ovinger[i].dag + ")' id='popup-planlegg" + ovinger[i].dag + "' data-transition='pop' class='ui-btn ui-btn-c ui-icon-carat-r ui-btn-icon-right'><h2>Dag "+ovinger[i].dag+"</h2><p><strong>" + dato + " kl: " + tid + " " + ovinger[i].sted + "</strong></p><p class='ui-li-aside'>Trykk for å endre tid/sted</p></a></li>";
             planliste2 += "";
 		}
         //legger til øvinger som deaktiverte i listen dersom de ikke er utførte og brukeren har valgt å planlegge alle øvinger samtidig
         else if (ovinger[i].utfort === 0 && ovingsinstillinger === 0) {
-            planliste1 += "<li><a href='#planpopup' id='popup-planlegg" + ovinger[i].dag + "' class='ui-btn ui-btn-c ui-icon-carat-r ui-btn-icon-right ui-state-disabled'><h2>Dag "+ovinger[i].dag+"</h2><p><strong>" + dato + " kl: " + tid + " " + ovinger[i].sted + "</strong></p></a></li>";
+            planliste1 += "<li><a href='#planpopup' data-rel='popup' id='popup-planlegg" + ovinger[i].dag + "' class='ui-btn ui-btn-c ui-icon-carat-r ui-btn-icon-right ui-state-disabled'><h2>Dag "+ovinger[i].dag+"</h2><p><strong>" + dato + " kl: " + tid + " " + ovinger[i].sted + "</strong></p></a></li>";
             planliste2 += "";
         }
         //legger til øvinger som deaktiverte nederst i listen dersom de er utførte
@@ -1643,7 +1675,9 @@ function lagreplanalle() {
     setTimeout(function () {
         document.getElementById("erlagret").innerHTML = "";
     }, 5000);
-    nesteoving(neste);
+	localStorage.setItem('autostartactive', JSON.stringify(0));
+    localStorage.setItem('tilgjknapp', JSON.stringify(0));
+	localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
 }
 
 //lagrer informasjon om en planlagt øving når bruker velger å planlegge øvinger individuelt	
@@ -1668,11 +1702,12 @@ function lagreenplan(knappid) {
 	document.getElementById("erlagret2").innerHTML = "<p>Endringene er lagret.</p>";
 	antalldager();
 	lagplanliste();	
-	nesteoving(neste); 
     setTimeout(function () {
         document.getElementById("erlagret2").innerHTML = "";
     }, 5000);
-    tvingOmlasting();
+	localStorage.setItem('autostartactive', JSON.stringify(0));
+	localStorage.setItem('tilgjknapp', JSON.stringify(0));
+	localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
 }
 
 //lagrer informasjon om utført øving
@@ -1725,30 +1760,47 @@ function statustimer() {
 	statTimer=setInterval(function(){sjekkstatus()}, 1000);
 }
 
+//stopper timer for sjekkstatus
 function stopstatustimer(){
 	clearInterval(statTimer);	
 }
 
-//nettlesermelding når ny øving er tilgjengelig
-function meldtilbruker() {
+//viser nye nettlesermeldinger
+function meldtilbruker(mld) {
   var options = {
-      body: "En ny oppmerksomhetsøving er tilgjengelig",
+      body: mld,
       icon: 'images/logo/favicon-32x32.png'
   };
-  var n = new Notification("eMeistring", options);
-  setTimeout(n.close.bind(n), 10000); 
+  if (Notification.permission === "granted") {
+	var varsel = new Notification("eMeistring", options);
+	window.navigator.vibrate(500);
+	varsel.onclick = function () {
+      window.focus("https://trenopp.github.io/index.html");      
+    };
+  }
 }
 
-function lagmelding() {
+//sjekker om nettleser har støtte for varsel
+function varselkomp(){
+	 if (!("Notification" in window)) {
+		document.getElementById("varsler").style.display='none';
+	}
+	else {
+		document.getElementById("varsler").style.display='block';
+	}
+}
+
+//ber bruker om tillatelse til å vise nettleser-varsler
+function lagmelding(mld) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     return;
   }
-
+ 
   // Let's check whether notification permissions have already been granted
   else if (Notification.permission === "granted") {
     // If it's okay let's create a notification
-    meldtilbruker();
+    meldtilbruker(mld);
   }
 
   // Otherwise, we need to ask the user for permission
@@ -1756,11 +1808,14 @@ function lagmelding() {
     Notification.requestPermission(function (permission) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
-       meldtilbruker();
+       meldtilbruker(mld);
+	    if(!('permission' in Notification)) {
+          Notification.permission = permission;
+        }
       }
     });
   }
-  
+
 }
 
 
@@ -1922,6 +1977,7 @@ function nesteoving(neste) {
 	else{
 		for (var i = 0; i < ovinger.length; i++) {
         //hvis dette er neste øving i rekken...
+		
 			if (ovinger[i].dag === (parseInt(neste) + 1)) {
 				dag = ovinger[i].dag;
 				var aktivert = ovinger[i].aktivert;
@@ -2088,11 +2144,19 @@ function nesteoving(neste) {
 		
 		}
 	}
+	var oving=JSON.parse(localStorage.getItem('valgovingverdi'));
+	var intro=JSON.parse(localStorage.getItem('valgintroverdi'));			
+	var varsel=JSON.parse(localStorage.getItem('alarm'));
+	document.getElementById("valgomoving").value=oving;
+	document.getElementById("valgomintro").value=intro;
+	document.getElementById("valgomvarsel").value=varsel;
 }
 
 //setter nye datoer for utgåtte øvinger
 function utsettov(ovnr){
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
+	localStorage.setItem('tilgjknapp', JSON.stringify(0));
+	localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
 	var t=1;
 	var idag = new Date();	
 	if(ovnr > 0){
@@ -2112,7 +2176,9 @@ function utsettov(ovnr){
 		}
 		else {
 			ovinger[ovnr].aktivert = 1;
-			lagmelding();						
+			if(parseInt(alarm)===0){
+				meldtilbruker("Velkommen tilbake! Noen øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
+			}					
 			localStorage.setItem('ovinger', JSON.stringify(ovinger));
 		}
 				}
@@ -2122,7 +2188,9 @@ function utsettov(ovnr){
 		ovinger[ovnr].datomnd = nydato.getMonth();
 		ovinger[ovnr].datoaar = nydato.getFullYear();
 		ovinger[ovnr].aktivert = 1;
-		lagmelding();
+		if(parseInt(alarm)===0){
+			meldtilbruker("Velkommen tilbake! Noen øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
+		}
 		localStorage.setItem('ovinger', JSON.stringify(ovinger));
 					
 	}
@@ -2135,9 +2203,11 @@ function utsettov(ovnr){
 function sjekkstatus() {
     "use strict";
     var neste = JSON.parse(localStorage.getItem('neste'));
-	var alarm = JSON.parse(localStorage.getItem('alarm'));
     var forste = JSON.parse(localStorage.getItem('forste'));
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
+	var valgintroverdi = document.getElementById("valgomintro").value;
+	var valgovingverdi = document.getElementById("valgomoving").value;
+	var alarm = JSON.parse(localStorage.getItem('alarm'));
 	var idag = new Date();
     var d = idag.getDate();
     var m = idag.getMonth();
@@ -2158,7 +2228,9 @@ function sjekkstatus() {
 		
         //aktiverer øvinger hvis tidspunkt er nådd i dag
 			if (+dag === +d && +mnd === +m && +aar === +y && ((+time === +t && +minu <= +minutt) || (+time < +t)) && +aktivert === 0 && +utfort === 0) {
-				lagmelding();
+				if(parseInt(alarm)===0){
+					meldtilbruker("En ny oppmerksomhetøving er klar!");
+				}
 				ovinger[i].aktivert = 1;
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
 				console.log("i dag " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
@@ -2172,6 +2244,9 @@ function sjekkstatus() {
         //hvis brukeren åpner appen i samme mnd.
 			else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort===0) {
 				utsettov(i);
+				if(parseInt(alarm)===0){
+					meldtilbruker("Du har fremdeles en oppmerksomhetsøving som venter.");
+				}
 				if (i>0){				
 					autostart=0;
 				}
@@ -2180,6 +2255,9 @@ function sjekkstatus() {
         //hvis månedsskifte før brukeren åpner appen igjen
 			else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
 				utsettov(i);
+				if(parseInt(alarm)===0){
+					meldtilbruker("Du har fremdeles en oppmerksomhetsøving som venter.");
+				}
 				if (i>0){				
 					autostart=0;
 				}
@@ -2188,12 +2266,17 @@ function sjekkstatus() {
 			//hvis årskifte før brukeren åpner appen igjen
 			else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
 				utsettov(i);
+				if(parseInt(alarm)===0){
+					meldtilbruker("Du har fremdeles en oppmerksomhetsøving som venter.");
+				}
 				if (i>0){				
 					autostart=0;
 				}				
 				break;	
 			} 
     }
+	localStorage.setItem('valgintroverdi', JSON.stringify(valgintroverdi));
+	localStorage.setItem('valgovingverdi', JSON.stringify(valgovingverdi));
 	localStorage.setItem('autostartactive', JSON.stringify(autostart));
 	antalldager();
 	lagplanliste();	
@@ -2380,12 +2463,17 @@ $(function () {
 
 $(function () {
     "use strict";
-	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
-	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));			
-	document.getElementById("valgomoving").value=valgoving;
-	document.getElementById("valgomintro").value=valgintro;
+	lukkinstillinger();
     $("#instillinger").enhanceWithin().popup();
     $("#instillinger").popup({
+        history: false
+    });
+});
+
+$(function () {
+    "use strict";
+    $("#planpopup").enhanceWithin().popup();
+    $("#planpopup").popup({
         history: false
     });
 });

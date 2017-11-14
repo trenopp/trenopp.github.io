@@ -6,11 +6,20 @@
   "developer": "eMeistring",
   "version": "0.1",
   "launch_path": "index.html",
-    "icons": {
+  "icons": {
+	"32":"/images/logo/favicon-32x32.png",
 	"192":"/images/logo/android-chrome-192x192.png",
+	"194":"/images/logo/favicon-194x194.png"
   },
-  "url": "http://trenopp.github.io/",
+  "url": "https://trenopp.github.io/",
   "display": "standalone",
-  "orientation": "portrait",
-  "appcache_path": "trenopp.appcache"
+  "background_color": "#E9F1F9",
+  "theme_color": "#E9F1F9",
+  "orientation": "portrait-primary",
+  "appcache_path": "trenopp.appcache",
+  "permissions": {
+  "desktop-notification": {
+    "description": "Needed for creating system notifications."
+	}
+	}
 }

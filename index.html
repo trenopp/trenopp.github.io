@@ -11,8 +11,6 @@
 		<link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
 		<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
 		<link rel="stylesheet" href="font-awesome-4.4.0/css/font-awesome.min.css">
-		<link href="css/atc-style-button-icon.css" rel="stylesheet" type="text/css">
-		<link href="css/atc-style-menu-wb.css" rel="stylesheet" type="text/css">
 		<!-- tilkobla javascript filer-->
 		<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
 		<script src="js/Chart.min.js" type="text/javascript"></script>
@@ -31,7 +29,7 @@
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="/images/logo/mstile-144x144.png">
 		<meta name="msapplication-config" content="browserconfig.xml">
-		<meta name="theme-color" content="#ffffff">
+		<meta name="theme-color" content="#E9F1F9">
 		</head>
 <body>
 	
@@ -97,25 +95,37 @@
     </div>
 	<div role="main" class="ui-content">
 		<div class="ui-grid-a">
-			<div class="ui-block-a">
+			<div class="ui-block-a" style="text-align:left;">
 				<label for="valgomoving">Velge øvingstype før hver øving:</label>
 			</div>
-			<div class="ui-block-b">
+			<div class="ui-block-b" style="text-align:right;">
 				<select name="valgomoving" id="valgomoving" onchange="valgovingbryter()" data-mini="true" data-role="flipswitch" autocomplete="on" data-theme="e">
 					<option value="0">Ja</option>
 					<option value="1">Nei</option>
 				</select>
 			</div>
-			<div class="ui-block-a">
+			<div class="ui-block-a" style="text-align:left;">
 				<label for="valgomintro">Se introduksjon før hver øving:</label>
 			</div>
-			<div class="ui-block-b">
+			<div class="ui-block-b" style="text-align:right;">
 				<select name="valgomintro" id="valgomintro" onchange="introbryter()" data-mini="true" data-role="flipswitch" autocomplete="on" data-theme="e">
 					<option value="0">Ja</option>
 					<option value="1">Nei</option>
 				</select>
 			</div>
 		</div>
+		<div id="varsler" class="ui-grid-a">
+			<div class="ui-block-a" style="text-align:left;">
+				<label for="valgomvarsel">La nettleser vise varsel om ny øving:</label>
+			</div>
+			<div class="ui-block-b" style="text-align:right;">
+				<select name="valgomvarsel" id="valgomvarsel" onchange="varselbryter()" data-mini="true" data-role="flipswitch" autocomplete="off" data-theme="e">
+					<option value="0">Ja</option>
+					<option value="1">Nei</option>
+				</select>
+			</div>
+		</div>
+		<div id="inst-endret" class="spantekst" style="text-align:center;color:#999999"></div>
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Lukk</a>
     </div>
 </div>
@@ -141,6 +151,60 @@
 </div>
 <!-- popup for volum lyd-øving slutter her -->
 <!-- /popup volum lyd-øving -->
+<!-- dialogboks for planlegging starter her -->
+<!-- dialog planlegging -->
+<div data-role="popup" id="planpopup" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:350px">
+    <div data-role="header" data-theme="b">
+	<h1 id="plandagoverskrift"></h1>
+    </div>
+    <div role="main">
+	        	
+        <div class="ui-body-a ui-content">
+
+		   <form data-ajax="false" name="plan-dag" id="plan-dag-oving" data-theme="e">
+			<div class="ui-grid-solo">
+                    <div class="ui-block-a">
+                        <div class="ui-bar"><label for="plan-time-oving">Velg klokkeslett:</label>
+                            <div id="feiltid2" style="font-size:0.8em;"></div>
+                        </div>
+                    </div>
+                    <div class="ui-block-a">
+                        <div class="ui-bar" style="float:right;">
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-theme="c" data-mini="true">
+                               <label for="plan-time-oving" class="ui-hidden-accessible">Velg time:</label>
+                                <select name="plan-time-oving" id="plan-time-oving" data-icon="false"></select>
+                                <label for="plan-minutt-oving" class="ui-hidden-accessible">Velg minutt:</label>
+                                <select name="plan-minutt-oving" id="plan-minutt-oving" data-icon="false"></select>
+                            </fieldset>
+                        </div>
+                    </div>
+                   <div class="ui-block-a">
+                      <div class="ui-bar" id="label-for-plan-sted">
+                              <label for="plan-sted-oving">Skriv inn sted:</label>
+                            </div>
+                        </div>
+                        <div class="ui-block-a">
+                            <div class="ui-bar" id="plan-dialg-tekstfelt" style="float:right;">
+                                <input name="plan-sted-oving" data-theme="d" data-mini="true" id="plan-sted-oving" value="" type="text" placeholder="f.eks. hjemme...">
+							
+                            </div>
+                        </div>
+                <div class="ui-block-a">
+                <div class="ui-bar">
+				<div id="erlagret2" class="spantekst" style="text-align:center;color:#999999"></div>
+                <div id="plan-oving-dag-knapp"><a href="#planlegging" id="plan-dag-oving-send" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-check">Lagre plan</a>
+                </div>
+                <div id="plan-oving-dag-lukk"><a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-e ui-btn-icon-left ui-icon-delete">Lukk</a>
+                </div>
+				</div>
+				</div>
+				 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /dialog planlegging -->
+<!-- dialogboks for planlegging slutter her -->
 <!-- popup for kontakt starter her -->
 <!-- popup kontakt -->
 <div data-role="popup" id="kontakt" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
@@ -420,9 +484,9 @@
 		</div>
 				<div class="ui-block-c" data-role="navbar">
 				<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
-		<li ></li>
-		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
-		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
+		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
+		<li><a href="#oss" data-rel="popup" data-transition="pop" title="Hjelp"><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><br/>Hjelp</a></li>
+		<li><a href="#kontakt" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i><br/>Kontakt</a></li>
 		</ul>
 		</div>
 		</div>
@@ -431,7 +495,8 @@
 		<!--Meny top-->
 		<div data-role="navbar" class="menyside meny-skygge">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
-		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
+		<li><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
+		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-position-to="window" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -559,7 +624,7 @@
 		</div>
 				<div class="ui-block-c" data-role="navbar">
 				<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
-		<li ></li>
+		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -572,6 +637,7 @@
 		<div data-role="navbar" class="menyside meny-skygge">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
 		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
+		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -591,16 +657,14 @@
 			<div class="innholdsomrade">
 				<div class="ui-grid-solo">
 					<div class="ui-block-a">
-							<h2 class="sideundertittel"><i class="fa fa-clock-o"></i> Planlegging <span class="tooltipmerke"><i title="<p style='text-align:left;'>På denne siden kan du endre tidspunkt for en eller flere øvinger.</p>
+							<h2 class="sideundertittel"><i class="fa fa-clock-o"></i> Øvingsplan <span class="tooltipmerke"><i title="<p style='text-align:left;'>På denne siden kan du endre tidspunkt for en eller flere øvinger.</p>
 							<p style='text-align:left;'> Alle øvingene er automatisk planlagt for deg første gang du bruker web-appen, og du trenger derfor ikke å gjøre noe her hvis du er fornøyd med de tidspunktene som er satt opp.</p>
 							<p style='text-align:left;'>Hvis du ønsker mer informasjon om hvordan du planlegger øvinger, trykk på <strong>'Hjelp'-knappen</strong> på menyen over.</p> " rel="tooltip" class="fa fa-question-circle"></i></span></h2>	
 					</div>
 				</div>
 				<div class="ui-grid-b ui-responsive">
-					<div class="ui-block-a side-infotekst" style="padding:3%;"> 
-					</div>
 					<div class="ui-block-b side-interaktiv" data-theme="d" data-role="collapsible" data-collapsed="false" style="padding:3%;">
-					<h4 class="deloverskrift">Instillinger</h4>
+					<h4 class="deloverskrift">Tidsplanlegging</h4>
 
 
             <form data-ajax="false" onSubmit="lagreplanalle()" data-rel="back">
@@ -752,7 +816,7 @@
 		</div>
 				<div class="ui-block-c" data-role="navbar">
 				<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
-		<li ></li>
+		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -764,6 +828,7 @@
 		<div data-role="navbar" class="menyside meny-skygge" style="background-color:#E9F1F9;box-shadow: 5px 5px 15px #8c8c8c;">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
 		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
+		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -787,9 +852,6 @@
 				</div>
 				<div class="statusmelding" id="7dagerferdig"></div>
 				<div class="ui-grid-b ui-responsive">
-					<div class="ui-block-a side-infotekst" style="padding:3%;">
-					<div class="statusmelding" id="7dagerferdig"></div>
-					</div>
 					<div class="ui-block-b side-interaktiv" id="collapsible-graf" data-theme="d" data-role="collapsible" data-collapsed="false" style="padding:3%;">
 					<h4 class="deloverskrift" onclick="graf()">Oppmerksomhetsgraf </h4>
             <div id="ingenfullfort" style="padding:0.2em;">
@@ -861,10 +923,10 @@
 	</h1>
 	<div data-role="navbar" class="meny-skygge">
         	<ul>
-			<li><a href="#oss" data-rel="popup" data-transition="pop" data-position-to="window" onClick="hjelppause()" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
-			<li><a href="#kontakt" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Kontakt"><i class="fa fa-envelope fa-lg"></i></a></li>
 			<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Instillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
-			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Avslutt"><i class="fa fa-close fa-lg"></i></a></li>
+			<li><a href="#oss" data-rel="popup" data-transition="pop" data-position-to="window" onClick="hjelppause()" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#kontakt" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Kontakt"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Avslutt"><i class="fa fa-close fa-lg" aria-hidden="true"></i></a></li>
 			</ul>			
 	</div>
     </div>
@@ -1067,68 +1129,22 @@
 <!-- /dialog øving -->
 <!-- dialogboks for øvinger slutter her -->
 
-<!-- dialogboks for planlegging starter her -->
-<!-- dialog planlegging -->
-<div data-role="page" id="planpopup" data-theme="b" data-close-btn="none" data-dialog="true" data-dom-cache="false">
-    <div data-role="header">
-        	<h1 id="plandagoverskrift"></h1>
 
-    </div>
-    <div role="main">
-        <div class="ui-body-a ui-content">
-
-		   <form data-ajax="false" name="plan-dag" id="plan-dag-oving" data-theme="e">
-			<div class="ui-grid-solo">
-                    <div class="ui-block-a">
-                        <div class="ui-bar"><label for="plan-time-oving">Velg klokkeslett:</label>
-                            <div id="feiltid2" style="font-size:0.8em;"></div>
-                        </div>
-                    </div>
-                    <div class="ui-block-a">
-                        <div class="ui-bar" style="float:right;">
-                            <fieldset data-role="controlgroup" data-type="horizontal" data-theme="c" data-mini="true">
-                               <label for="plan-time-oving" class="ui-hidden-accessible">Velg time:</label>
-                                <select name="plan-time-oving" id="plan-time-oving" data-icon="false"></select>
-                                <label for="plan-minutt-oving" class="ui-hidden-accessible">Velg minutt:</label>
-                                <select name="plan-minutt-oving" id="plan-minutt-oving" data-icon="false"></select>
-                            </fieldset>
-                        </div>
-                    </div>
-                   <div class="ui-block-a">
-                      <div class="ui-bar" id="label-for-plan-sted">
-                              <label for="plan-sted-oving">Skriv inn sted:</label>
-                            </div>
-                        </div>
-                        <div class="ui-block-a">
-                            <div class="ui-bar" id="plan-dialg-tekstfelt" style="float:right;">
-                                <input name="plan-sted-oving" data-theme="d" data-mini="true" id="plan-sted-oving" value="" type="text" placeholder="f.eks. hjemme...">
-							
-                            </div>
-                        </div>
-                <div class="ui-block-a">
-                <div class="ui-bar">
-				<div id="erlagret2" class="spantekst" style="text-align:center;color:#999999"></div>
-                <div id="plan-oving-dag-knapp"><a href="#planlegging" id="plan-dag-oving-send" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-check">Lagre instillinger</a>
-                </div>
-                <div id="plan-oving-dag-lukk"><a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-e ui-btn-icon-left ui-icon-delete">Lukk dialogboks</a>
-                </div>
-				</div>
-				</div>
-				 </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- /dialog planlegging -->
-<!-- dialogboks for planlegging slutter her -->
 <!-- dialogboks for evaluering starter her -->
 <div data-role="page" id="evalpopup" data-theme="b" data-close-btn="none" data-dialog="true" data-dom-cache="false">
     <!-- dialog evaluering -->
-    <div data-role="header">
-        	<h1 id="evaloverskrift"></h1>
-
+    <div data-role="header" class="gradient">
+			<h1 style="text-align:center;max-height:50px;padding:10px;">
+		<object class="meny-storskjerm" data="images/logo/logo-oving-s.svg" type="image/svg+xml">
+			<img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/>
+		</object>
+		<object class="menyside" data="images/logo/logo-oving-l.svg" type="image/svg+xml">
+			<img src="images/logo/logo-oving-l.png" alt="eMeistring Oppmerksomhetstrening logo"/>
+		</object>
+	</h1>
     </div>
     <div role="main" class="ui-content ui-body-c">
+	        	<h1 id="evaloverskrift"></h1>
         <div class="ui-body-d ui-content">
              <h2 class="ovingtab">Oppmerksomheten min før øvingen</h2>
 
@@ -1152,10 +1168,18 @@
 <!-- dialogboks 'om appen' starter her -->
 <div data-role="page" id="popup-om-appen" style="min-height:100%;" data-theme="b" data-close-btn="none" data-dialog="true" data-dom-cache="false">
     <!-- dialog info -->
-    <div data-role="header">
-        	<h1>Om eMeistring Oppmerksomhetstrening</h1>
+    <div data-role="header" class="gradient">
+		<h1 style="text-align:center;max-height:50px;padding:10px;">
+		<object class="meny-storskjerm" data="images/logo/logo-oving-s.svg" type="image/svg+xml">
+			<img src="images/logo/logo-oving-s.png" alt="eMeistring Oppmerksomhetstrening logo"/>
+		</object>
+		<object class="menyside" data="images/logo/logo-oving-l.svg" type="image/svg+xml">
+			<img src="images/logo/logo-oving-l.png" alt="eMeistring Oppmerksomhetstrening logo"/>
+		</object>
+	</h1>
     </div>
     <div role="main">
+	        	<h1>Om eMeistring Oppmerksomhetstrening</h1>
         <div class="ui-body-d ui-content">
             <p>eMeistring Oppmerksomhetstrening er laget for deg med sosial angst og som mottar behandling ved eMeistring.</p>
             <p>Med denne appen har du oppmerksomhetensøvelsen tilgjengelig på din mobil, nettbrett eller PC.</p>
@@ -1184,9 +1208,10 @@
 	</h1>
 	<div data-role="navbar" class="meny-skygge">
         	<ul>
+			<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Instillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#oss" data-rel="popup" data-transition="pop" onclick="hjelppause()" data-position-to="window" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
-			<li><a href="#kontakt" data-rel="popup" data-transition="pop" onclick="hjelppause()" title="Kontakt"><i class="fa fa-envelope fa-lg"></i></a></li>
-			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop" onclick="hjelppause()" title="Avslutt"><i class="fa fa-close fa-lg"></i></a></li>
+			<li><a href="#kontakt" data-rel="popup" data-transition="pop" onclick="hjelppause()" title="Kontakt"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop" onclick="hjelppause()" title="Avslutt"><i class="fa fa-close fa-lg" aria-hidden="true"></i></a></li>
 			</ul>			
 	</div>
     </div>
@@ -1264,9 +1289,10 @@
 	</h1>
 	<div data-role="navbar" id="introside-meny" class="meny-skygge">
         	<ul>
+			<li><a href="#instillinger" data-rel="popup" data-transition="pop" title="Instillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#oss" data-rel="popup" data-transition="pop" data-position-to="window" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
-			<li><a href="#kontakt" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-lg"></i></a></li>
-			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop"title="Avslutt"><i class="fa fa-close fa-lg"></i></a></li>
+			<li><a href="#kontakt" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop"title="Avslutt"><i class="fa fa-close fa-lg" aria-hidden="true"></i></a></li>
 			</ul>			
 	</div>
        
