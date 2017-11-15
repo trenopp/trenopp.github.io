@@ -618,10 +618,9 @@ progress[value]::-webkit-progress-value {
 .grafpopup {
     margin-top:1em;
     width:100%;
-    height:100%;
     background-color:#ffffff;
-    padding-top:0.5em;
-    padding-bottom:0.5em;
+    padding:2%;
+
 }
 
 /* Span typer */
@@ -1018,10 +1017,10 @@ img.ri:empty
 		min-width:100%;
 	}
 	.side-interaktiv{
-		min-width:50%;
+		min-width:100%;
 	}
 	.side-statusfelt{
-		min-width:50%;
+		min-width:100%;
 	}
 	.side-hovedboks{
 		min-width:75%;
@@ -1252,7 +1251,9 @@ img.ri:empty
     h2.sideundertittel {
  
     }
-
+	.tekstforside{
+	font-size:0.8em;
+	}
     .forsidemeny-mobil {
         display:block;
     }
@@ -1308,7 +1309,7 @@ img.ri:empty
 	.side-side{
 		min-width:100%;
 	}
-			.innholdsomrade  {
+	.innholdsomrade  {
 	margin-left:0%;
 }
 }

@@ -69,8 +69,8 @@ window.onload = function () {
                 document.getElementById("plan-sammetid").style.display = 'none';
             }
 			setforste();
-			window.addEventListener("resize", strendring);
-			strendring();
+			//window.addEventListener("resize", strendring);
+			//strendring();
              lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
             lydklipp.addEventListener("ended", klippSlutt, false);
 			lydklipp.addEventListener('volumechange', volumendring, true);
@@ -473,8 +473,8 @@ function introvent() {
 		introTekst();
 		introtimeout=setTimeout(function () {
 			document.getElementById("intro0").style.display = 'block';
-			$("#intro0").fadeIn();
-			$("#intro19").fadeOut();
+			//$("#intro0").fadeIn();
+			//$("#intro19").fadeOut();
 			document.getElementById("intro19").style.display = 'none';
 			document.getElementById("intro-fremdrift").value = "0";
 			gaatiloving();
@@ -482,8 +482,8 @@ function introvent() {
 		
     } else if (introbilde < 19 && +intropause === 0) {
         document.getElementById("intro" + introbilde).style.display = 'block';
-        $("#intro" + introbilde).fadeIn();
-        $("#intro" + (introbilde - 1)).fadeOut();
+        //$("#intro" + introbilde).fadeIn();
+        //$("#intro" + (introbilde - 1)).fadeOut();
         document.getElementById("intro" + (introbilde - 1)).style.display = 'none';
         introtimeout=setTimeout(function () {
 			introbilde=+introbilde + 1;
@@ -640,7 +640,7 @@ function varselbryter(){
 	}
 }
 
-function lukkinstillinger(){
+function lukkinnstillinger(){
 	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
 	var valgvarsel=parseInt(JSON.parse(localStorage.getItem('alarm')));
@@ -1719,6 +1719,8 @@ function lagreOving(knappid) {
     var ovinger = JSON.parse(localStorage.getItem('ovinger'));
     var neste = JSON.parse(localStorage.getItem('neste'));
 	var autostart=0;
+	var ikketilgjknapp=0;
+	var	tilgjknapp=1;
     for (var i = 0; i < ovinger.length; i++) {
         if (ovinger[i].dag === knappid) {
             ovinger[i].evalfor = $('input[name="oppmfor"]:checked').val();
@@ -1737,6 +1739,8 @@ function lagreOving(knappid) {
 
 	document.getElementById("startdatodiv").style.display = 'none';
 	localStorage.setItem('autostartactive', JSON.stringify(autostart));
+	localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
+	localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
     lagplanliste();
     lagevalliste();
     antalldager();
@@ -1776,7 +1780,6 @@ function meldtilbruker(mld) {
   };
   if (Notification.permission === "granted") {
 	var varsel = new Notification("eMeistring", options);
-	window.navigator.vibrate(500);
 	varsel.onclick = function () {
       window.focus("https://trenopp.github.io/index.html");      
     };
@@ -1837,9 +1840,9 @@ function antalldager() {
 	var sluttdato = d6 + "." + mnd6;
 	var deskfremdrift=document.getElementsByClassName("fremdrift-top-desktop");
 	var deskplan=document.getElementsByClassName("plan-top-desktop");
-	var mobilfremdrift=document.getElementsByClassName("fremdrift-top-mobil");
-	var mobilplan=document.getElementsByClassName("plan-top-mobil");
-	var fremdriftikon=document.getElementsByClassName("knapp-fremdrift-ikon");
+	//var mobilfremdrift=document.getElementsByClassName("fremdrift-top-mobil");
+	//var mobilplan=document.getElementsByClassName("plan-top-mobil");
+	//var fremdriftikon=document.getElementsByClassName("knapp-fremdrift-ikon");
 	var tilgj=document.getElementsByClassName("tilgj-ant");
 	var plan=document.getElementsByClassName("plan-ant");
 	var ferdig=document.getElementsByClassName("full-ant");
@@ -1891,17 +1894,17 @@ function antalldager() {
 		}
 	}
 	
-	for (i = 0; i < mobilfremdrift.length; i++) {
-		mobilfremdrift[i].innerHTML = dager + " av 7 dager fullført";
-	}
+	//for (i = 0; i < mobilfremdrift.length; i++) {
+	//	mobilfremdrift[i].innerHTML = dager + " av 7 dager fullført";
+	//}
 	
-	for (i = 0; i < mobilplan.length; i++) {
-		mobilplan[i].innerHTML = "Jeg skal øve fra " + startdato;
-	}
+	//for (i = 0; i < mobilplan.length; i++) {
+	//	mobilplan[i].innerHTML = "Jeg skal øve fra " + startdato;
+	//}
 	
-	for (i = 0; i < fremdriftikon.length; i++) {
-		fremdriftikon[i].innerHTML = "<img class='knapp-bilde' src='images/ikoner/ikon-liste" + dager +".png' alt='Vis fremdrift' />";
-	}
+	//for (i = 0; i < fremdriftikon.length; i++) {
+	//	fremdriftikon[i].innerHTML = "<img class='knapp-bilde' src='images/ikoner/ikon-liste" + dager +".png' alt='Vis fremdrift' />";
+	//}
 	
 	if (+dager === ovinger.length) {
         document.getElementById("7dagerferdig").innerHTML = "Du har nå gjennomført 7 dager med oppmerksomhetsøvinger. Bra jobba!";
@@ -2126,19 +2129,20 @@ function nesteoving(neste) {
 					}
 				
 					for (i = 0; i < planknapptid.length; i++) {
-						planknapptid[i].innerHTML = "Neste øving er klar i dag kl." + tid;
+						planknapptid[i].innerHTML = "Neste øving er klar "+ tidspkt +" kl." + tid;
 					}
 				
 					for (i = 0; i < planknappdato.length; i++) {
-						planknappdato[i].innerHTML = " i dag kl.";
+						planknappdato[i].innerHTML = tidspkt + " kl.";
 					}
 					ikketilgjknapp=1;
 					tilgjknapp=0;
 					localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
 					localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
+					document.getElementById("dlg-ov-dato-tid").innerHTML = tidspkt + " kl: " + tid;
 					}
 					//document.getElementById("ovingside-nesteoving").innerHTML = " ";
-					document.getElementById("dlg-ov-dato-tid").innerHTML = " i dag kl: " + tid;
+					
 					//document.getElementById("sisteaktivitet-forside").innerHTML = "Neste øving:<br/> i dag kl: " + tid + " " + sted;
 				}
   
@@ -2194,6 +2198,7 @@ function utsettov(ovnr){
 		if(parseInt(alarm)===0){
 			meldtilbruker("Velkommen tilbake! Noen øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
 		}
+
 		localStorage.setItem('ovinger', JSON.stringify(ovinger));
 					
 	}
@@ -2235,6 +2240,10 @@ function sjekkstatus() {
 					meldtilbruker("En ny oppmerksomhetøving er klar!");
 				}
 				ovinger[i].aktivert = 1;
+				var ikketilgjknapp=1;
+				var tilgjknapp=0;
+				localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
+				localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
 				console.log("i dag " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
 				if (i>0){				
@@ -2321,7 +2330,7 @@ function graf() {
             gdiv.innerHTML = "";
             gdiv.innerHTML = "<canvas id='popupgraf' class='grafpopup' width='400' height='400'></canvas>";
 
-            //instillinger for str osv på graf
+            //innstillinger for str osv på graf
             var ctx = document.getElementById("popupgraf").getContext("2d");
             ctx.clearRect(0, 0, 400, 400);
             var nygraf = new Chart(ctx).Bar(data, {
@@ -2341,6 +2350,7 @@ function graf() {
 		else {
 			var tomtinnhold="<p class='tomt-tekst'>Du har ikke fullført noen øvinger enda. Grafen vil vises og fylles med innhold etterhvert som du gjør øvingene.</p>";
 			document.getElementById("ingenfullfort").innerHTML=tomtinnhold;
+			document.getElementById("grafdiv").innerHTML="";
 		}
     });
 }
@@ -2466,9 +2476,9 @@ $(function () {
 
 $(function () {
      
-	lukkinstillinger();
-    $("#instillinger").enhanceWithin().popup();
-    $("#instillinger").popup({
+	lukkinnstillinger();
+    $("#innstillinger").enhanceWithin().popup();
+    $("#innstillinger").popup({
         history: false
     });
 });

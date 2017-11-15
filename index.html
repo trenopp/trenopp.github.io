@@ -13,21 +13,22 @@
 		<link rel="stylesheet" href="font-awesome-4.4.0/css/font-awesome.min.css">
 		<!-- tilkobla javascript filer-->
 		<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
-		<script src="js/Chart.min.js" type="text/javascript"></script>
 		<script src="js/jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
+		<script src="js/Chart.js" type="text/javascript"></script>
 		<script src="js/appscript.js" type="text/javascript"></script>
+	
 		<!-- tilkobla Ikoner-->
-		<link rel="apple-touch-icon" sizes="180x180" href="/images/logo/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/images/logo/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="194x194" href="/images/logo/favicon-194x194.png">
-		<link rel="icon" type="image/png" sizes="192x192" href="/images/logo/android-chrome-192x192.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/images/logo/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="images/logo/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="images/logo/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="194x194" href="images/logo/favicon-194x194.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="images/logo/android-chrome-192x192.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="images/logo/favicon-16x16.png">
 		<link rel="shortcut icon" href="favicon.ico">
-		<link rel="mask-icon" href="/images/logo/safari-pinned-tab.svg" color="#0c2d82">
+		<link rel="mask-icon" href="images/logo/safari-pinned-tab.svg" color="#0c2d82">
 		<meta name="apple-mobile-web-app-title" content="eMeistring TrenOpp">
 		<meta name="application-name" content="eMeistring TrenOpp">
-		<meta name="msapplication-TileColor" content="#ffffff">
-		<meta name="msapplication-TileImage" content="/images/logo/mstile-144x144.png">
+		<meta name="msapplication-TileColor" content="#E9F1F9">
+		<meta name="msapplication-TileImage" content="images/logo/mstile-150x150.png">
 		<meta name="msapplication-config" content="browserconfig.xml">
 		<meta name="theme-color" content="#E9F1F9">
 		</head>
@@ -39,7 +40,7 @@
 <!-- 		1. Øving:Gå videre til øving etter lydvalg og/eller intro											-->
 <!-- 		2. Øving:Gå videre i øving etter selv evaluering av oppmerksomhet (før og etter)					-->
 <!-- 		3. Øving:Avbryte øving (gå tilbake til oversikt)													-->
-<!-- 		4. Instillinger																						-->
+<!-- 		4. Innstillinger																						-->
 <!-- 		5. Øving:Volumkontroll																				-->
 <!-- 		6. Planlegging:Planlegge enkelt-øving																-->
 <!-- 		7. Fremdrift:Vis egenevaluering for enkelt-øving													-->
@@ -67,7 +68,7 @@
 <!-- 	1. Øving:Gå videre til øving etter lydvalg og/eller intro												-->
 <!-- 	2. Øving:Gå videre i øving etter selv evaluering av oppmerksomhet (før og etter)						-->
 <!-- 	3. Øving:Avbryte øving (gå tilbake til oversikt)														-->
-<!-- 	4. Instillinger																							-->
+<!-- 	4. innstillinger																							-->
 <!-- 	5. Øving:Volumkontroll																					-->
 <!-- 	6. Planlegging:Planlegge enkelt-øving																	-->
 <!-- 	7. Fremdrift:Vis egenevaluering for enkelt-øving														-->
@@ -123,10 +124,10 @@
     </div>
 </div>
 <!-- /popup avbryte øving -->
-<!-- 											4. Instillinger													-->
-<div data-role="popup" id="instillinger" data-overlay-theme="b" data-theme="b" data-dismissible="false">
+<!-- 											4. innstillinger													-->
+<div data-role="popup" id="innstillinger" data-overlay-theme="b" data-theme="b" data-dismissible="false">
     <div data-role="header" data-theme="b">
-		<h1>Instillinger</h1>
+		<h1>Innstillinger</h1>
     </div>
 	<div role="main" class="ui-content">
 		<div class="ui-grid-a">
@@ -164,7 +165,7 @@
 		<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-e" onclick="etterpause()" data-rel="back">Lukk</a>
     </div>
 </div>
-<!-- /popup instillinger -->
+<!-- /popup innstillinger -->
 <!-- 												5. Øving:Volumkontroll 										-->
 <div data-role="popup" id="volumoving" data-theme="c" data-shadow="true" data-dismissible="true" style="min-width:200px">
 	<div class="ui-grid-b">
@@ -345,7 +346,7 @@
                             <li style="padding-bottom:1em"><i class="fa-li fa fa-archive" style="color:#0C2D82;font-size:1.3em;"></i>Lagre frakoblet nettinnhold fra eMeistring Oppmerksomhetstrening</li>
                             <li style="padding-bottom:1em"><i class="fa-li fa fa-archive" style="color:#0C2D82;font-size:1.3em;"></i>Lagre og beholde informasjonskapsler(cookies) fra eMeistring Oppmerksomhetstrening</li>
                             <li style="padding-bottom:1em"><i class="fa-li fa fa-history" style="color:#0C2D82;font-size:1.3em;"></i>Nettleser historikk for eMeistring Oppmerksomhetstrening bør IKKE slettes i løpet av perioden du vil bruke denne webappen, ellers er det en stor sjanse for at alt som er lagret angående øvelser som du har gjennomført vil forsvinne</li>
-                        </ul>Tillatelser kan vanligvis endres under "instillinger" eller "settings" i nettleseren. Dersom du ikke har endret nettleseren sine standard innstillinger, behøver du sannsynligvis ikke å endre på noe.</p>
+                        </ul>Tillatelser kan vanligvis endres under "innstillinger" eller "settings" i nettleseren. Dersom du ikke har endret nettleseren sine standard innstillinger, behøver du sannsynligvis ikke å endre på noe.</p>
                 </div>
                 <div data-role="collapsible">
                      <h3>Kan jeg legge til eMeistring Oppmerksomhetstrening på skrivebordet?</h3>
@@ -544,7 +545,7 @@
 		</div>
 				<div class="ui-block-c" data-role="navbar">
 				<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
-		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
+		<li><a href="#innstillinger" data-rel="popup" data-transition="pop" onClick="lukkinnstillinger()" title="Innstillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Innstillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop" title="Hjelp"><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i><br/>Kontakt</a></li>
 		</ul>
@@ -556,9 +557,9 @@
 		<div data-role="navbar" class="menyside meny-skygge">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
 		<li><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
-		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
-		<li><a href="#oss" data-rel="popup" data-position-to="window" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
-		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
+		<li><a href="#innstillinger" data-rel="popup" data-transition="pop" onClick="lukkinnstillinger()" title="Innstillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Innstillinger</a></li>
+		<li><a href="#oss" data-rel="popup" data-position-to="window" data-transition="pop" title="Hjelp"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
+		<li><a href="#kontakt" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
 		</div>
 		</div>
@@ -683,7 +684,7 @@
 		</div>
 				<div class="ui-block-c" data-role="navbar">
 				<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
-		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
+		<li><a href="#innstillinger" data-rel="popup" data-transition="pop" onClick="lukkinnstillinger()" title="innstillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>innstillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -694,7 +695,7 @@
 		<div data-role="navbar" class="menyside meny-skygge">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
 		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
-		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
+		<li><a href="#innstillinger" data-rel="popup" data-transition="pop" onClick="lukkinnstillinger()" title="innstillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>innstillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -872,7 +873,7 @@
 		</div>
 				<div class="ui-block-c" data-role="navbar">
 				<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
-		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
+		<li><a href="#innstillinger" data-rel="popup" data-transition="pop" onClick="lukkinnstillinger()" title="innstillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>innstillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -884,7 +885,7 @@
 		<div data-role="navbar" class="menyside meny-skygge" style="background-color:#E9F1F9;box-shadow: 5px 5px 15px #8c8c8c;">
 		<ul data-theme="c" style="padding-left:0.2em;padding-right:0.2em;">
 		<li ><a href="#menypanel"><i class="fa fa-bars fa-2x"></i><br/>Meny</a></li>
-		<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="lukkinstillinger()" title="Instillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>Instillinger</a></li>
+		<li><a href="#innstillinger" data-rel="popup" data-transition="pop" onClick="lukkinnstillinger()" title="innstillinger"><i class="fa fa-cog fa-2x" aria-hidden="true"></i><br/>innstillinger</a></li>
 		<li><a href="#oss" data-rel="popup" data-transition="pop"><i class="fa fa-info-circle fa-2x"></i><br/>Hjelp</a></li>
 		<li><a href="#kontakt" data-rel="popup" data-transition="pop"><i class="fa fa-envelope fa-2x"></i><br/>Kontakt</a></li>
 		</ul>
@@ -913,8 +914,8 @@
             <div id="ingenfullfort" style="padding:0.2em;">
 			</div> 
 			
-			<div id="grafdiv" style="width:100%;height:100%;">
-                <canvas id="popupgraf" class="grafpopup" width="100%"></canvas>
+			<div id="grafdiv" style="width:90%;">
+                <canvas id="popupgraf" class="grafpopup"></canvas>
             </div>
 					</div>
 					<div class="ui-block-c side-statusfelt" data-theme="d" data-role="collapsible" data-collapsed="false" style="padding:3%;">
@@ -987,7 +988,7 @@
 	</h1>
 	<div data-role="navbar" class="meny-skygge">
         	<ul>
-			<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Instillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#innstillinger" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="innstillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#oss" data-rel="popup" data-transition="pop" data-position-to="window" onClick="hjelppause()" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#kontakt" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Kontakt"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Avslutt"><i class="fa fa-close fa-lg" aria-hidden="true"></i></a></li>
@@ -1231,7 +1232,7 @@
 	</h1>
 	<div data-role="navbar" class="meny-skygge">
         	<ul>
-			<li><a href="#instillinger" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="Instillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#innstillinger" data-rel="popup" data-transition="pop" onClick="hjelppause()" title="innstillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#oss" data-rel="popup" data-transition="pop" onclick="hjelppause()" data-position-to="window" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#kontakt" data-rel="popup" data-transition="pop" onclick="hjelppause()" title="Kontakt"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop" onclick="hjelppause()" title="Avslutt"><i class="fa fa-close fa-lg" aria-hidden="true"></i></a></li>
@@ -1311,7 +1312,7 @@
 	</h1>
 	<div data-role="navbar" id="introside-meny" class="meny-skygge">
         	<ul>
-			<li><a href="#instillinger" data-rel="popup" data-transition="pop" title="Instillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
+			<li><a href="#innstillinger" data-rel="popup" data-transition="pop" title="innstillinger"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#oss" data-rel="popup" data-transition="pop" data-position-to="window" title="Hjelp"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#kontakt" data-rel="popup" data-transition="pop" title="Kontakt"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
 			<li><a href="#avbryteoving" data-rel="popup" data-transition="pop"title="Avslutt"><i class="fa fa-close fa-lg" aria-hidden="true"></i></a></li>
@@ -1373,5 +1374,6 @@
 <!-- --------------------------------------------------------------------------------------------------------- -->
 <!-- Mobilmeny slutter her -->
 <!-- --------------------------------------------------------------------------------------------------------- -->
+
 </body>
 </html>
