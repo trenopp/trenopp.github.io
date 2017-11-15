@@ -1778,11 +1778,15 @@ function meldtilbruker(mld) {
       body: mld,
       icon: 'images/logo/favicon-32x32.png'
   };
+  try{
   if (Notification.permission === "granted") {
 	var varsel = new Notification("eMeistring", options);
 	varsel.onclick = function () {
       window.focus("https://trenopp.github.io/index.html");      
     };
+  }
+  }catch(err){
+	  alert(err);
   }
 }
 
