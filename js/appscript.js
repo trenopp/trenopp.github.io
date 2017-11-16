@@ -221,9 +221,7 @@ function autostartoving(dag){
 
 //det som skal lagres i local storage blir opprettet første gang brukeren starter appen
 function forstegang() {
-     
-	var alarm = 1;
-    var forste = 1;
+     var forste = 1;
     var antall = 0;
     var ovingsinstillinger = 0;
     document.getElementById("plan-sammetid").style.display = 'block';
@@ -268,7 +266,6 @@ function forstegang() {
 	localStorage.setItem('valgovingverdi', JSON.stringify(valgoving));
     localStorage.setItem('valgintroverdi', JSON.stringify(valgintro));
     localStorage.setItem('forste', JSON.stringify(forste));
-	localStorage.setItem('alarm', JSON.stringify(alarm));
     localStorage.setItem('antall', JSON.stringify(antall));
     localStorage.setItem('ovingsinstillinger', JSON.stringify(ovingsinstillinger));
     localStorage.setItem('startdato', JSON.stringify(startdato));
@@ -1786,7 +1783,7 @@ function meldtilbruker(mld) {
     };
   }
   }catch(err){
-	  alert(err);
+	  console.log(err);
   }
 }
 
@@ -1794,9 +1791,13 @@ function meldtilbruker(mld) {
 function varselkomp(){
 	 if (!("Notification" in window)) {
 		document.getElementById("varsler").style.display='none';
+		var alarm = 1;
+		localStorage.setItem('alarm', JSON.stringify(alarm));
 	}
 	else {
 		document.getElementById("varsler").style.display='block';
+		var alarm = 1;
+		localStorage.setItem('alarm', JSON.stringify(alarm));
 	}
 }
 
@@ -2166,6 +2167,7 @@ function nesteoving(neste) {
 //setter nye datoer for utgåtte øvinger
 function utsettov(ovnr){
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
+	var alarm = JSON.parse(localStorage.getItem('alarm'));
 	localStorage.setItem('tilgjknapp', JSON.stringify(0));
 	localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
 	var t=1;
