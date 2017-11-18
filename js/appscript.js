@@ -2187,7 +2187,7 @@ function utsettov(ovnr){
 	localStorage.setItem('tilgjknapp', JSON.stringify(0));
 	//localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
 	var t=1;
-	var idag = Date();	
+	var idag = new Date();	
 	if(ovnr > 0){
 		var ovingfor=ovinger[ovnr-1].utfort;					
 		if(+ovingfor ===0){
@@ -2209,10 +2209,10 @@ function utsettov(ovnr){
 		}
 		else {
 			var nydato = DateAdd(idag, "d", 0);
-			ovinger[i].datodag = nydato.getDate();
-			ovinger[i].datomnd = nydato.getMonth();
-			ovinger[i].datoaar = nydato.getFullYear();
-			ovinger[i].aktivert = 1;				
+			ovinger[ovnr].datodag = nydato.getDate();
+			ovinger[ovnr].datomnd = nydato.getMonth();
+			ovinger[ovnr].datoaar = nydato.getFullYear();
+			ovinger[ovnr].aktivert = 1;				
 			localStorage.setItem('ovinger', JSON.stringify(ovinger));	
 			if(parseInt(alarm)===0){
 				meldtilbruker("Velkommen tilbake! Noen av dine øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
