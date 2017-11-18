@@ -2200,18 +2200,27 @@ function utsettov(ovnr){
 				t++
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));	
 				console.log("over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
-				autostart=0;
+				autostart=0;				
+				localStorage.setItem('autostartactive', JSON.stringify(autostart));
 				nesteoving(neste);
 				
 			}			
 					
 		}
 		else {
-			ovinger[ovnr].aktivert = 1;
+			var nydato = DateAdd(idag, "d", 0);
+			ovinger[i].datodag = nydato.getDate();
+			ovinger[i].datomnd = nydato.getMonth();
+			ovinger[i].datoaar = nydato.getFullYear();
+			ovinger[i].aktivert = 1;				
+			localStorage.setItem('ovinger', JSON.stringify(ovinger));	
 			if(parseInt(alarm)===0){
 				meldtilbruker("Velkommen tilbake! Noen av dine øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
-			}					
-			localStorage.setItem('ovinger', JSON.stringify(ovinger));
+			}
+			autostart=0;					
+			localStorage.setItem('autostartactive', JSON.stringify(autostart));
+			nesteoving(neste);
+			console.log("over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
 		}
 				}
 	else if(ovnr===0){
