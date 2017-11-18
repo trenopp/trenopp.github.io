@@ -10,6 +10,7 @@ window.onload = function () {
         //og funksjoner for å lagre innhold, skjule/vise første gang osv. kjøres
         if (localStorage.getItem('ovinger') === null) {
 			forstegang();
+			varselav();
             varselkomp();
 			lagplanliste();
             lagevalliste();
@@ -74,8 +75,9 @@ window.onload = function () {
 			var bruk = JSON.parse(localStorage.getItem('aapnet'));
 			var antbruk = +bruk + 1;
 			localStorage.setItem('aapnet', JSON.stringify(antbruk));
-            if(localStorage.getItem('alarm') === null){
-				varselkomp();
+            varselkomp();
+			if(localStorage.getItem('alarm') === null){
+				varselav();
 			}
 			erbrukeronline();
 			statustimer();
@@ -1803,18 +1805,21 @@ function meldtilbruker(mld) {
   }
 }
 
+
 //sjekker om nettleser har støtte for varsel
 function varselkomp(){
 	 if (!("Notification" in window)) {
 		document.getElementById("varsler").style.display='none';
-		var alarm = 1;
-		localStorage.setItem('alarm', JSON.stringify(alarm));
 	}
 	else {
 		document.getElementById("varsler").style.display='block';
+	}
+}
+
+//slår av varsel som default
+function varselav(){
 		var alarm = 1;
 		localStorage.setItem('alarm', JSON.stringify(alarm));
-	}
 }
 
 //ber bruker om tillatelse til å vise nettleser-varsler
