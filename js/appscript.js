@@ -2187,7 +2187,7 @@ function utsettov(ovnr){
 	localStorage.setItem('tilgjknapp', JSON.stringify(0));
 	//localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
 	var t=1;
-	var idag = new Date();	
+	var idag = Date();	
 	if(ovnr > 0){
 		var ovingfor=ovinger[ovnr-1].utfort;					
 		if(+ovingfor ===0){
@@ -2208,7 +2208,7 @@ function utsettov(ovnr){
 					
 		}
 		else {
-			var nydato = DateAdd(new Date(), "d", 0);
+			var nydato = DateAdd(idag, "d", 0);
 			ovinger[i].datodag = nydato.getDate();
 			ovinger[i].datomnd = nydato.getMonth();
 			ovinger[i].datoaar = nydato.getFullYear();
