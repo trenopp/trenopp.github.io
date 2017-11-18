@@ -2262,10 +2262,6 @@ function sjekkstatus() {
 					meldtilbruker("En ny oppmerksomhetøving er klar!");
 				}
 				ovinger[i].aktivert = 1;
-				var ikketilgjknapp=1;
-				var tilgjknapp=0;
-				localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
-				localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));
 				console.log("i dag " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
 				if (i>0){				
