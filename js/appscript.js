@@ -2208,7 +2208,7 @@ function utsettov(ovnr){
 					
 		}
 		else {
-			var nydato = DateAdd(idag, "d", 0);
+			var nydato = DateAdd(new Date(), "d", 0);
 			ovinger[i].datodag = nydato.getDate();
 			ovinger[i].datomnd = nydato.getMonth();
 			ovinger[i].datoaar = nydato.getFullYear();
