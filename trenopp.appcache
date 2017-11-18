@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Versjon 0.76
+# Versjon 0.77
 
  index.html
  css/appstil.css
@@ -108,9 +108,9 @@ CACHE:
  images/skjermbilder/planlegg3.png
  
 # Skrifttyper
- css/fonts/DroidSans.ttf
- css/fonts/Roboto-Regular.ttf
- css/fonts/OpenSans-Regular.ttf
+ css/fonts/DroidSans-webfont.woff
+ css/fonts/Roboto-Regular-webfont.woff
+ css/fonts/OpenSans-Regular-webfont.woff
  css/fonts/SCRIPTBL.ttf
  
 # Font Awesome ikoner

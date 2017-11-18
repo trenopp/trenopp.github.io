@@ -5,7 +5,7 @@ window.onload = function () {
 		document.getElementById("forsidemenyer").style.display = 'none';
         document.getElementById("forside-header").style.display = 'none';
 		document.getElementById("sidemeny").style.display = 'none';
-		var lydklipp = document.getElementById("lydklipp1");
+		
 		//hvis øvingsobjektene ikke er lagret i local storage vil det si at det er første gang brukeren besøker siden (hvis ikke lagringen er deaktivert...)
         //og funksjoner for å lagre innhold, skjule/vise første gang osv. kjøres
         if (localStorage.getItem('ovinger') === null) {
@@ -13,11 +13,8 @@ window.onload = function () {
             varselkomp();
 			lagplanliste();
             lagevalliste();
-			window.addEventListener("resize", strendring);
-			strendring();            
-            lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
-            lydklipp.addEventListener("ended", klippSlutt, false);
-			lydklipp.addEventListener('volumechange', volumendring, true);
+			//window.addEventListener("resize", strendring);
+			//strendring();            
 			document.getElementById("startdatodiv").style.display = 'block';
             antalldager();
             lagtimeliste("plan-time");
@@ -26,7 +23,6 @@ window.onload = function () {
 			document.getElementById("valgomoving").value=0;
 			document.getElementById("valgomintro").value=0;
 			$("#valgomvarsel").val("1").flipswitch("refresh");
-			//document.getElementById("valgomvarsel").options.item(1).selected="selected";
             setTimeout(lagminuttliste("plan-minutt-oving"), 100);
             setTimeout(lagaarliste("plan-aar", 0), 200);
             setTimeout(lagmndliste("plan-mnd", "plan-aar", 0), 500);
@@ -58,9 +54,12 @@ window.onload = function () {
             var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 			var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
 			var valgvarsel=parseInt(JSON.parse(localStorage.getItem('alarm')));
+			var lydvalg = JSON.parse(localStorage.getItem('lydklipp'));
 			document.getElementById("valgomoving").value=valgoving;
 			document.getElementById("valgomintro").value=valgintro;
 			document.getElementById("valgomvarsel").value=valgvarsel;
+			var lydid="lydvalg"+lydvalg;
+			document.getElementById(lydid).checked=true;
 			
 			setverdi("velgsammetid", ovingsinstillinger);
             if (parseInt(ovingsinstillinger) === 0) {
@@ -71,30 +70,13 @@ window.onload = function () {
 			setforste();
 			//window.addEventListener("resize", strendring);
 			//strendring();
-             lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
-            lydklipp.addEventListener("ended", klippSlutt, false);
-			lydklipp.addEventListener('volumechange', volumendring, true);
-			
-            var lyd = JSON.parse(localStorage.getItem('lydklipp'));
-            var lydid="lydvalg" + lyd;
-			if (parseInt(lyd) === 1) {
-				document.getElementById("visdel2a").style.display = 'none';
-				document.getElementById("visdel2b").style.display = 'block';
-                document.getElementById("ovingvalg1").style.display = 'block';
-                document.getElementById("ovingvalg0").style.display = 'none';
-				document.getElementById(lydid).checked=true;
-            } else {
-				document.getElementById("visdel2a").style.display = 'block';
-				document.getElementById("visdel2b").style.display = 'none';
-                document.getElementById("ovingvalg0").style.display = 'block';
-                document.getElementById("ovingvalg1").style.display = 'none';
-				document.getElementById(lydid).checked=true;
-            }
-			
+	
 			var bruk = JSON.parse(localStorage.getItem('aapnet'));
 			var antbruk = +bruk + 1;
 			localStorage.setItem('aapnet', JSON.stringify(antbruk));
-            varselkomp();
+            if(localStorage.getItem('alarm') === null){
+				varselkomp();
+			}
 			erbrukeronline();
 			statustimer();
             lagplanliste();
@@ -221,7 +203,7 @@ function autostartoving(dag){
 
 //det som skal lagres i local storage blir opprettet første gang brukeren starter appen
 function forstegang() {
-     var forste = 1;
+    var forste = 1;
     var antall = 0;
     var ovingsinstillinger = 0;
     document.getElementById("plan-sammetid").style.display = 'block';
@@ -653,15 +635,15 @@ function lydbryter() {
     localStorage.setItem('lydklipp', JSON.stringify(valg));
 	
     if (parseInt(valg) === 1) {
-        document.getElementById("visdel2a").style.display = 'none';
-		document.getElementById("visdel2b").style.display = 'block';
+        //document.getElementById("visdel2a").style.display = 'none';
+		//document.getElementById("visdel2b").style.display = 'block';
 		document.getElementById("ovingvalg1").style.display = 'block';
         document.getElementById("ovingvalg0").style.display = 'none';
 		document.getElementById("valgtlydtekst").innerHTML ="Du har valgt øving med bilde.";
 		setTimeout(function(){ $( "#starteoving" ).popup( "open" ); }, 500);
     } else {
-        document.getElementById("visdel2a").style.display = 'block';
-		document.getElementById("visdel2b").style.display = 'none';
+        //document.getElementById("visdel2a").style.display = 'block';
+		//document.getElementById("visdel2b").style.display = 'none';
 		document.getElementById("ovingvalg0").style.display = 'block';
         document.getElementById("ovingvalg1").style.display = 'none';
 		document.getElementById("valgtlydtekst").innerHTML ="Du har valgt øving med lyd.";
@@ -977,6 +959,7 @@ function lagovingspopup(knappid) {
 	var valgoving=parseInt(JSON.parse(localStorage.getItem('valgovingverdi')));
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
 	stopstatustimer();
+	leggtillydevent();
     $("body").on("pagecontainershow", function (event, ui) {
         if (ui.toPage.prop("id") === "ovingpopup") {
             erbrukeronline();
@@ -1022,16 +1005,16 @@ function ovingnesteknapp(knappnr) {
     if (knappnr === 0) {
         //document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
         //document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel1'>Før</div>";
-        $('#forovingiko').css('color','#0C2D82');
-		$('#ovingikoa').css('color','#e6e6e6');
-		$('#ovingikob').css('color','#e6e6e6');
-		$('#etterovingiko').css('color','#e6e6e6');
-		$('#forovingpil').css('color','#e6e6e6');
-		$('#ovingpil1a').css('color','#e6e6e6');
-		$('#ovingpil2b').css('color','#e6e6e6');
-		$('#ovingpil1b').css('color','#e6e6e6');
-		$('#ovingpil2a').css('color','#e6e6e6');
-		$('#etterovingpil').css('color','#e6e6e6');
+        //$('#forovingiko').css('color','#0C2D82');
+		//$('#ovingikoa').css('color','#e6e6e6');
+		//$('#ovingikob').css('color','#e6e6e6');
+		//$('#etterovingiko').css('color','#e6e6e6');
+		//$('#forovingpil').css('color','#e6e6e6');
+		//$('#ovingpil1a').css('color','#e6e6e6');
+		//$('#ovingpil2b').css('color','#e6e6e6');
+		//$('#ovingpil1b').css('color','#e6e6e6');
+		//$('#ovingpil2a').css('color','#e6e6e6');
+		//$('#etterovingpil').css('color','#e6e6e6');
 		document.getElementById("tab1").style.display = 'block';
         document.getElementById("tab2").style.display = 'none';
 		document.getElementById("tab3").style.display = 'none';
@@ -1040,26 +1023,34 @@ function ovingnesteknapp(knappnr) {
         //document.getElementById("blokk0").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel0'>Intro</div>";
 		//document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel1'>Før</div>";
         //document.getElementById("blokk2").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel2'>Øving</div>";
-        $('#forovingiko').css('color','#0C2D82');
-		$('#ovingikoa').css('color','#0C2D82');
-		$('#ovingikob').css('color','#0C2D82');
-		$('#etterovingiko').css('color','#e6e6e6');
-		$('#forovingpil').css('color','#0C2D82');
-		$('#ovingpil1a').css('color','#0C2D82');
-		$('#ovingpil2b').css('color','#e6e6e6');
-		$('#ovingpil1b').css('color','#0C2D82');
-		$('#ovingpil2a').css('color','#e6e6e6');
-		$('#etterovingpil').css('color','#e6e6e6');
+		//$('#forovingiko').css('color','#0C2D82');
+		//$('#ovingikoa').css('color','#0C2D82');
+		//$('#ovingikob').css('color','#0C2D82');
+		//$('#etterovingiko').css('color','#e6e6e6');
+		//$('#forovingpil').css('color','#0C2D82');
+		//$('#ovingpil1a').css('color','#0C2D82');
+		//$('#ovingpil2b').css('color','#e6e6e6');
+		//$('#ovingpil1b').css('color','#0C2D82');
+		//$('#ovingpil2a').css('color','#e6e6e6');
+		//$('#etterovingpil').css('color','#e6e6e6');
+		var lydvalg = JSON.parse(localStorage.getItem('lydklipp'));
+		if (parseInt(lydvalg) === 1) {
+			//document.getElementById("visdel2a").style.display = 'none';
+			//document.getElementById("visdel2b").style.display = 'block';
+            document.getElementById("ovingvalg1").style.display = 'block';
+            document.getElementById("ovingvalg0").style.display = 'none';
+			startoving();
+        } 
+		else {
+			//document.getElementById("visdel2a").style.display = 'block';
+			//document.getElementById("visdel2b").style.display = 'none';
+            document.getElementById("ovingvalg0").style.display = 'block';
+            document.getElementById("ovingvalg1").style.display = 'none';
+			spillavLyd();
+        }
 		document.getElementById("tab2").style.display = 'block';
 		document.getElementById("tab1").style.display = 'none';
         document.getElementById("tab3").style.display = 'none';
-		var lydvalg = JSON.parse(localStorage.getItem('lydklipp'));
-		if (parseInt(lydvalg)===1){
-			startoving();
-		}
-		else{
-			spillavLyd();
-		}
 		$( "#fortsettoving" ).popup( "close" );
 		
     } else {
@@ -1067,16 +1058,16 @@ function ovingnesteknapp(knappnr) {
         //document.getElementById("blokk1").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel1'>Før</div>";
 		//document.getElementById("blokk2").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#0C2D82;color:#ffffff;' id='visdel2'>Øving</div>";
         //document.getElementById("blokk3").innerHTML = "<div class='ui-bar ui-bar-b' style='height:25px;text-align:center;background-color:#ffffff;color:#0C2D82;' id='visdel3'>Etter</div>";
-        $('#forovingiko').css('color','#0C2D82');
-		$('#ovingikoa').css('color','#0C2D82');
-		$('#ovingikob').css('color','#0C2D82');
-		$('#etterovingiko').css('color','#0C2D82');
-		$('#forovingpil').css('color','#0C2D82');
-		$('#ovingpil1a').css('color','#0C2D82');
-		$('#ovingpil2b').css('color','#0C2D82');
-		$('#ovingpilb').css('color','#0C2D82');
-		$('#ovingpil2a').css('color','#0C2D82');
-		$('#etterovingpil').css('color','#0C2D82');
+        //$('#forovingiko').css('color','#0C2D82');
+		//$('#ovingikoa').css('color','#0C2D82');
+		//$('#ovingikob').css('color','#0C2D82');
+		//$('#etterovingiko').css('color','#0C2D82');
+		//$('#forovingpil').css('color','#0C2D82');
+		//$('#ovingpil1a').css('color','#0C2D82');
+		//$('#ovingpil2b').css('color','#0C2D82');
+		//$('#ovingpilb').css('color','#0C2D82');
+		//$('#ovingpil2a').css('color','#0C2D82');
+		//$('#etterovingpil').css('color','#0C2D82');
 		document.getElementById("tab3").style.display = 'block';
         document.getElementById("tab2").style.display = 'none';
         document.getElementById("tab1").style.display = 'none';
@@ -1084,14 +1075,37 @@ function ovingnesteknapp(knappnr) {
     }
 }
 
+
+function leggtillydevent(){
+	var lydklipp = document.getElementById("lydklipp1");
+	var lydvalg = JSON.parse(localStorage.getItem('lydklipp'));
+	
+	if(lydvalg===0){
+		lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
+		lydklipp.addEventListener("ended", klippSlutt, false);
+		lydklipp.addEventListener('volumechange', volumendring, true);
+	}	
+}
+
+function fjernlydevent(){
+	var lydklipp = document.getElementById("lydklipp1");
+	var lydvalg = JSON.parse(localStorage.getItem('lydklipp'));
+	
+	if(lydvalg===0){
+		lydklipp.removeEventListener("timeupdate", fremdriftLyd, false);
+		lydklipp.removeEventListener("ended", klippSlutt, false);
+		lydklipp.removeEventListener('volumechange', volumendring, true);
+	}
+}
+
 //finner ut hvilket klipp brukeren har valgt og legger til eventlistener
-function lydvalg() {
+/*function lydvalg() {
 	 
     var lydklipp = document.getElementById("lydklipp1");
     lydklipp.addEventListener("timeupdate", fremdriftLyd, false);
     lydklipp.addEventListener("ended", klippSlutt, false);
     return lydklipp;
-}
+}*/
 
 //hva som skjer når brukeren spiller av lydklipp
 function spillavLyd() {
@@ -1738,7 +1752,8 @@ function lagreOving(knappid) {
 	localStorage.setItem('autostartactive', JSON.stringify(autostart));
 	localStorage.setItem('tilgjknapp',JSON.stringify(tilgjknapp));
 	localStorage.setItem('ikketilgjknapp',JSON.stringify(ikketilgjknapp));
-    lagplanliste();
+    fjernlydevent();
+	lagplanliste();
     lagevalliste();
     antalldager();
     nesteoving(neste);	
@@ -2190,7 +2205,7 @@ function utsettov(ovnr){
 		else {
 			ovinger[ovnr].aktivert = 1;
 			if(parseInt(alarm)===0){
-				meldtilbruker("Velkommen tilbake! Noen øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
+				meldtilbruker("Velkommen tilbake! Noen av dine øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
 			}					
 			localStorage.setItem('ovinger', JSON.stringify(ovinger));
 		}
@@ -2202,9 +2217,10 @@ function utsettov(ovnr){
 		ovinger[ovnr].datoaar = nydato.getFullYear();
 		ovinger[ovnr].aktivert = 1;
 		if(parseInt(alarm)===0){
-			meldtilbruker("Velkommen tilbake! Noen øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
+			meldtilbruker("Velkommen tilbake! Dine øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
 		}
-
+		var startdato = idag.toLocaleDateString();
+		localStorage.setItem('startdato', JSON.stringify(startdato));
 		localStorage.setItem('ovinger', JSON.stringify(ovinger));
 					
 	}
@@ -2260,33 +2276,24 @@ function sjekkstatus() {
 
         //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
         //hvis brukeren åpner appen i samme mnd.
-			else if (+dag < +d && +mnd === +m && +aar === +y && +aktivert === 0 && +utfort===0) {
+			else if (+dag < +d && +mnd === +m && +aar === +y && +utfort===0) {
 				utsettov(i);
-				if(parseInt(alarm)===0){
-					meldtilbruker("Du har fremdeles en oppmerksomhetsøving som venter.");
-				}
 				if (i>0){				
 					autostart=0;
 				}
 				break;			
 			}
         //hvis månedsskifte før brukeren åpner appen igjen
-			else if (+mnd < +m && +aar === +y && +aktivert === 0 && +utfort === 0) {
+			else if (+mnd < +m && +aar === +y && +utfort === 0) {
 				utsettov(i);
-				if(parseInt(alarm)===0){
-					meldtilbruker("Du har fremdeles en oppmerksomhetsøving som venter.");
-				}
 				if (i>0){				
 					autostart=0;
 				}
 				break;	
 			}
 			//hvis årskifte før brukeren åpner appen igjen
-			else if (+aar < +y && +aktivert === 0 && +utfort === 0) {
+			else if (+aar < +y && +utfort === 0) {
 				utsettov(i);
-				if(parseInt(alarm)===0){
-					meldtilbruker("Du har fremdeles en oppmerksomhetsøving som venter.");
-				}
 				if (i>0){				
 					autostart=0;
 				}				
@@ -2465,18 +2472,18 @@ function avbrytov() {
 	setforste();
 	statustimer();
 	var autostartactive=1;
+	fjernlydevent();
 	localStorage.setItem('autostartactive', JSON.stringify(autostartactive));
 	setTimeout(function(){
 		tvingOmlasting();
-	},1)
+	},1);
 }
 
 function tvingOmlasting(){
 	location.replace("index.html");
 }
 
-$(function () {
-     
+$(function () {     
     $("[data-role=panel]").panel().enhanceWithin();
 });
 
@@ -2565,21 +2572,21 @@ $(function () {
 //tilbakestiller tabvisningen og setter lydklipp på pause i øvings-dialogen
 function tabreset() {
      
-    $('#forovingiko').css('color','#0C2D82');
-	$('#ovingikoa').css('color','#e6e6e6');
-	$('#ovingikob').css('color','#e6e6e6');
-	$('#etterovingiko').css('color','#e6e6e6');
-	$('#forovingpil').css('color','#e6e6e6');
-	$('#ovingpil1a').css('color','#e6e6e6');
-	$('#ovingpil2b').css('color','#e6e6e6');
-	$('#ovingpil1b').css('color','#e6e6e6');
-	$('#ovingpil2a').css('color','#e6e6e6');
-	$('#etterovingpil').css('color','#e6e6e6');
+    //$('#forovingiko').css('color','#0C2D82');
+	//$('#ovingikoa').css('color','#e6e6e6');
+	//$('#ovingikob').css('color','#e6e6e6');
+	//$('#etterovingiko').css('color','#e6e6e6');
+	//$('#forovingpil').css('color','#e6e6e6');
+	//$('#ovingpil1a').css('color','#e6e6e6');
+	//$('#ovingpil2b').css('color','#e6e6e6');
+	//$('#ovingpil1b').css('color','#e6e6e6');
+	//$('#ovingpil2a').css('color','#e6e6e6');
+	//$('#etterovingpil').css('color','#e6e6e6');
 	document.getElementById("tab1").style.display = 'block';
     document.getElementById("tab2").style.display = 'none';
     document.getElementById("tab3").style.display = 'none';    
 }
-
+/*
 function strendring(){
 	var bredde=$(document).width();
 	var harclass=$( "#forovingiko" ).hasClass( "fa-2x" );
@@ -2609,6 +2616,7 @@ function strendring(){
 	}
 	
 	}
+*/
 
 //Visning av tooltips
 $( function()

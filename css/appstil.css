@@ -1,30 +1,44 @@
 ﻿@charset "utf-8";
 /* CSS Document */
 /* Skrifttyper */
- @font-face {
-    font-family: Roboto;
-    src: url(fonts/Roboto-Regular.ttf);
-}
+
 @font-face {
-    font-family: Droid;
-    src: url(fonts/DroidSans.ttf);
+    font-family: 'Open_Sans_Regular';
+    src: url('fonts/OpenSans-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
+
 @font-face {
-    font-family: OpenSans;
-    src: url(fonts/OpenSans-Regular.ttf);
+    font-family: 'Droid_Sans_Regular';
+    src: url('fonts/DroidSans-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
 }
+
 @font-face {
-    font-family: ScriptMT;
-    src: url(fonts/SCRIPTBL.ttf);
+    font-family: 'Roboto_Regular';
+    src: url('fonts/Roboto-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'ScriptMT';
+    src: url('fonts/SCRIPTBL.ttf') format('ttf');
+	font-weight: normal;
+    font-style: normal;
 }
 /* eMeistring logo */
 .elogo1 {
-    font-family:"lucida calligraphy", ScriptMT, sans-serif;
+    font-family:"lucida calligraphy", 'ScriptMT', sans-serif;
     color:#0C2D82;
     font-size:1.7em;
 }
 .elogo2 {
-    font-family:OpenSans, sans-serif;
+    font-family:'Open_Sans_Regular', sans-serif;
     color:#0C2D82;
     font-size:1.5em;
 }
@@ -41,11 +55,11 @@ div#preloader img {
 /* Generelle */
 
 body {
-    font-family: Droid, Arial, sans-serif;
+    font-family: 'Droid_Sans_Regular', Arial, sans-serif;
     background-color:#E9F1F9;
 }
 h1, h2, h3, h4 {
-    font-family: Roboto, Helvetica, sans-serif;
+    font-family: 'Roboto_Regular', Helvetica, sans-serif;
 }
 
 .imgcontainer{
