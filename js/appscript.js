@@ -172,6 +172,7 @@ function autostartoving(dag){
 	var valgintro=parseInt(JSON.parse(localStorage.getItem('valgintroverdi')));
 	var ovtype = parseInt(JSON.parse(localStorage.getItem('lydklipp')));
 	var autostart=JSON.parse(localStorage.getItem('autostartactive'));
+	stopstatustimer();
 	if (autostart===0){
 		
 		if((parseInt(valgintro)===0 && parseInt(valgoving)===0) || (parseInt(valgintro)===1 && parseInt(valgoving)===0)){
@@ -2184,7 +2185,7 @@ function utsettov(ovnr){
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	var alarm = JSON.parse(localStorage.getItem('alarm'));
 	localStorage.setItem('tilgjknapp', JSON.stringify(0));
-	localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
+	//localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
 	var t=1;
 	var idag = new Date();	
 	if(ovnr > 0){
@@ -2199,6 +2200,9 @@ function utsettov(ovnr){
 				t++
 				localStorage.setItem('ovinger', JSON.stringify(ovinger));	
 				console.log("over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
+				autostart=0;
+				nesteoving(neste);
+				
 			}			
 					
 		}
@@ -2222,7 +2226,7 @@ function utsettov(ovnr){
 		var startdato = idag.toLocaleDateString();
 		localStorage.setItem('startdato', JSON.stringify(startdato));
 		localStorage.setItem('ovinger', JSON.stringify(ovinger));
-					
+		nesteoving(neste);			
 	}
 	
 	
@@ -2274,25 +2278,16 @@ function sjekkstatus() {
         //hvis brukeren åpner appen i samme mnd.
 			else if (+dag < +d && +mnd === +m && +aar === +y && +utfort===0) {
 				utsettov(i);
-				if (i>0){				
-					autostart=0;
-				}
 				break;			
 			}
         //hvis månedsskifte før brukeren åpner appen igjen
 			else if (+mnd < +m && +aar === +y && +utfort === 0) {
 				utsettov(i);
-				if (i>0){				
-					autostart=0;
-				}
 				break;	
 			}
 			//hvis årskifte før brukeren åpner appen igjen
 			else if (+aar < +y && +utfort === 0) {
-				utsettov(i);
-				if (i>0){				
-					autostart=0;
-				}				
+				utsettov(i);	
 				break;	
 			} 
     }
