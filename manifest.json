@@ -24,9 +24,11 @@
             "type": "image/png"
         }
     ],
-  "related_applications": [{
-    "platform": "web"
-  }],
+  "related_applications": [
+		{
+			"platform": "web"
+		}
+	],
 
   "background_color": "#E9F1F9",
   "theme_color": "#E9F1F9",

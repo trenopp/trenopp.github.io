@@ -1,6 +1,18 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="645px" height="165px" viewBox="0 0 645 165">
 <defs>
+<style type="text/css">
+   <![CDATA[
+		@font-face {
+		font-family: 'OpenSans';
+		src: url('../../css/fonts/OpenSans-Regular-webfont.woff') format('woff');
+		}
+		@font-face {
+		font-family: 'Roboto';
+		src: url('../../css/fonts/Roboto-Regular-webfont.woff') format('woff');
+		}
+   ]]>
+ </style>
 <g id="soslogo_logo_sirkel_0_Layer0_0_STROKES_1_FILL">
 <path fill="#0C2D82" stroke="none" d="
 M 153.6 -3.3
@@ -300,6 +312,6 @@ Q 289 630 354 571 419 512 535 512 778 512 778 748 778 995 532 995 415 995 352 93
 <rect x="-41.7" y="-2" width="187.7" height="61.2" fill="#FFFFFF" stroke="none"/>
 </clipPath>
 
-<text clip-path="url(#Mask_Mask_3)" writing-mode="lr"><tspan x="-39.5" y="44.9" baseline-shift="0%" kerning="auto" font-family="Open Sans" font-size="42" fill="#0C2D82" xml:space="preserve">Meistring</tspan></text>
+<text clip-path="url(#Mask_Mask_3)" writing-mode="lr"><tspan x="-39.5" y="44.9" baseline-shift="0%" kerning="auto" font-family="OpenSans" font-size="42" fill="#0C2D82" xml:space="preserve">Meistring</tspan></text>
 </g>
 </svg>

@@ -131,22 +131,26 @@ function setforste() {
 	document.getElementById("vennligstvent").innerHTML ="";
     localStorage.setItem('forste', JSON.stringify(forste));
 	statustimer();
-/*
-	var nydato="";
+
+	/*var nydato="";
 	var idag = new Date();
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	for (var i = 0; i < 7; i++) {
-
-	if(i===6){
-		var nydato = DateAdd(idag, "d", 0);
+	if(i>2){
+		var t=(5-i)
+		var nydato = DateAdd(idag, "d", 0-t);
 		ovinger[i].datodag = nydato.getDate();
 		ovinger[i].datomnd = nydato.getMonth();
 		ovinger[i].datoaar = nydato.getFullYear();
-		localStorage.setItem('ovinger', JSON.stringify(ovinger));
-					
+		ovinger[i].utfort =0;
+		ovinger[i].aktivert =0;
+		ovinger[i].evalfor =0;
+		ovinger[i].evaletter =0;
+		console.log("dato: " + ovinger[i].datodag + " utfort " + ovinger[i].utfort) ;
+		localStorage.setItem('ovinger', JSON.stringify(ovinger));		
 	}
 	else{
-		var t=(ovinger.length-i)
+		var t=(5-i)
 		var nydato = DateAdd(idag, "d", 0-t);
 		ovinger[i].datodag = nydato.getDate();
 		ovinger[i].datomnd = nydato.getMonth();
@@ -155,16 +159,16 @@ function setforste() {
 		ovinger[i].aktivert =0;
 		ovinger[i].evalfor =0;
 		ovinger[i].evaletter =1;
-		
+		console.log("dato: " + ovinger[i].datodag + " utfort " + ovinger[i].utfort) ;
 		localStorage.setItem('ovinger', JSON.stringify(ovinger));
 	}
     }
-	var startd = DateAdd(idag, "d", -7);
+	var startd = DateAdd(idag, "d", -5);
 	localStorage.setItem('startdato', JSON.stringify(startd));
-	localStorage.setItem('antall', JSON.stringify(6));
+	localStorage.setItem('antall', JSON.stringify(3));
 	localStorage.setItem('tilgjknapp',JSON.stringify(0));
 	localStorage.setItem('ikketilgjknapp',JSON.stringify(1));
-	localStorage.setItem('neste', JSON.stringify(6));*/
+	localStorage.setItem('neste', JSON.stringify(3));*/
 }
 
 
@@ -2119,6 +2123,7 @@ function nesteoving(neste) {
                             
 					//document.getElementById("ovingside-nesteoving").innerHTML = " Du har en ny øving som venter på deg:";
 					if(autostart===0 && +dag > 1){
+						console.log("autostart: " + autostart );
 						autostartoving(ovinger[i].dag);
 					}
             }
@@ -2186,65 +2191,68 @@ function nesteoving(neste) {
 }
 
 //setter nye datoer for utgåtte øvinger
+
+function utsettetter(ovnr){
+	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
+	var t=1;
+	var idag = new Date();
+	for(var i=ovnr; i < ovinger.length;i++){
+		var nydato = DateAdd(idag, "d", t);
+		ovinger[i].datodag = nydato.getDate();
+		ovinger[i].datomnd = nydato.getMonth();
+		ovinger[i].datoaar = nydato.getFullYear();
+		ovinger[i].aktivert = 0;
+		t++
+		localStorage.setItem('ovinger', JSON.stringify(ovinger));	
+		console.log("over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
+			
+			}
+}
+
 function utsettov(ovnr){
+	var neste = JSON.parse(localStorage.getItem('neste'));
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	var alarm = JSON.parse(localStorage.getItem('alarm'));
 	localStorage.setItem('tilgjknapp', JSON.stringify(0));
-	//localStorage.setItem('ikketilgjknapp', JSON.stringify(0));
-	var t=1;
+	localStorage.setItem('ikketilgjknapp', JSON.stringify(1));
 	var idag = new Date();	
 	if(ovnr > 0){
 		var ovingfor=ovinger[ovnr-1].utfort;					
 		if(+ovingfor ===0){
-			for(var i=ovnr; i < ovinger.length;i++){
-				var nydato = DateAdd(idag, "d", t);
-				ovinger[i].datodag = nydato.getDate();
-				ovinger[i].datomnd = nydato.getMonth();
-				ovinger[i].datoaar = nydato.getFullYear();
-				ovinger[i].aktivert = 0;
-				t++
-				localStorage.setItem('ovinger', JSON.stringify(ovinger));	
-				console.log("over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
-				autostart=0;				
-				localStorage.setItem('autostartactive', JSON.stringify(autostart));
-				nesteoving(neste);
-				
-			}			
-					
+			utsettetter(ovnr);
 		}
-		else {
+		else if (+ovingfor ===1){
 			var nydato = DateAdd(idag, "d", 0);
+			var ovnretter=ovnr+1;
 			ovinger[ovnr].datodag = nydato.getDate();
 			ovinger[ovnr].datomnd = nydato.getMonth();
 			ovinger[ovnr].datoaar = nydato.getFullYear();
-			ovinger[ovnr].aktivert = 1;				
+			ovinger[ovnr].aktivert = 1;			
 			localStorage.setItem('ovinger', JSON.stringify(ovinger));	
-			if(parseInt(alarm)===0){
-				meldtilbruker("Velkommen tilbake! Noen av dine øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
-			}
-			autostart=0;					
-			localStorage.setItem('autostartactive', JSON.stringify(autostart));
-			nesteoving(neste);
-			console.log("over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
+			console.log("over tid en etter" + ovnr + " øving. år : " + ovinger[ovnr].datoaar + " mnd: " + ovinger[ovnr].datomnd + " dag " + ovinger[ovnr].datodag);
+			utsettetter(ovnretter);
 		}
 				}
 	else if(ovnr===0){
 		var nydato = DateAdd(idag, "d", 0);
+		var ovnretter=ovnr+1;
 		ovinger[ovnr].datodag = nydato.getDate();
 		ovinger[ovnr].datomnd = nydato.getMonth();
 		ovinger[ovnr].datoaar = nydato.getFullYear();
 		ovinger[ovnr].aktivert = 1;
-		if(parseInt(alarm)===0){
-			meldtilbruker("Velkommen tilbake! Dine øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
-		}
 		var startdato = idag.toLocaleDateString();
 		localStorage.setItem('startdato', JSON.stringify(startdato));
 		localStorage.setItem('ovinger', JSON.stringify(ovinger));
-		nesteoving(neste);			
+		console.log("over tid første" + ovnr + " øving. år : " + ovinger[ovnr].datoaar + " mnd: " + ovinger[ovnr].datomnd + " dag " + ovinger[ovnr].datodag);		
+		utsettetter(ovnretter);
 	}
-	
-	
-
+	var autostart=0;
+	localStorage.setItem('autostartactive', JSON.stringify(autostart));					
+	console.log("autostart utsettfunks.: " + autostart);
+	if(parseInt(alarm)===0){
+		meldtilbruker("Velkommen tilbake! Noen av dine øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
+		}
+	nesteoving(neste);
 }
 
 //sjekker om dato og tidspunkt for å aktivere en ny øving er nådd	
@@ -2288,7 +2296,7 @@ function sjekkstatus() {
 			}
 
 
-        //aktiverer øvinger hvis tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde
+        //finn øvinger hvor tidspunkt er forbi og brukeren ikke hadde appen åpen da det skjedde og finn ny dato for øvingene
         //hvis brukeren åpner appen i samme mnd.
 			else if (+dag < +d && +mnd === +m && +aar === +y && +utfort===0) {
 				utsettov(i);
@@ -2474,13 +2482,16 @@ $(document).delegate("#ovingpopup", "pagehide", function () {
 function avbrytov() {
 	tabreset();
 	$( "#avbryteoving" ).popup( "close" );
-	setforste();
+	var forste = JSON.parse(localStorage.getItem('forste'));
+	if(forste===1){	
+		setforste();
+	}
 	statustimer();
 	var autostartactive=1;
 	fjernlydevent();
 	localStorage.setItem('autostartactive', JSON.stringify(autostartactive));
 	setTimeout(function(){
-		tvingOmlasting();
+		$.mobile.changePage("#tittelside");
 	},1);
 }
 

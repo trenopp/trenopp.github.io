@@ -33,10 +33,12 @@
 }
 /* eMeistring logo */
 .elogo1 {
-    font-family:"lucida calligraphy", 'ScriptMT', sans-serif;
+    font-family:"lucida calligraphy", 'ScriptMT', cursive;
     color:#0C2D82;
     font-size:1.7em;
+	font-style: italic;
 }
+
 .elogo2 {
     font-family:'Open_Sans_Regular', sans-serif;
     color:#0C2D82;
@@ -678,16 +680,6 @@ progress[value]::-webkit-progress-value {
 	text-align:center;
 }
 
-
-.menyboks{
-	
-}
-
-.menyboks:hover{
-	background-color:;
-	color:;	
-}
-
 .meny-skygge{
 	background-color:#E9F1F9; 
 	box-shadow: 5px 5px 15px #8c8c8c;
@@ -712,25 +704,6 @@ progress[value]::-webkit-progress-value {
 	max-width:800px;
 }
 
-img.ri
-{
-	position: absolute;
-	max-width: 80%;
-	top: 10%;
-	left: 10%;
-}
-
-img.ri:empty
-{
-	top: 50%;
-	left: 50%;
-	-webkit-transform: translate(-50%, -50%);
-	-moz-transform: translate(-50%, -50%);
-	-ms-transform: translate(-50%, -50%);
-	-o-transform: translate(-50%, -50%);
-	transform: translate(-50%, -50%);
-}
-
 .innholdsomrade  {
 	background-color:#ffffff;
 	margin-left:20%;
@@ -741,16 +714,6 @@ img.ri:empty
 	min-width:20%;
 	background-color:#E9F1F9;
 	box-shadow: 2px 2px 30px #8c8c8c;
-}
-
-@media screen and (orientation: portrait) {
-  img.ri { max-height: 90%; }
-
-}
-
-@media screen and (orientation: landscape) {
-  img.ri { max-width: 90%; }
-
 }
 
 
@@ -804,7 +767,7 @@ img.ri:empty
 	color:#cccccc;
 }
 		
-/*Tilpassing til større desktop skjermer */
+/*Tilpassing til større laptop/desktop skjermer */
  @media (min-width: 1280px){
 	
 	#tittelside .ui-header h2 {
@@ -879,7 +842,7 @@ img.ri:empty
 }
 }
 
-/*Tilpassing til større desktop skjermer */
+/*Tilpassing til med. laptop/desktop skjermer */
  @media (min-width: 1133px) and (max-width: 1279px){
 	#tittelside .ui-header h2 {
 
@@ -952,7 +915,7 @@ img.ri:empty
 }
 }
 
-/*Tilpassing til mindre desktop skjermer */
+/*Tilpassing til mindre HD skjermer og større nettbrett*/
  @media (min-width: 768px) and (max-width: 1132px) {
 	 
 	#forsidemenyer .ui-block-a,
