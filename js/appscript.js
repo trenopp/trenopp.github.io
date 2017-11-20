@@ -132,7 +132,7 @@ function setforste() {
     localStorage.setItem('forste', JSON.stringify(forste));
 	statustimer();
 
-	var nydato="";
+	/*var nydato="";
 	var idag = new Date();
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	for (var i = 0; i < 7; i++) {
@@ -168,7 +168,7 @@ function setforste() {
 	localStorage.setItem('antall', JSON.stringify(3));
 	localStorage.setItem('tilgjknapp',JSON.stringify(0));
 	localStorage.setItem('ikketilgjknapp',JSON.stringify(1));
-	localStorage.setItem('neste', JSON.stringify(3));
+	localStorage.setItem('neste', JSON.stringify(3));*/
 }
 
 
