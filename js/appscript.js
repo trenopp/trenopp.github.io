@@ -132,12 +132,12 @@ function setforste() {
     localStorage.setItem('forste', JSON.stringify(forste));
 	statustimer();
 
-	/*var nydato="";
+	var nydato="";
 	var idag = new Date();
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	for (var i = 0; i < 7; i++) {
 	if(i>2){
-		var t=(5-i)
+		var t=(4-i)
 		var nydato = DateAdd(idag, "d", 0-t);
 		ovinger[i].datodag = nydato.getDate();
 		ovinger[i].datomnd = nydato.getMonth();
@@ -150,7 +150,7 @@ function setforste() {
 		localStorage.setItem('ovinger', JSON.stringify(ovinger));		
 	}
 	else{
-		var t=(5-i)
+		var t=(4-i)
 		var nydato = DateAdd(idag, "d", 0-t);
 		ovinger[i].datodag = nydato.getDate();
 		ovinger[i].datomnd = nydato.getMonth();
@@ -163,12 +163,12 @@ function setforste() {
 		localStorage.setItem('ovinger', JSON.stringify(ovinger));
 	}
     }
-	var startd = DateAdd(idag, "d", -5);
+	var startd = DateAdd(idag, "d", -4);
 	localStorage.setItem('startdato', JSON.stringify(startd));
 	localStorage.setItem('antall', JSON.stringify(3));
 	localStorage.setItem('tilgjknapp',JSON.stringify(0));
 	localStorage.setItem('ikketilgjknapp',JSON.stringify(1));
-	localStorage.setItem('neste', JSON.stringify(3));*/
+	localStorage.setItem('neste', JSON.stringify(3));
 }
 
 
@@ -1768,7 +1768,7 @@ function lagreOving(knappid) {
 	statustimer();
 	setTimeout(function(){
 		tabreset();
-		tvingOmlasting();
+		$.mobile.changePage("#tittelside");
 	},1);
     //sendtilphp();
     $(".ui-dialog-page").dialog("close");
@@ -2190,8 +2190,7 @@ function nesteoving(neste) {
 	document.getElementById("valgomvarsel").value=varsel;
 }
 
-//setter nye datoer for utgåtte øvinger
-
+//setter nye datoer for øvinger som kommer ETTER øvinger som er en dag eller mer over tiden (uansett dato)
 function utsettetter(ovnr){
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	var t=1;
@@ -2207,9 +2206,12 @@ function utsettetter(ovnr){
 		console.log("over tid " + i + " øving. år : " + ovinger[i].datoaar + " mnd: " + ovinger[i].datomnd + " dag " + ovinger[i].datodag);
 			
 			}
+	statustimer();
 }
 
+//setter nye datoer på øvinger som er en dag eller mer over tiden
 function utsettov(ovnr){
+	stopstatustimer();
 	var neste = JSON.parse(localStorage.getItem('neste'));
 	var ovinger = JSON.parse(localStorage.getItem('ovinger'));
 	var alarm = JSON.parse(localStorage.getItem('alarm'));
@@ -2221,7 +2223,7 @@ function utsettov(ovnr){
 		if(+ovingfor ===0){
 			utsettetter(ovnr);
 		}
-		else if (+ovingfor ===1){
+		else {
 			var nydato = DateAdd(idag, "d", 0);
 			var ovnretter=ovnr+1;
 			ovinger[ovnr].datodag = nydato.getDate();
@@ -2232,8 +2234,8 @@ function utsettov(ovnr){
 			console.log("over tid en etter" + ovnr + " øving. år : " + ovinger[ovnr].datoaar + " mnd: " + ovinger[ovnr].datomnd + " dag " + ovinger[ovnr].datodag);
 			utsettetter(ovnretter);
 		}
-				}
-	else if(ovnr===0){
+	}
+	else {
 		var nydato = DateAdd(idag, "d", 0);
 		var ovnretter=ovnr+1;
 		ovinger[ovnr].datodag = nydato.getDate();
@@ -2251,7 +2253,7 @@ function utsettov(ovnr){
 	console.log("autostart utsettfunks.: " + autostart);
 	if(parseInt(alarm)===0){
 		meldtilbruker("Velkommen tilbake! Noen av dine øvingsdatoer har blitt endret. Se planleggingssiden for mer informasjon.");
-		}
+	}
 	nesteoving(neste);
 }
 
@@ -2293,6 +2295,7 @@ function sjekkstatus() {
 				if (i>0){				
 					autostart=0;
 				}
+				console.log("Aktiverer øving " + dag);
 			}
 
 
@@ -2300,6 +2303,7 @@ function sjekkstatus() {
         //hvis brukeren åpner appen i samme mnd.
 			else if (+dag < +d && +mnd === +m && +aar === +y && +utfort===0) {
 				utsettov(i);
+				console.log("dag over tid " + dag);
 				break;			
 			}
         //hvis månedsskifte før brukeren åpner appen igjen
